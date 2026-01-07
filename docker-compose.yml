@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/epl_analytics
+      - ENV_TYPE=dev
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+    networks:
+      - epl_network
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - epl_network
+
+volumes:
+  mongo_data:
+
+networks:
+  epl_network:
