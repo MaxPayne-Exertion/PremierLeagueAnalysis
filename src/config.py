@@ -15,7 +15,11 @@ class Config:
 
     # Paths
     BASE_DIR = Path(__file__).parent.parent
+<<<<<<< HEAD
     LOG_DIR = BASE_DIR.parent / 'logs'
+=======
+    LOG_DIR = BASE_DIR / 'logs'
+>>>>>>> 26422dc (update)
     
     @staticmethod
     def ensure_dirs():

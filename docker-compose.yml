@@ -20,12 +20,20 @@ services:
     ports:
       - "27017:27017"
     volumes:
+<<<<<<< HEAD
       - mongo_data:/data/db
     networks:
       - epl_network
 
 volumes:
   mongo_data:
+=======
+      - ./data/raw:/data/db
+    networks:
+      - epl_network
+
+# removed volumes block
+>>>>>>> 26422dc (update)
 
 networks:
   epl_network:
