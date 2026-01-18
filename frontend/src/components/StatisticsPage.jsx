@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, LineChart, Line } from 'recharts';
 
+
 const StatisticsPage = ({ players = [], teams = [] }) => {
   const [activeView, setActiveView] = useState('league');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -19,7 +20,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   };
 
   const filteredPlayers = players.filter(p => 
-    (p.player_name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    ((p.player_name || p.name || '')).toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -85,7 +86,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                     }}
                   >
                     <div>
-                      <div className="font-bold text-white">{player.player_name || 'Unknown'}</div>
+                      <div className="font-bold text-white">{player.player_name || player.name || 'Unknown'}</div>
                       <div className="text-sm text-slate-400">{player.team_name || 'N/A'}</div>
                     </div>
                     <div className="text-2xl font-bold text-green-400">{player.goals || 0}</div>
@@ -107,7 +108,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                     }}
                   >
                     <div>
-                      <div className="font-bold text-white">{player.player_name || 'Unknown'}</div>
+                      <div className="font-bold text-white">{player.player_name || player.name || 'Unknown'}</div>
                       <div className="text-sm text-slate-400">{player.team_name || 'N/A'}</div>
                     </div>
                     <div className="text-2xl font-bold text-blue-400">{player.assists || 0}</div>
@@ -179,7 +180,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || 'Unknown Player'}</h2>
+              <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
               <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
               <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
             </div>
@@ -216,7 +217,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 <PolarGrid stroke="#475569" />
                 <PolarAngleAxis dataKey="category" stroke="#94a3b8" />
                 <PolarRadiusAxis stroke="#475569" />
-                <Radar name={player.player_name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
+                <Radar name={player.player_name || player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
                 <Tooltip />
               </RadarChart>
             </ResponsiveContainer>
@@ -466,7 +467,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 <div className="text-lg font-bold text-white">
                   {teamPlayers.length > 0 ? (
                     <>
-                      {teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].player_name}
+                      {teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].player_name || teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].name}
                       <span className="text-green-400 ml-2">
                         ({teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].goals || 0} goals)
                       </span>
@@ -504,7 +505,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                         setActiveView('player');
                       }}
                     >
-                      <td className="py-3 text-white font-medium">{player.player_name || 'Unknown'}</td>
+                      <td className="py-3 text-white font-medium">{player.player_name || player.name || 'Unknown'}</td>
                       <td className="py-3 text-center text-slate-300">{player.position || 'N/A'}</td>
                       <td className="py-3 text-center text-green-400 font-bold">{player.goals || 0}</td>
                       <td className="py-3 text-center text-blue-400 font-bold">{player.assists || 0}</td>
@@ -608,7 +609,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                           : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                       }`}
                     >
-                      <div className="font-bold truncate">{player.player_name || 'Unknown'}</div>
+                      <div className="font-bold truncate">{player.player_name || player.name || 'Unknown'}</div>
                       <div className="text-xs opacity-75 truncate">{player.team_name || 'N/A'}</div>
                     </button>
                   ))
