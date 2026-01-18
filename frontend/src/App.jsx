@@ -7,6 +7,7 @@ import TopStats from './components/TopStats';
 import ComparisonView from './components/ComparisonView';
 import { ClinicalityScatter } from './components/EvaluationCharts';
 import { PlotlyRadar } from './components/PlotlyRadar';
+import StatisticsPage from './components/StatisticsPage';
 
 // Configure Axios base URL
 axios.defaults.baseURL = 'http://localhost:8000/api';
@@ -93,6 +94,10 @@ function App() {
             {/* COMPARISON VIEW */}
             {activeTab === 'comparison' && (
               <ComparisonView players={players} teams={teams} />
+            )}
+            {/* STATISTICS VIEW */}
+            {activeTab === 'statistics' && (
+              <StatisticsPage players={players} teams={teams} />
             )}
           </div>
         )}
