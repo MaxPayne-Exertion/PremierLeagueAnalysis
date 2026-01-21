@@ -12,19 +12,19 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   const leagueStats = {
     totalGoals: teams.reduce((sum, team) => sum + (team.goals_for || 0), 0),
     totalMatches: teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2,
-    avgGoalsPerMatch: teams.length > 0 ? 
-      (teams.reduce((sum, team) => sum + (team.goals_for || 0), 0) / 
-      Math.max(teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2, 1)).toFixed(2) : 0,
+    avgGoalsPerMatch: teams.length > 0 ?
+      (teams.reduce((sum, team) => sum + (team.goals_for || 0), 0) /
+        Math.max(teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2, 1)).toFixed(2) : 0,
     totalTeams: teams.length,
     totalPlayers: players.length,
   };
 
-  const filteredPlayers = players.filter(p => 
+  const filteredPlayers = players.filter(p =>
     ((p.player_name || p.name || '')).toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredTeams = teams.filter(t => 
+  const filteredTeams = teams.filter(t =>
     (t.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -51,7 +51,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     };
 
     const matchesPlayed = player.matches_played || player.appearances || 0;
-    
+
     const playerStats = [
       { category: 'Goals', value: player.goals || 0, fullMark: safeMax(players, 'goals') },
       { category: 'Assists', value: player.assists || 0, fullMark: safeMax(players, 'assists') },
@@ -83,17 +83,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">⚽ Goals</div>
+            <div className="text-slate-400 text-sm mb-2">Goals</div>
             <div className="text-4xl font-bold text-green-400">{player.goals || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{goalsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">🎯 Assists</div>
+            <div className="text-slate-400 text-sm mb-2">Assists</div>
             <div className="text-4xl font-bold text-blue-400">{player.assists || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{assistsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">📊 Appearances</div>
+            <div className="text-slate-400 text-sm mb-2">Appearances</div>
             <div className="text-4xl font-bold text-purple-400">{matchesPlayed}</div>
             <div className="text-sm text-slate-500 mt-1">{contributionsPerGame} G+A/game</div>
           </div>
@@ -240,21 +240,21 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">⚽ Goals For</div>
+            <div className="text-slate-400 text-sm mb-2">Goals For</div>
             <div className="text-4xl font-bold text-green-400">{team.goals_for || 0}</div>
             <div className="text-sm text-slate-500 mt-1">
               {matchesPlayed > 0 ? ((team.goals_for || 0) / matchesPlayed).toFixed(2) : 0} per game
             </div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">🛡️ Goals Against</div>
+            <div className="text-slate-400 text-sm mb-2">Goals Against</div>
             <div className="text-4xl font-bold text-red-400">{team.goals_against || 0}</div>
             <div className="text-sm text-slate-500 mt-1">
               {matchesPlayed > 0 ? ((team.goals_against || 0) / matchesPlayed).toFixed(2) : 0} per game
             </div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">📊 Goal Difference</div>
+            <div className="text-slate-400 text-sm mb-2">Goal Difference</div>
             <div className={`text-4xl font-bold ${goalDiff > 0 ? 'text-green-400' : 'text-red-400'}`}>
               {goalDiff > 0 ? '+' : ''}{goalDiff}
             </div>
@@ -338,7 +338,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           </div>
 
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-white mb-4">ℹ️ Club Information</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Club Information</h3>
             <div className="space-y-4">
               <div className="p-3 bg-slate-900/50 rounded">
                 <div className="text-sm text-slate-400 mb-1">Manager</div>
@@ -391,8 +391,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 </thead>
                 <tbody>
                   {teamPlayers.sort((a, b) => ((b.goals || 0) + (b.assists || 0)) - ((a.goals || 0) + (a.assists || 0))).map((player, idx) => (
-                    <tr 
-                      key={idx} 
+                    <tr
+                      key={idx}
                       className="border-b border-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
                       onClick={() => {
                         setSelectedPlayer(player);
@@ -445,11 +445,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 setSelectedPlayer(players[0]);
               }
             }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeView === 'player'
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${activeView === 'player'
                 ? 'bg-green-500 text-white'
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-            }`}
+              }`}
           >
             Player Stats
           </button>
@@ -460,11 +459,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 setSelectedTeam(teams[0]);
               }
             }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeView === 'team'
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${activeView === 'team'
                 ? 'bg-purple-500 text-white'
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-            }`}
+              }`}
           >
             Team Stats
           </button>
