@@ -28,6 +28,9 @@ class Team(models.Model):
 class Player(models.Model):
     season = models.CharField(max_length=10, default='2023-24')
     player_id = models.CharField(max_length=100)  # External ID
+    sofascore_id = models.CharField(
+        max_length=20, blank=True, null=True
+    )  #Sofascore id
     name = models.CharField(max_length=100)
     team = models.ForeignKey(
         Team, related_name='players', on_delete=models.CASCADE)

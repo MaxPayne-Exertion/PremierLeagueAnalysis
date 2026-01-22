@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, LineChart, Line } from 'recharts';
 
-
 const StatisticsPage = ({ players = [], teams = [] }) => {
   const [activeView, setActiveView] = useState('player');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -36,6 +35,41 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     .sort((a, b) => (b.assists || 0) - (a.assists || 0))
     .slice(0, 5);
 
+  const PlayerImage = ({ player, size = 'large', className = '' }) => {
+    const sizeClasses = {
+      small: 'w-10 h-10',
+      medium: 'w-16 h-16',
+      large: 'w-32 h-32'
+    };
+
+    const imageUrl = player.image_url || player.sofascore_id 
+      ? `https://img.sofascore.com/api/v1/player/${player.sofascore_id}/image`
+      : null;
+
+    return (
+      <div className={`${sizeClasses[size]} flex-shrink-0 ${className}`}>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={player.player_name || player.name}
+            className="w-full h-full object-cover rounded-full border-2 border-blue-500"
+            loading="lazy"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <div 
+          className={`${imageUrl ? 'hidden' : 'flex'} w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 rounded-full items-center justify-center text-white font-bold ${size === 'small' ? 'text-sm' : size === 'medium' ? 'text-xl' : 'text-4xl'}`}
+          style={{ display: imageUrl ? 'none' : 'flex' }}
+        >
+          {((player.player_name || player.name || 'U')[0]).toUpperCase()}
+        </div>
+      </div>
+    );
+  };
+
   const PlayerDetailView = ({ player }) => {
     if (!player) {
       return (
@@ -69,10 +103,13 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
       <div className="space-y-6">
         <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
-              <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
-              <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+            <div className="flex items-center gap-6">
+              <PlayerImage player={player} size="large" />
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
+                <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
+                <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+              </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-slate-300">Total Contributions</div>
@@ -299,7 +336,6 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           </div>
         </div>
 
-        {/* Team Facts & Information */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
             <h3 className="text-xl font-bold text-white mb-4">🏆 Trophy Cabinet</h3>
@@ -369,7 +405,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               </div>
               <div className="p-3 bg-slate-900/50 rounded">
                 <div className="text-sm text-slate-400 mb-1">Top Scorer (All time)</div>
-                <div className="text-lg font-bold text-white">{team.manager || 'N/A'}</div>
+                <div className="text-lg font-bold text-white">{team.top_scorer_all_time || 'N/A'}</div>
               </div>
             </div>
           </div>
@@ -382,6 +418,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-slate-400 border-b border-slate-700">
+                    <th className="text-left py-3 px-2">Photo</th>
                     <th className="text-left py-3">Player</th>
                     <th className="text-center py-3">Position</th>
                     <th className="text-center py-3">Goals</th>
@@ -399,6 +436,9 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                         setActiveView('player');
                       }}
                     >
+                      <td className="py-3 px-2">
+                        <PlayerImage player={player} size="small" />
+                      </td>
                       <td className="py-3 text-white font-medium">{player.player_name || player.name || 'Unknown'}</td>
                       <td className="py-3 text-center text-slate-300">{player.position || 'N/A'}</td>
                       <td className="py-3 text-center text-green-400 font-bold">{player.goals || 0}</td>
@@ -434,7 +474,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
             Statistics Dashboard
           </h1>
-          <p className="text-slate-400">Analyze player, and team performance</p>
+          <p className="text-slate-400">Analyze player and team performance</p>
         </div>
 
         <div className="flex gap-2 mb-6 flex-wrap">
@@ -476,7 +516,6 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                // Auto-select first result when searching
                 if (activeView === 'player' && filteredPlayers.length > 0) {
                   setSelectedPlayer(filteredPlayers[0]);
                 } else if (activeView === 'team' && filteredTeams.length > 0) {
