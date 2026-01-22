@@ -71,8 +71,6 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   };
 
   const PlayerDetailView = ({ player }) => {
-    const [statsView, setStatsView] = useState('offensive');
-    
     if (!player) {
       return (
         <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 text-center">
@@ -89,30 +87,9 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     const matchesPlayed = player.matches_played || player.appearances || 0;
 
     const playerStats = [
-    
-    // Offensive Stats
-    const offensiveStats = [
       { category: 'Goals', value: player.goals || 0, fullMark: safeMax(players, 'goals') },
       { category: 'Assists', value: player.assists || 0, fullMark: safeMax(players, 'assists') },
-      { category: 'xG', value: parseFloat(player.xg || 0), fullMark: safeMax(players, 'xg') },
-      { category: 'xAG', value: parseFloat(player.xag || 0), fullMark: safeMax(players, 'xag') },
-      { category: 'Key Passes', value: player.key_passes || 0, fullMark: safeMax(players, 'key_passes') },
-    ];
-
-    // Defensive Stats
-    const defensiveStats = [
-      { category: 'Tackles Won', value: player.tackles_won || 0, fullMark: safeMax(players, 'tackles_won') },
-      { category: 'Interceptions', value: player.interceptions || 0, fullMark: safeMax(players, 'interceptions') },
-      { category: 'Clearances', value: player.clearances || 0, fullMark: safeMax(players, 'clearances') },
-      { category: 'Blocks', value: player.blocks || 0, fullMark: safeMax(players, 'blocks') },
-    ];
-
-    // Goalkeeping Stats (if applicable)
-    const goalkeepingStats = [
-      { category: 'Clean Sheets', value: player.clean_sheets || 0, fullMark: safeMax(players, 'clean_sheets') },
-      { category: 'Saves', value: player.saves || 0, fullMark: safeMax(players, 'saves') },
-      { category: 'Penalties Saved', value: player.penalties_saved || 0, fullMark: safeMax(players, 'penalties_saved') },
-      { category: 'Save %', value: parseFloat(player.save_percentage || 0), fullMark: 100 },
+      { category: 'Appearances', value: matchesPlayed, fullMark: Math.max(safeMax(players, 'matches_played'), safeMax(players, 'appearances')) },
     ];
 
     const goalsPerGame = matchesPlayed > 0 ? ((player.goals || 0) / matchesPlayed).toFixed(2) : '0.00';
@@ -126,10 +103,13 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
       <div className="space-y-6">
         <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
-              <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
-              <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+            <div className="flex items-center gap-6">
+              <PlayerImage player={player} size="large" />
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
+                <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
+                <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+              </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-slate-300">Total Contributions</div>
@@ -140,17 +120,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">⚽ Goals</div>
+            <div className="text-slate-400 text-sm mb-2">Goals</div>
             <div className="text-4xl font-bold text-green-400">{player.goals || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{goalsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">🎯 Assists</div>
+            <div className="text-slate-400 text-sm mb-2">Assists</div>
             <div className="text-4xl font-bold text-blue-400">{player.assists || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{assistsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">📊 Appearances</div>
+            <div className="text-slate-400 text-sm mb-2">Appearances</div>
             <div className="text-4xl font-bold text-purple-400">{matchesPlayed}</div>
             <div className="text-sm text-slate-500 mt-1">{contributionsPerGame} G+A/game</div>
           </div>
@@ -160,134 +140,64 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
             <h3 className="text-xl font-bold text-white mb-4">Performance Radar</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <RadarChart data={
-                statsView === 'offensive' ? offensiveStats :
-                statsView === 'defensive' ? defensiveStats :
-                goalkeepingStats
-              }>
+              <RadarChart data={playerStats}>
                 <PolarGrid stroke="#475569" />
                 <PolarAngleAxis dataKey="category" stroke="#94a3b8" />
                 <PolarRadiusAxis stroke="#475569" />
-                <Radar 
-                  name={player.player_name || player.name} 
-                  dataKey="value" 
-                  stroke={statsView === 'offensive' ? '#10b981' : statsView === 'defensive' ? '#3b82f6' : '#f59e0b'} 
-                  fill={statsView === 'offensive' ? '#10b981' : statsView === 'defensive' ? '#3b82f6' : '#f59e0b'} 
-                  fillOpacity={0.6} 
-                />
+                <Radar name={player.player_name || player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
                 <Tooltip />
               </RadarChart>
             </ResponsiveContainer>
           </div>
 
-          {statsView === 'offensive' && (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Contribution Breakdown</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Goals', value: player.goals || 0, color: '#10b981' },
-                      { name: 'Assists', value: player.assists || 0, color: '#3b82f6' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ${value}`}
-                    outerRadius={100}
-                    dataKey="value"
-                  >
-                    <Cell fill="#10b981" />
-                    <Cell fill="#3b82f6" />
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-
-          {statsView === 'defensive' && (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Defensive Actions</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Tackles', value: player.tackles_won || 0, color: '#3b82f6' },
-                      { name: 'Interceptions', value: player.interceptions || 0, color: '#10b981' },
-                      { name: 'Clearances', value: player.clearances || 0, color: '#a855f7' },
-                      { name: 'Blocks', value: player.blocks || 0, color: '#f97316' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => value > 0 ? `${name}: ${value}` : ''}
-                    outerRadius={100}
-                    dataKey="value"
-                  >
-                    <Cell fill="#3b82f6" />
-                    <Cell fill="#10b981" />
-                    <Cell fill="#a855f7" />
-                    <Cell fill="#f97316" />
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-
-          {statsView === 'goalkeeping' && (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Clean Sheets vs Goals Conceded</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Clean Sheets', value: player.clean_sheets || 0, color: '#10b981' },
-                      { name: 'Goals Conceded', value: player.goals_conceded || 0, color: '#ef4444' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ${value}`}
-                    outerRadius={100}
-                    dataKey="value"
-                  >
-                    <Cell fill="#10b981" />
-                    <Cell fill="#ef4444" />
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          )}
+          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+            <h3 className="text-xl font-bold text-white mb-4">Contribution Breakdown</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: 'Goals', value: player.goals || 0, color: '#10b981' },
+                    { name: 'Assists', value: player.assists || 0, color: '#3b82f6' }
+                  ]}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, value }) => `${name}: ${value}`}
+                  outerRadius={100}
+                  dataKey="value"
+                >
+                  <Cell fill="#10b981" />
+                  <Cell fill="#3b82f6" />
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        {statsView === 'offensive' && (
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Comparison with League Average</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-slate-900/50 rounded">
-                <div className="text-sm text-slate-400 mb-2">Goals vs Average</div>
-                <div className="flex items-center gap-2">
-                  <div className="text-2xl font-bold text-green-400">{player.goals || 0}</div>
-                  <div className="text-sm text-slate-500">vs {avgGoals}</div>
-                </div>
-              </div>
-              <div className="p-4 bg-slate-900/50 rounded">
-                <div className="text-sm text-slate-400 mb-2">Assists vs Average</div>
-                <div className="flex items-center gap-2">
-                  <div className="text-2xl font-bold text-blue-400">{player.assists || 0}</div>
-                  <div className="text-sm text-slate-500">vs {avgAssists}</div>
-                </div>
-              </div>
-              <div className="p-4 bg-slate-900/50 rounded">
-                <div className="text-sm text-slate-400 mb-2">Contribution Rate</div>
-                <div className="text-2xl font-bold text-purple-400">{contributionsPerGame}</div>
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+          <h3 className="text-xl font-bold text-white mb-4">Comparison with League Average</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-slate-900/50 rounded">
+              <div className="text-sm text-slate-400 mb-2">Goals vs Average</div>
+              <div className="flex items-center gap-2">
+                <div className="text-2xl font-bold text-green-400">{player.goals || 0}</div>
+                <div className="text-sm text-slate-500">vs {avgGoals}</div>
               </div>
             </div>
+            <div className="p-4 bg-slate-900/50 rounded">
+              <div className="text-sm text-slate-400 mb-2">Assists vs Average</div>
+              <div className="flex items-center gap-2">
+                <div className="text-2xl font-bold text-blue-400">{player.assists || 0}</div>
+                <div className="text-sm text-slate-500">vs {avgAssists}</div>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-900/50 rounded">
+              <div className="text-sm text-slate-400 mb-2">Contribution Rate</div>
+              <div className="text-2xl font-bold text-purple-400">{contributionsPerGame}</div>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     );
   };
@@ -326,7 +236,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-4">
               {team.logo_url ? (
-                <img src={team.logo_url} alt={team.team_name} className="w-20 h-20 rounded-full object-cover" />
+                <img src={team.logo_url} alt={team.team_name} className="w-20 h-20" />
               ) : (
                 <div className="w-20 h-20 bg-slate-700 rounded-full flex items-center justify-center text-4xl font-bold">
                   {(team.team_name || 'T')[0]}
@@ -479,7 +389,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 <div className="text-lg font-bold text-white">{team.stadium || 'N/A'}</div>
               </div>
               <div className="p-3 bg-slate-900/50 rounded">
-                <div className="text-sm text-slate-400 mb-1">Top Scorer</div>
+                <div className="text-sm text-slate-400 mb-1">Top Scorer (Season)</div>
                 <div className="text-lg font-bold text-white">
                   {teamPlayers.length > 0 ? (
                     <>
@@ -495,7 +405,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               </div>
               <div className="p-3 bg-slate-900/50 rounded">
                 <div className="text-sm text-slate-400 mb-1">Top Scorer (All time)</div>
-                <div className="text-lg font-bold text-white">{team.manager || 'N/A'}</div>
+                <div className="text-lg font-bold text-white">{team.top_scorer_all_time || 'N/A'}</div>
               </div>
             </div>
           </div>
@@ -564,7 +474,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
             Statistics Dashboard
           </h1>
-          <p className="text-slate-400">Analyze player, and team performance</p>
+          <p className="text-slate-400">Analyze player and team performance</p>
         </div>
 
         <div className="flex gap-2 mb-6 flex-wrap">
