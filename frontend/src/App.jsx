@@ -8,6 +8,7 @@ import ComparisonView from './components/ComparisonView';
 import { ClinicalityScatter } from './components/EvaluationCharts';
 import { PlotlyRadar } from './components/PlotlyRadar';
 import StatisticsPage from './components/StatisticsPage';
+import LeagueOverview from './components/LeagueOverview';
 
 // Configure Axios base URL
 axios.defaults.baseURL = 'http://localhost:8000/api';
@@ -29,8 +30,10 @@ function App() {
           axios.get(`/teams/?season=${selectedSeason}`),
           axios.get(`/players/?season=${selectedSeason}`)
         ]);
+
         setTeams(teamsRes.data);
         setPlayers(playersRes.data);
+
         if (playersRes.data.length > 0) {
           // Default select top scorer
           const top = [...playersRes.data].sort((a, b) => b.goals - a.goals)[0];
@@ -43,6 +46,7 @@ function App() {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [selectedSeason]);
 
@@ -72,16 +76,9 @@ function App() {
                 <section>
                   <h2 className="section-title">
                     <span className="accent-bar"></span>
-                    Team Overview
+                    League Overview
                   </h2>
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
-                      <TeamTable teams={teams} />
-                    </div>
-                    <div className="lg:col-span-1">
-                      <TopStats players={players} compact={true} />
-                    </div>
-                  </div>
+                  <LeagueOverview players={players} teams={teams} />
                 </section>
               </>
             )}
@@ -95,6 +92,7 @@ function App() {
             {activeTab === 'comparison' && (
               <ComparisonView players={players} teams={teams} />
             )}
+
             {/* STATISTICS VIEW */}
             {activeTab === 'statistics' && (
               <StatisticsPage players={players} teams={teams} />

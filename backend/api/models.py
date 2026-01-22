@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Team(models.Model):
     season = models.CharField(max_length=10, default='2023-24')
     team_name = models.CharField(max_length=100)
@@ -14,6 +15,8 @@ class Team(models.Model):
     xg_against = models.FloatField(default=0.0)
     points = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
+    goal_difference = models.IntegerField(default=0)
+    rank = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ['season', 'team_name']
@@ -21,16 +24,21 @@ class Team(models.Model):
     def __str__(self):
         return f"{self.team_name} ({self.season})"
 
+
 class Player(models.Model):
     season = models.CharField(max_length=10, default='2023-24')
-    player_id = models.CharField(max_length=100) # External ID
+    player_id = models.CharField(max_length=100)  # External ID
+    sofascore_id = models.CharField(
+        max_length=20, blank=True, null=True
+    )  #Sofascore id
     name = models.CharField(max_length=100)
-    team = models.ForeignKey(Team, related_name='players', on_delete=models.CASCADE)
+    team = models.ForeignKey(
+        Team, related_name='players', on_delete=models.CASCADE)
     nationality = models.CharField(max_length=100, blank=True, null=True)
     flag_url = models.URLField(max_length=500, blank=True, null=True)
     position = models.CharField(max_length=50)
     age = models.IntegerField(default=0)
-    
+
     # Stats
     matches_played = models.IntegerField(default=0)
     minutes_played = models.IntegerField(default=0)
@@ -42,7 +50,7 @@ class Player(models.Model):
     progressive_passes = models.IntegerField(default=0)
     tackles_won = models.IntegerField(default=0)
     interceptions = models.IntegerField(default=0)
-    
+
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

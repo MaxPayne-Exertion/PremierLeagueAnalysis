@@ -1,12 +1,12 @@
 import React from 'react';
 
-const TeamTable = ({ teams }) => {
-    // Sort teams by points
-    const sortedTeams = [...teams].sort((a, b) => b.points - a.points);
+const TeamTable = ({ teams, selectedSeason }) => {
+    // Sort teams by rank (lower rank number = better position)
+    const sortedTeams = [...teams].sort((a, b) => a.rank - b.rank);
 
     return (
         <div className="glass-panel p-6">
-            <h2 className="section-title header-accent">League Table</h2>
+            <h2 className="section-title header-accent">League Table - {selectedSeason}</h2>
             <div className="overflow-x-auto">
                 <table className="data-table w-full text-sm">
                     <thead>
@@ -22,21 +22,20 @@ const TeamTable = ({ teams }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedTeams.map((team, index) => {
-                            const diff = team.goals_for - team.goals_against;
-                            const diffClass = diff > 0 ? 'text-green-400' : diff < 0 ? 'text-red-400' : 'text-slate-400';
+                        {sortedTeams.map((team) => {
+                            const diffClass = team.goal_difference > 0 ? 'text-green-400' : team.goal_difference < 0 ? 'text-red-400' : 'text-slate-400';
 
                             // Rank Badge Logic
                             let rankBadgeClass = "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white";
-                            if (index + 1 <= 4) rankBadgeClass += " bg-green-500";
-                            else if (index + 1 === 5) rankBadgeClass += " bg-blue-500";
+                            if (team.rank <= 4) rankBadgeClass += " bg-green-500";
+                            else if (team.rank === 5) rankBadgeClass += " bg-blue-500";
                             else rankBadgeClass += " text-slate-400"; // Plain for others
 
                             return (
                                 <tr key={team.id} className="border-b border-slate-800 hover:bg-slate-800/50 transition-colors">
                                     <td className="py-3">
                                         <div className={rankBadgeClass}>
-                                            {index + 1}
+                                            {team.rank}
                                         </div>
                                     </td>
                                     <td className="py-3">
@@ -55,7 +54,7 @@ const TeamTable = ({ teams }) => {
                                     <td className="text-center text-slate-300">{team.wins}</td>
                                     <td className="text-center text-slate-300">{team.draws}</td>
                                     <td className="text-center text-slate-300">{team.losses}</td>
-                                    <td className={`text-center font-bold ${diffClass}`}>{diff > 0 ? `+${diff}` : diff}</td>
+                                    <td className={`text-center font-bold ${diffClass}`}>{team.goal_difference > 0 ? `+${team.goal_difference}` : team.goal_difference}</td>
                                     <td className="text-right text-white font-mono">{team.goals_for}:{team.goals_against}</td>
                                 </tr>
                             );

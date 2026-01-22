@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, LineChart, Line } from 'recharts';
 
-
 const StatisticsPage = ({ players = [], teams = [] }) => {
-  const [activeView, setActiveView] = useState('league');
+  const [activeView, setActiveView] = useState('player');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,19 +11,19 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   const leagueStats = {
     totalGoals: teams.reduce((sum, team) => sum + (team.goals_for || 0), 0),
     totalMatches: teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2,
-    avgGoalsPerMatch: teams.length > 0 ? 
-      (teams.reduce((sum, team) => sum + (team.goals_for || 0), 0) / 
-      Math.max(teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2, 1)).toFixed(2) : 0,
+    avgGoalsPerMatch: teams.length > 0 ?
+      (teams.reduce((sum, team) => sum + (team.goals_for || 0), 0) /
+        Math.max(teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2, 1)).toFixed(2) : 0,
     totalTeams: teams.length,
     totalPlayers: players.length,
   };
 
-  const filteredPlayers = players.filter(p => 
+  const filteredPlayers = players.filter(p =>
     ((p.player_name || p.name || '')).toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredTeams = teams.filter(t => 
+  const filteredTeams = teams.filter(t =>
     (t.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -36,113 +35,37 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     .sort((a, b) => (b.assists || 0) - (a.assists || 0))
     .slice(0, 5);
 
-  const LeagueOverview = () => {
-    const resultsDistribution = teams.reduce((acc, team) => {
-      acc.wins += team.wins || 0;
-      acc.draws += team.draws || 0;
-      acc.losses += team.losses || 0;
-      return acc;
-    }, { wins: 0, draws: 0, losses: 0 });
+  const PlayerImage = ({ player, size = 'large', className = '' }) => {
+    const sizeClasses = {
+      small: 'w-10 h-10',
+      medium: 'w-16 h-16',
+      large: 'w-32 h-32'
+    };
 
-    const pieData = [
-      { name: 'Wins', value: resultsDistribution.wins, color: '#10b981' },
-      { name: 'Draws', value: resultsDistribution.draws, color: '#f59e0b' },
-      { name: 'Losses', value: resultsDistribution.losses, color: '#ef4444' }
-    ];
+    const imageUrl = player.image_url || player.sofascore_id 
+      ? `https://img.sofascore.com/api/v1/player/${player.sofascore_id}/image`
+      : null;
 
     return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">Total Goals</div>
-            <div className="text-3xl font-bold text-green-400">{leagueStats.totalGoals}</div>
-          </div>
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">Total Matches</div>
-            <div className="text-3xl font-bold text-blue-400">{leagueStats.totalMatches}</div>
-          </div>
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">Avg Goals/Match</div>
-            <div className="text-3xl font-bold text-purple-400">{leagueStats.avgGoalsPerMatch}</div>
-          </div>
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">Total Teams</div>
-            <div className="text-3xl font-bold text-orange-400">{leagueStats.totalTeams}</div>
-          </div>
+      <div className={`${sizeClasses[size]} flex-shrink-0 ${className}`}>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={player.player_name || player.name}
+            className="w-full h-full object-cover rounded-full border-2 border-blue-500"
+            loading="lazy"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <div 
+          className={`${imageUrl ? 'hidden' : 'flex'} w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 rounded-full items-center justify-center text-white font-bold ${size === 'small' ? 'text-sm' : size === 'medium' ? 'text-xl' : 'text-4xl'}`}
+          style={{ display: imageUrl ? 'none' : 'flex' }}
+        >
+          {((player.player_name || player.name || 'U')[0]).toUpperCase()}
         </div>
-
-        {topScorers.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-4">🥇 Top Scorers</h3>
-              <div className="space-y-3">
-                {topScorers.map((player, idx) => (
-                  <div 
-                    key={idx} 
-                    className="flex items-center justify-between p-3 bg-slate-900/50 rounded hover:bg-slate-700 transition-colors cursor-pointer"
-                    onClick={() => {
-                      setSelectedPlayer(player);
-                      setActiveView('player');
-                    }}
-                  >
-                    <div>
-                      <div className="font-bold text-white">{player.player_name || player.name || 'Unknown'}</div>
-                      <div className="text-sm text-slate-400">{player.team_name || 'N/A'}</div>
-                    </div>
-                    <div className="text-2xl font-bold text-green-400">{player.goals || 0}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-4">🎯 Top Assisters</h3>
-              <div className="space-y-3">
-                {topAssisters.map((player, idx) => (
-                  <div 
-                    key={idx} 
-                    className="flex items-center justify-between p-3 bg-slate-900/50 rounded hover:bg-slate-700 transition-colors cursor-pointer"
-                    onClick={() => {
-                      setSelectedPlayer(player);
-                      setActiveView('player');
-                    }}
-                  >
-                    <div>
-                      <div className="font-bold text-white">{player.player_name || player.name || 'Unknown'}</div>
-                      <div className="text-sm text-slate-400">{player.team_name || 'N/A'}</div>
-                    </div>
-                    <div className="text-2xl font-bold text-blue-400">{player.assists || 0}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {teams.length > 0 && (
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Match Results Distribution</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        )}
       </div>
     );
   };
@@ -161,16 +84,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
       return values.length > 0 ? Math.max(...values) : 1;
     };
 
+    const matchesPlayed = player.matches_played || player.appearances || 0;
+
     const playerStats = [
       { category: 'Goals', value: player.goals || 0, fullMark: safeMax(players, 'goals') },
       { category: 'Assists', value: player.assists || 0, fullMark: safeMax(players, 'assists') },
-      { category: 'Appearances', value: player.appearances || 0, fullMark: safeMax(players, 'appearances') },
+      { category: 'Appearances', value: matchesPlayed, fullMark: Math.max(safeMax(players, 'matches_played'), safeMax(players, 'appearances')) },
     ];
 
-    const appearances = player.appearances || 0;
-    const goalsPerGame = appearances > 0 ? ((player.goals || 0) / appearances).toFixed(2) : '0.00';
-    const assistsPerGame = appearances > 0 ? ((player.assists || 0) / appearances).toFixed(2) : '0.00';
-    const contributionsPerGame = appearances > 0 ? (((player.goals || 0) + (player.assists || 0)) / appearances).toFixed(2) : '0.00';
+    const goalsPerGame = matchesPlayed > 0 ? ((player.goals || 0) / matchesPlayed).toFixed(2) : '0.00';
+    const assistsPerGame = matchesPlayed > 0 ? ((player.assists || 0) / matchesPlayed).toFixed(2) : '0.00';
+    const contributionsPerGame = matchesPlayed > 0 ? (((player.goals || 0) + (player.assists || 0)) / matchesPlayed).toFixed(2) : '0.00';
 
     const avgGoals = players.length > 0 ? (players.reduce((sum, p) => sum + (p.goals || 0), 0) / players.length).toFixed(1) : '0';
     const avgAssists = players.length > 0 ? (players.reduce((sum, p) => sum + (p.assists || 0), 0) / players.length).toFixed(1) : '0';
@@ -179,10 +103,13 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
       <div className="space-y-6">
         <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
-              <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
-              <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+            <div className="flex items-center gap-6">
+              <PlayerImage player={player} size="large" />
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-2">{player.player_name || player.name || 'Unknown Player'}</h2>
+                <p className="text-xl text-blue-300">{player.team_name || 'N/A'}</p>
+                <p className="text-slate-300 mt-2">{player.position || 'Position N/A'}</p>
+              </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-slate-300">Total Contributions</div>
@@ -193,18 +120,18 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">⚽ Goals</div>
+            <div className="text-slate-400 text-sm mb-2">Goals</div>
             <div className="text-4xl font-bold text-green-400">{player.goals || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{goalsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">🎯 Assists</div>
+            <div className="text-slate-400 text-sm mb-2">Assists</div>
             <div className="text-4xl font-bold text-blue-400">{player.assists || 0}</div>
             <div className="text-sm text-slate-500 mt-1">{assistsPerGame} per game</div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">📊 Appearances</div>
-            <div className="text-4xl font-bold text-purple-400">{player.appearances || 0}</div>
+            <div className="text-slate-400 text-sm mb-2">Appearances</div>
+            <div className="text-4xl font-bold text-purple-400">{matchesPlayed}</div>
             <div className="text-sm text-slate-500 mt-1">{contributionsPerGame} G+A/game</div>
           </div>
         </div>
@@ -309,7 +236,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-4">
               {team.logo_url ? (
-                <img src={team.logo_url} alt={team.team_name} className="w-20 h-20 rounded-full object-cover" />
+                <img src={team.logo_url} alt={team.team_name} className="w-20 h-20" />
               ) : (
                 <div className="w-20 h-20 bg-slate-700 rounded-full flex items-center justify-center text-4xl font-bold">
                   {(team.team_name || 'T')[0]}
@@ -350,21 +277,21 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">⚽ Goals For</div>
+            <div className="text-slate-400 text-sm mb-2">Goals For</div>
             <div className="text-4xl font-bold text-green-400">{team.goals_for || 0}</div>
             <div className="text-sm text-slate-500 mt-1">
               {matchesPlayed > 0 ? ((team.goals_for || 0) / matchesPlayed).toFixed(2) : 0} per game
             </div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">🛡️ Goals Against</div>
+            <div className="text-slate-400 text-sm mb-2">Goals Against</div>
             <div className="text-4xl font-bold text-red-400">{team.goals_against || 0}</div>
             <div className="text-sm text-slate-500 mt-1">
               {matchesPlayed > 0 ? ((team.goals_against || 0) / matchesPlayed).toFixed(2) : 0} per game
             </div>
           </div>
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <div className="text-slate-400 text-sm mb-2">📊 Goal Difference</div>
+            <div className="text-slate-400 text-sm mb-2">Goal Difference</div>
             <div className={`text-4xl font-bold ${goalDiff > 0 ? 'text-green-400' : 'text-red-400'}`}>
               {goalDiff > 0 ? '+' : ''}{goalDiff}
             </div>
@@ -409,7 +336,6 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           </div>
         </div>
 
-        {/* Team Facts & Information */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
             <h3 className="text-xl font-bold text-white mb-4">🏆 Trophy Cabinet</h3>
@@ -448,7 +374,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           </div>
 
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-white mb-4">ℹ️ Club Information</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Club Information</h3>
             <div className="space-y-4">
               <div className="p-3 bg-slate-900/50 rounded">
                 <div className="text-sm text-slate-400 mb-1">Manager</div>
@@ -463,7 +389,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 <div className="text-lg font-bold text-white">{team.stadium || 'N/A'}</div>
               </div>
               <div className="p-3 bg-slate-900/50 rounded">
-                <div className="text-sm text-slate-400 mb-1">Top Scorer</div>
+                <div className="text-sm text-slate-400 mb-1">Top Scorer (Season)</div>
                 <div className="text-lg font-bold text-white">
                   {teamPlayers.length > 0 ? (
                     <>
@@ -477,6 +403,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                   )}
                 </div>
               </div>
+              <div className="p-3 bg-slate-900/50 rounded">
+                <div className="text-sm text-slate-400 mb-1">Top Scorer (All time)</div>
+                <div className="text-lg font-bold text-white">{team.top_scorer_all_time || 'N/A'}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -488,6 +418,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-slate-400 border-b border-slate-700">
+                    <th className="text-left py-3 px-2">Photo</th>
                     <th className="text-left py-3">Player</th>
                     <th className="text-center py-3">Position</th>
                     <th className="text-center py-3">Goals</th>
@@ -497,14 +428,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 </thead>
                 <tbody>
                   {teamPlayers.sort((a, b) => ((b.goals || 0) + (b.assists || 0)) - ((a.goals || 0) + (a.assists || 0))).map((player, idx) => (
-                    <tr 
-                      key={idx} 
+                    <tr
+                      key={idx}
                       className="border-b border-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
                       onClick={() => {
                         setSelectedPlayer(player);
                         setActiveView('player');
                       }}
                     >
+                      <td className="py-3 px-2">
+                        <PlayerImage player={player} size="small" />
+                      </td>
                       <td className="py-3 text-white font-medium">{player.player_name || player.name || 'Unknown'}</td>
                       <td className="py-3 text-center text-slate-300">{player.position || 'N/A'}</td>
                       <td className="py-3 text-center text-green-400 font-bold">{player.goals || 0}</td>
@@ -540,20 +474,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
             Statistics Dashboard
           </h1>
-          <p className="text-slate-400">Analyze league, team, and player performance</p>
+          <p className="text-slate-400">Analyze player and team performance</p>
         </div>
 
         <div className="flex gap-2 mb-6 flex-wrap">
-          <button
-            onClick={() => setActiveView('league')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeView === 'league'
-                ? 'bg-blue-500 text-white'
-                : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-            }`}
-          >
-            League Overview
-          </button>
           <button
             onClick={() => {
               setActiveView('player');
@@ -561,11 +485,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 setSelectedPlayer(players[0]);
               }
             }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeView === 'player'
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${activeView === 'player'
                 ? 'bg-green-500 text-white'
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-            }`}
+              }`}
           >
             Player Stats
           </button>
@@ -576,11 +499,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 setSelectedTeam(teams[0]);
               }
             }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeView === 'team'
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${activeView === 'team'
                 ? 'bg-purple-500 text-white'
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-            }`}
+              }`}
           >
             Team Stats
           </button>
@@ -592,55 +514,19 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               type="text"
               placeholder={`Search ${activeView === 'player' ? 'players' : 'teams'}...`}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                if (activeView === 'player' && filteredPlayers.length > 0) {
+                  setSelectedPlayer(filteredPlayers[0]);
+                } else if (activeView === 'team' && filteredTeams.length > 0) {
+                  setSelectedTeam(filteredTeams[0]);
+                }
+              }}
               className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-60 overflow-y-auto">
-              {activeView === 'player' ? (
-                filteredPlayers.length > 0 ? (
-                  filteredPlayers.map((player, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedPlayer(player)}
-                      className={`p-3 rounded-lg text-left transition-all ${
-                        selectedPlayer?.player_name === player.player_name
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      <div className="font-bold truncate">{player.player_name || player.name || 'Unknown'}</div>
-                      <div className="text-xs opacity-75 truncate">{player.team_name || 'N/A'}</div>
-                    </button>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center text-slate-400 p-4">No players found</div>
-                )
-              ) : (
-                filteredTeams.length > 0 ? (
-                  filteredTeams.map((team, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedTeam(team)}
-                      className={`p-3 rounded-lg text-left transition-all ${
-                        selectedTeam?.team_name === team.team_name
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      <div className="font-bold truncate">{team.team_name || 'Unknown'}</div>
-                      <div className="text-xs opacity-75">{team.points || 0} pts</div>
-                    </button>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center text-slate-400 p-4">No teams found</div>
-                )
-              )}
-            </div>
           </div>
         )}
 
-        {activeView === 'league' && <LeagueOverview />}
         {activeView === 'player' && <PlayerDetailView player={selectedPlayer} />}
         {activeView === 'team' && <TeamDetailView team={selectedTeam} />}
       </div>
