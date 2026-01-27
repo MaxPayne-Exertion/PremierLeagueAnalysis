@@ -5,15 +5,15 @@ import os
 import re
 
 # Team name normalization mapping
-TEAM_NAME_MAPPING = {
-    "Newcastle United": "Newcastle Utd",
-    "Tottenham Hotspur": "Tottenham",
-    "Manchester United": "Manchester Utd",
-    "West Ham United": "West Ham",
-    "Wolverhampton Wanderers": "Wolves",
-    "Sheffield United": "Sheffield Utd",
-    "Brighton and Hove Albion": "Brighton",
-}
+# TEAM_NAME_MAPPING = {
+#     "Newcastle United": "Newcastle Utd",
+#     "Tottenham Hotspur": "Tottenham",
+#     "Manchester United": "Manchester Utd",
+#     "West Ham United": "West Ham",
+#     "Wolverhampton Wanderers": "Wolves",
+#     "Sheffield United": "Sheffield Utd",
+#     "Brighton and Hove Albion": "Brighton",
+# }
 
 # Static Logo Mapping
 TEAM_LOGOS = {
@@ -45,7 +45,7 @@ TEAM_LOGOS = {
     "Luton Town": "https://resources.premierleague.com/premierleague/badges/t102.svg",
     "Burnley": "https://resources.premierleague.com/premierleague/badges/t90.svg",
     "Sheffield United": "https://resources.premierleague.com/premierleague/badges/t49.svg",
-    "Sheffield Utd": "https://resources.premierleague.com/premierleague/badges/t49.svg",
+    # "Sheffield Utd": "https://resources.premierleague.com/premierleague/badges/t49.svg",
     "Leeds United": "https://resources.premierleague.com/premierleague/badges/t2.svg",
     "Leicester City": "https://resources.premierleague.com/premierleague/badges/t13.svg",
     "Southampton": "https://resources.premierleague.com/premierleague/badges/t20.svg",
@@ -63,9 +63,9 @@ class Command(BaseCommand):
             help='Specific season to ingest (e.g., 2023-24)',
         )
 
-    def normalize_team_name(self, team_name):
-        """Normalize team name to match between CSVs"""
-        return TEAM_NAME_MAPPING.get(team_name, team_name)
+    # def normalize_team_name(self, team_name):
+    #     """Normalize team name to match between CSVs"""
+    #     return TEAM_NAME_MAPPING.get(team_name, team_name)
 
     def get_logo_url(self, team_name):
         """Get logo URL for a team with fuzzy matching"""
@@ -106,6 +106,13 @@ class Command(BaseCommand):
                     "goals_against": int(row['ga']),
                     "goal_difference": int(row['gd']),
                     "rank": int(row['rank']),
+                    "manager": row['manager'],
+                    "captain": row['captain'],
+                    "stadium": row['stadium'],
+                    "top_scorer_all_time": row["top_scorer_all_time"],
+                    "premier_league_titles": row["premier_league_titles"],
+                    "fa_cup_titles": row["fa_cup_titles"],
+                    "league_cup_titles": row["league_cup_titles"],
                     "xg_for": 0.0,  # Will be updated from player stats if available
                 }
             )
@@ -210,7 +217,7 @@ class Command(BaseCommand):
         """Ingest both team and player data for a season"""
         data_dir = os.path.abspath(os.path.join(
             os.path.dirname(__file__),
-            '../../../../data/processed'
+            '../../../../backend/data/processed'
         ))
 
         # Define file mappings
