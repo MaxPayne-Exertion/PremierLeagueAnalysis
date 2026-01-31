@@ -17,6 +17,13 @@ class Team(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     goal_difference = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
+    manager = models.CharField(max_length=100, blank=True, null=True)
+    captain = models.CharField(max_length=100, blank=True, null=True)
+    stadium = models.CharField(max_length=100,blank=True, null=True)
+    top_scorer_all_time = models.CharField(max_length=100, blank=True, null=True)
+    premier_league_titles = models.CharField(max_length=50, blank=True, null=True)
+    fa_cup_titles = models.CharField(max_length=50, blank=True, null=True)
+    league_cup_titles = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         unique_together = ['season', 'team_name']
