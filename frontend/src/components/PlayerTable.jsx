@@ -14,8 +14,9 @@ const PlayerImage = ({ player, size = 'medium' }) => {
     large: 'text-base'
   };
 
-  const imageUrl = player?.image_url || (player?.sofascore_id 
-    ? `https://img.sofascore.com/api/v1/player/${player.sofascore_id}/image`
+  // Use player_id as sofascore_id for images
+  const imageUrl = player?.image_url || (player?.player_id 
+    ? `https://img.sofascore.com/api/v1/player/${player.player_id}/image`
     : null);
 
   return (
@@ -51,8 +52,8 @@ const PlayerTable = ({ players }) => {
   // Filtered players
   const filteredPlayers = players.filter(
     (p) =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.team_name.toLowerCase().includes(searchTerm.toLowerCase())
+      (p.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Sorted players
@@ -62,7 +63,7 @@ const PlayerTable = ({ players }) => {
     if (typeof aVal === 'string') {
       return sortConfig.direction === 'desc' ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
     }
-    return sortConfig.direction === 'desc' ? bVal - aVal : aVal - bVal;
+    return sortConfig.direction === 'desc' ? (bVal || 0) - (aVal || 0) : (aVal || 0) - (bVal || 0);
   });
 
   // Pagination logic
@@ -143,17 +144,11 @@ const PlayerTable = ({ players }) => {
               <th className="px-4 py-4 text-left cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('position')}>
                 <span className="font-semibold text-sm uppercase tracking-wide">Pos <SortIcon columnKey="position" /></span>
               </th>
-              <th className="px-4 py-4 text-left">
-                <span className="font-semibold text-sm uppercase tracking-wide">Nation</span>
+              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('appearances')}>
+                <span className="font-semibold text-sm uppercase tracking-wide">Apps <SortIcon columnKey="appearances" /></span>
               </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('age')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">Age <SortIcon columnKey="age" /></span>
-              </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('matches_played')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">MP <SortIcon columnKey="matches_played" /></span>
-              </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('minutes_played')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">Mins <SortIcon columnKey="minutes_played" /></span>
+              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('minutesPlayed')}>
+                <span className="font-semibold text-sm uppercase tracking-wide">Mins <SortIcon columnKey="minutesPlayed" /></span>
               </th>
               <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('goals')}>
                 <span className="font-semibold text-sm uppercase tracking-wide">Goals <SortIcon columnKey="goals" /></span>
@@ -161,17 +156,11 @@ const PlayerTable = ({ players }) => {
               <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('assists')}>
                 <span className="font-semibold text-sm uppercase tracking-wide">Assists <SortIcon columnKey="assists" /></span>
               </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('xg')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">xG <SortIcon columnKey="xg" /></span>
+              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('expectedGoals')}>
+                <span className="font-semibold text-sm uppercase tracking-wide">xG <SortIcon columnKey="expectedGoals" /></span>
               </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('xag')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">xAG <SortIcon columnKey="xag" /></span>
-              </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('progressive_carries')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">Prg C <SortIcon columnKey="progressive_carries" /></span>
-              </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('progressive_passes')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">Prg P <SortIcon columnKey="progressive_passes" /></span>
+              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('keyPasses')}>
+                <span className="font-semibold text-sm uppercase tracking-wide">Key P <SortIcon columnKey="keyPasses" /></span>
               </th>
             </tr>
           </thead>
@@ -194,32 +183,13 @@ const PlayerTable = ({ players }) => {
                     {player.position}
                   </span>
                 </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    {player.flag_url &&
-                      player.flag_url.split(',').map(
-                        (url, i) =>
-                          url.trim() && (
-                            <img
-                              key={i}
-                              src={url.trim()}
-                              alt=""
-                              className="w-5 h-5 rounded-full object-cover shadow-sm border border-slate-600"
-                            />
-                          )
-                      )}
-                    <span className="text-sm text-slate-300">{player.nationality}</span>
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-right text-slate-300">{player.age}</td>
-                <td className="px-4 py-3 text-right text-slate-300">{player.matches_played}</td>
-                <td className="px-4 py-3 text-right text-slate-400 text-sm">{player.minutes_played}</td>
-                <td className="px-4 py-3 text-right font-bold text-yellow-400 text-lg">{player.goals}</td>
-                <td className="px-4 py-3 text-right font-bold text-blue-400 text-lg">{player.assists}</td>
-                <td className="px-4 py-3 text-right text-slate-300">{player.xg?.toFixed(2) || '0.00'}</td>
-                <td className="px-4 py-3 text-right text-slate-300">{player.xag?.toFixed(2) || '0.00'}</td>
-                <td className="px-4 py-3 text-right text-green-400 font-semibold">{player.progressive_carries || 0}</td>
-                <td className="px-4 py-3 text-right text-purple-400 font-semibold">{player.progressive_passes || 0}</td>
+                <td className="px-4 py-3 text-right text-slate-300">{player.appearances || 0}</td>
+                <td className="px-4 py-3 text-right text-slate-400 text-sm">{player.minutesPlayed || 0}</td>
+                <td className="px-4 py-3 text-right font-bold text-yellow-400 text-lg">{player.goals || 0}</td>
+                <td className="px-4 py-3 text-right font-bold text-blue-400 text-lg">{player.assists || 0}</td>
+                <td className="px-4 py-3 text-right text-slate-300">{(player.expectedGoals || 0).toFixed(2)}</td>
+                
+                <td className="px-4 py-3 text-right text-green-400 font-semibold">{player.keyPasses || 0}</td>
               </tr>
             ))}
           </tbody>

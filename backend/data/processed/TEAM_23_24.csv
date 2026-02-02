@@ -1,21 +1,21 @@
 team,rank,played,won,drawn,lost,gf,ga,gd,points,manager,captain,stadium,top_scorer_all_time,premier_league_titles,fa_cup_titles,league_cup_titles
-Manchester City,1,38,28,7,3,96,34,62,91,Pep Guardiola,Kevin De Bruyne,Etihad Stadium,Sergio Agüero (184 goals),9 wins,7 wins,8 wins
-Arsenal,2,38,28,5,5,91,29,62,89,Mikel Arteta,Martin Ødegaard,Emirates Stadium,Thierry Henry (175 goals),3 wins,14 wins,2 wins
-Liverpool,3,38,24,10,4,86,41,45,82,Jürgen Klopp,Virgil van Dijk,Anfield,Mohamed Salah (168 goals),1 win,8 wins,10 wins
-Aston Villa,4,38,20,8,10,76,61,15,68,Unai Emery,John McGinn,Villa Park,Gabriel Agbonlahor (74 goals),Runners-up (1992/93),7 wins,5 wins
-Tottenham Hotspur,5,38,20,6,12,74,61,13,66,Ange Postecoglou,Son Heung-min,Tottenham Hotspur Stadium,Harry Kane (213 goals),Runners-up,8 wins,4 wins
-Chelsea,6,38,18,9,11,77,63,14,63,Mauricio Pochettino,Reece James,Stamford Bridge,Frank Lampard (147 goals),5 wins,8 wins,5 wins
-Newcastle United,7,38,18,6,14,85,62,23,60,Eddie Howe,Jamaal Lascelles,St. James' Park,Alan Shearer (148 goals),Runners-up,6 wins,Never won
-Manchester United,8,38,18,6,14,57,58,-1,60,Erik ten Hag,Bruno Fernandes,Old Trafford,Wayne Rooney (183 goals),13 wins,12 wins,6 wins
-West Ham United,9,38,14,10,14,60,74,-14,52,David Moyes,Kurt Zouma,London Stadium,Michail Antonio (68 goals),7th place,3 wins,Never won
-Crystal Palace,10,38,13,10,15,57,58,-1,49,Roy Hodgson,Joel Ward,Selhurst Park,Wilfried Zaha (68 goals),Never won,Never won,Never won
-Brighton,11,38,12,12,14,55,62,-7,48,Roberto De Zerbi,Lewis Dunk,Amex Stadium,Pascal Groß (30 goals),6th place,Never won,Never won
-Bournemouth,12,38,13,9,16,54,67,-13,48,Andoni Iraola,Neto,Vitality Stadium,Joshua King (48 goals),9th place,Never won,Never won
-Fulham,13,38,13,8,17,55,61,-6,47,Marco Silva,Tom Cairney,Craven Cottage,Clint Dempsey (50 goals),7th place,Runners-up,Never won
-Wolverhampton,14,38,13,7,18,50,65,-15,46,Gary O'Neil,Max Kilman,Molineux Stadium,Raúl Jiménez (40 goals),7th place,4 wins,2 wins
-Everton,15,38,13,9,16,40,51,-11,40,Sean Dyche,Seamus Coleman,Goodison Park,Romelu Lukaku (68 goals),4th place,5 wins,Never won
-Brentford,16,38,10,9,19,56,65,-9,39,Thomas Frank,Christian Nørgaard,Gtech Community Stadium,Ivan Toney (36 goals),9th place,Never won,Never won
-Nottingham Forest,17,38,9,9,20,49,67,-18,32,Nuno Espírito Santo,Joe Worrall,City Ground,Chris Wood (14 goals),3rd place,2 wins,4 wins
-Luton Town,18,38,6,8,24,52,85,-33,26,Rob Edwards,Tom Lockyer,Kenilworth Road,Carlton Morris (11 goals),18th place,Never won,Never won
-Burnley,19,38,5,9,24,41,78,-37,24,Vincent Kompany,Jack Cork,Turf Moor,Chris Wood (49 goals),7th place,1 win,Never won
-Sheffield United,20,38,3,7,28,35,104,-69,16,Chris Wilder,John Egan,Bramall Lane,Billy Sharp (19 goals),9th place,4 wins,Never won
+Manchester City,1,38,28,7,3,96,34,62,91,Pep Guardiola,Kyle Walker,Etihad Stadium,Sergio Agüero (260 goals),10 wins,7 wins,8 wins
+Arsenal,2,38,28,5,5,91,29,62,89,Mikel Arteta,Martin Ødegaard,Emirates Stadium,Thierry Henry (228 goals),3 wins,14 wins,2 wins
+Liverpool,3,38,24,10,4,86,41,45,82,Jürgen Klopp,Virgil van Dijk,Anfield,Ian Rush (346 goals),1 win,8 wins,10 wins
+Aston Villa,4,38,20,8,10,76,61,15,68,Unai Emery,John McGinn,Villa Park,Billy Walker (244 goals),0 wins,7 wins,5 wins
+Tottenham Hotspur,5,38,20,6,12,74,61,13,66,Ange Postecoglou,Son Heung-min,Tottenham Hotspur Stadium,Harry Kane (280 goals),0 wins,8 wins,4 wins
+Chelsea,6,38,18,9,11,77,63,14,63,Mauricio Pochettino,Reece James,Stamford Bridge,Frank Lampard (211 goals),5 wins,8 wins,5 wins
+Newcastle United,7,38,18,6,14,85,62,23,60,Eddie Howe,Jamaal Lascelles,St. James' Park,Alan Shearer (206 goals),0 wins,6 wins,0 wins
+Manchester United,8,38,18,6,14,57,58,-1,60,Erik ten Hag,Bruno Fernandes,Old Trafford,Wayne Rooney (253 goals),13 wins,13 wins,6 wins
+West Ham United,9,38,14,10,14,60,74,-14,52,David Moyes,Kurt Zouma,London Stadium,Vic Watson (326 goals),0 wins,3 wins,0 wins
+Crystal Palace,10,38,13,10,15,57,58,-1,49,Oliver Glasner,Joel Ward,Selhurst Park,Peter Simpson (165 goals),0 wins,0 wins,0 wins
+Brighton & Hove Albion,11,38,12,12,14,55,62,-7,48,Roberto De Zerbi,Lewis Dunk,Amex Stadium,Tommy Cook (123 goals),0 wins,0 wins,0 wins
+Bournemouth,12,38,13,9,16,54,67,-13,48,Andoni Iraola,Neto,Vitality Stadium,Ron Eyre (229 goals),0 wins,0 wins,0 wins
+Fulham,13,38,13,8,17,55,61,-6,47,Marco Silva,Tom Cairney,Craven Cottage,Gordon Davies (178 goals),0 wins,0 wins,0 wins
+Wolverhampton,14,38,13,7,18,50,65,-15,46,Gary O'Neil,Max Kilman,Molineux Stadium,Steve Bull (306 goals),0 wins,4 wins,2 wins
+Everton,15,38,13,9,16,40,51,-11,40,Sean Dyche,Seamus Coleman,Goodison Park,Dixie Dean (383 goals),0 wins,5 wins,0 wins
+Brentford,16,38,10,9,19,56,65,-9,39,Thomas Frank,Christian Nørgaard,Gtech Community Stadium,Jim Towers (163 goals),0 wins,0 wins,0 wins
+Nottingham Forest,17,38,9,9,20,49,67,-18,32,Nuno Espírito Santo,Ryan Yates,City Ground,Grenville Morris (217 goals),0 wins,2 wins,4 wins
+Luton Town,18,38,6,8,24,52,85,-33,26,Rob Edwards,Tom Lockyer,Kenilworth Road,Gordon Turner (276 goals),0 wins,0 wins,1 win
+Burnley,19,38,5,9,24,41,78,-37,24,Vincent Kompany,Jack Cork,Turf Moor,George Beel (188 goals),0 wins,1 win,0 wins
+Sheffield United,20,38,3,7,28,35,104,-69,16,Chris Wilder,John Egan,Bramall Lane,Harry Johnson (252 goals),0 wins,4 wins,0 wins

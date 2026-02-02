@@ -33,35 +33,85 @@ class Team(models.Model):
 
 
 class Player(models.Model):
-    season = models.CharField(max_length=10, default='2023-24')
-    player_id = models.CharField(max_length=100)  # External ID
-    sofascore_id = models.CharField(
-        max_length=20, blank=True, null=True
-    )  #Sofascore id
-    name = models.CharField(max_length=100)
-    team = models.ForeignKey(
-        Team, related_name='players', on_delete=models.CASCADE)
-    nationality = models.CharField(max_length=100, blank=True, null=True)
-    flag_url = models.URLField(max_length=500, blank=True, null=True)
-    position = models.CharField(max_length=50)
-    age = models.IntegerField(default=0)
+    season = models.CharField(max_length=10, default="2023-24")
 
-    # Stats
-    matches_played = models.IntegerField(default=0)
-    minutes_played = models.IntegerField(default=0)
+    player_id = models.CharField(max_length=100)
+    team_id_external = models.CharField(max_length=100, blank=True, null=True)
+
+    name = models.CharField(max_length=100)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="players")
+    position = models.CharField(max_length=50)
+
+    # Basic
+    appearances = models.IntegerField(default=0)
+    minutesPlayed = models.IntegerField(default=0)
+
+    # Attacking
     goals = models.IntegerField(default=0)
     assists = models.IntegerField(default=0)
-    xg = models.FloatField(default=0.0)
-    xag = models.FloatField(default=0.0)
-    progressive_carries = models.IntegerField(default=0)
-    progressive_passes = models.IntegerField(default=0)
-    tackles_won = models.IntegerField(default=0)
+    expectedGoals = models.FloatField(default=0.0)
+    totalShots = models.IntegerField(default=0)
+    shotsOnTarget = models.IntegerField(default=0)
+    blockedShots = models.IntegerField(default=0)
+    bigChancesMissed = models.IntegerField(default=0)
+    goalConversionPercentage = models.FloatField(default=0.0)
+    hitWoodwork = models.IntegerField(default=0)
+    offsides = models.IntegerField(default=0)
+    passToAssist = models.IntegerField(default=0)
+
+    # Passing
+    accuratePasses = models.IntegerField(default=0)
+    accuratePassesPercentage = models.FloatField(default=0.0)
+    keyPasses = models.IntegerField(default=0)
+    accurateFinalThirdPasses = models.IntegerField(default=0)
+    accurateCrosses = models.IntegerField(default=0)
+    accurateCrossesPercentage = models.FloatField(default=0.0)
+    accurateLongBalls = models.IntegerField(default=0)
+    accurateLongBallsPercentage = models.FloatField(default=0.0)
+
+    # Duels & Defense
+    tackles = models.IntegerField(default=0)
     interceptions = models.IntegerField(default=0)
+    clearances = models.IntegerField(default=0)
+    dribbledPast = models.IntegerField(default=0)
+
+    groundDuelsWon = models.IntegerField(default=0)
+    groundDuelsWonPercentage = models.FloatField(default=0.0)
+    aerialDuelsWon = models.IntegerField(default=0)
+    aerialDuelsWonPercentage = models.FloatField(default=0.0)
+    totalDuelsWon = models.IntegerField(default=0)
+    totalDuelsWonPercentage = models.FloatField(default=0.0)
+
+    successfulDribbles = models.IntegerField(default=0)
+    successfulDribblesPercentage = models.FloatField(default=0.0)
+
+    # Discipline
+    yellowCards = models.IntegerField(default=0)
+    redCards = models.IntegerField(default=0)
+    fouls = models.IntegerField(default=0)
+    wasFouled = models.IntegerField(default=0)
+    dispossessed = models.IntegerField(default=0)
+
+    # Goalkeeping
+    saves = models.IntegerField(default=0)
+    savedShotsFromInsideTheBox = models.IntegerField(default=0)
+    savedShotsFromOutsideTheBox = models.IntegerField(default=0)
+    goalsConceded = models.IntegerField(default=0)
+    goalsConcededInsideTheBox = models.IntegerField(default=0)
+    goalsConcededOutsideTheBox = models.IntegerField(default=0)
+    highClaims = models.IntegerField(default=0)
+    runsOut = models.IntegerField(default=0)
+    successfulRunsOut = models.IntegerField(default=0)
+    punches = models.IntegerField(default=0)
+
+    # Errors
+    errorLeadToGoal = models.IntegerField(default=0)
+    errorLeadToShot = models.IntegerField(default=0)
 
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['season', 'player_id']
+        unique_together = ["season", "player_id"]
 
     def __str__(self):
         return f"{self.name} ({self.team.team_name}) - {self.season}"

@@ -14,8 +14,9 @@ const PlayerImage = ({ player, size = 'medium' }) => {
     large: 'text-3xl'
   };
 
-  const imageUrl = player?.image_url || (player?.sofascore_id 
-    ? `https://img.sofascore.com/api/v1/player/${player.sofascore_id}/image`
+  // Use player_id as sofascore_id for images
+  const imageUrl = player?.image_url || (player?.player_id 
+    ? `https://img.sofascore.com/api/v1/player/${player.player_id}/image`
     : null);
 
   return (
@@ -23,7 +24,7 @@ const PlayerImage = ({ player, size = 'medium' }) => {
       {imageUrl ? (
         <img
           src={imageUrl}
-          alt={player?.name || player?.player_name}
+          alt={player?.name}
           className="w-full h-full object-cover rounded-full border-3 border-white shadow-lg"
           loading="lazy"
           onError={(e) => {
@@ -36,7 +37,7 @@ const PlayerImage = ({ player, size = 'medium' }) => {
         className={`${imageUrl ? 'hidden' : 'flex'} w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 rounded-full items-center justify-center text-white font-bold shadow-lg border-3 border-white ${textSizeClasses[size]}`}
         style={{ display: imageUrl ? 'none' : 'flex' }}
       >
-        {((player?.name || player?.player_name || 'U')[0]).toUpperCase()}
+        {((player?.name || 'U')[0]).toUpperCase()}
       </div>
     </div>
   );
@@ -58,7 +59,7 @@ const StatCard = ({ title, player, value, label, icon: Icon, colorClass, compact
         <div className="flex items-center gap-3 mb-3">
           <PlayerImage player={player} size="small" />
           <div className="flex-1 min-w-0">
-            <div className="text-lg font-bold text-white truncate">{player.name || player.player_name}</div>
+            <div className="text-lg font-bold text-white truncate">{player.name}</div>
             <div className="text-slate-400 text-xs truncate">{player.team_name}</div>
           </div>
         </div>
@@ -83,7 +84,7 @@ const StatCard = ({ title, player, value, label, icon: Icon, colorClass, compact
         <PlayerImage player={player} size="large" />
         <div className="flex-1 min-w-0">
           <div className="text-2xl font-bold text-white mb-1 truncate">
-            {player.name || player.player_name}
+            {player.name}
           </div>
           <div className="text-slate-400 text-sm truncate">{player.team_name}</div>
         </div>
@@ -97,10 +98,10 @@ const StatCard = ({ title, player, value, label, icon: Icon, colorClass, compact
 };
 
 const TopStats = ({ players, compact = false }) => {
-  // Sort players
+  // Sort players - use expectedGoals instead of xg
   const topScorer = [...players].sort((a, b) => (b.goals || 0) - (a.goals || 0))[0];
   const topAssister = [...players].sort((a, b) => (b.assists || 0) - (a.assists || 0))[0];
-  const topXG = [...players].sort((a, b) => (b.xg || 0) - (a.xg || 0))[0];
+  const topXG = [...players].sort((a, b) => (b.expectedGoals || 0) - (a.expectedGoals || 0))[0];
 
   return (
     <div className={compact ? "space-y-0" : "grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"}>
@@ -125,7 +126,7 @@ const TopStats = ({ players, compact = false }) => {
       <StatCard
         title="Most Threatening"
         player={topXG}
-        value={topXG?.xg?.toFixed(2) || '0.00'}
+        value={topXG?.expectedGoals?.toFixed(2) || '0.00'}
         label="xG"
         icon={Footprints}
         colorClass="text-green-400"

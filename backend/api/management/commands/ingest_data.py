@@ -1,264 +1,297 @@
+import os
 import pandas as pd
 from django.core.management.base import BaseCommand
 from api.models import Team, Player
-import os
-import re
 
-# Team name normalization mapping
-# TEAM_NAME_MAPPING = {
-#     "Newcastle United": "Newcastle Utd",
-#     "Tottenham Hotspur": "Tottenham",
-#     "Manchester United": "Manchester Utd",
-#     "West Ham United": "West Ham",
-#     "Wolverhampton Wanderers": "Wolves",
-#     "Sheffield United": "Sheffield Utd",
-#     "Brighton and Hove Albion": "Brighton",
-# }
 
-# Static Logo Mapping
 TEAM_LOGOS = {
     "Arsenal": "https://resources.premierleague.com/premierleague/badges/t3.svg",
     "Manchester City": "https://resources.premierleague.com/premierleague/badges/t43.svg",
     "Liverpool": "https://resources.premierleague.com/premierleague/badges/t14.svg",
     "Aston Villa": "https://resources.premierleague.com/premierleague/badges/t7.svg",
     "Tottenham Hotspur": "https://resources.premierleague.com/premierleague/badges/t6.svg",
-    "Tottenham": "https://resources.premierleague.com/premierleague/badges/t6.svg",
     "Chelsea": "https://resources.premierleague.com/premierleague/badges/t8.svg",
     "Newcastle United": "https://resources.premierleague.com/premierleague/badges/t4.svg",
-    "Newcastle Utd": "https://resources.premierleague.com/premierleague/badges/t4.svg",
     "Manchester United": "https://resources.premierleague.com/premierleague/badges/t1.svg",
-    "Manchester Utd": "https://resources.premierleague.com/premierleague/badges/t1.svg",
     "West Ham United": "https://resources.premierleague.com/premierleague/badges/t21.svg",
-    "West Ham": "https://resources.premierleague.com/premierleague/badges/t21.svg",
     "Crystal Palace": "https://resources.premierleague.com/premierleague/badges/t31.svg",
-    "Brighton": "https://resources.premierleague.com/premierleague/badges/t36.svg",
-    "Brighton and Hove Albion": "https://resources.premierleague.com/premierleague/badges/t36.svg",
+    "Brighton & Hove Albion": "https://resources.premierleague.com/premierleague/badges/t36.svg",
     "Bournemouth": "https://resources.premierleague.com/premierleague/badges/t91.svg",
     "Fulham": "https://resources.premierleague.com/premierleague/badges/t54.svg",
-    "Wolverhampton Wanderers": "https://resources.premierleague.com/premierleague/badges/t39.svg",
     "Wolverhampton": "https://resources.premierleague.com/premierleague/badges/t39.svg",
-    "Wolves": "https://resources.premierleague.com/premierleague/badges/t39.svg",
     "Everton": "https://resources.premierleague.com/premierleague/badges/t11.svg",
     "Brentford": "https://resources.premierleague.com/premierleague/badges/t94.svg",
     "Nottingham Forest": "https://resources.premierleague.com/premierleague/badges/t17.svg",
-    "Nott'ham Forest": "https://resources.premierleague.com/premierleague/badges/t17.svg",
     "Luton Town": "https://resources.premierleague.com/premierleague/badges/t102.svg",
     "Burnley": "https://resources.premierleague.com/premierleague/badges/t90.svg",
     "Sheffield United": "https://resources.premierleague.com/premierleague/badges/t49.svg",
-    # "Sheffield Utd": "https://resources.premierleague.com/premierleague/badges/t49.svg",
-    "Leeds United": "https://resources.premierleague.com/premierleague/badges/t2.svg",
     "Leicester City": "https://resources.premierleague.com/premierleague/badges/t13.svg",
+    "Ipswich Town": "https://resources.premierleague.com/premierleague/badges/t40.svg",
     "Southampton": "https://resources.premierleague.com/premierleague/badges/t20.svg",
-    "West Bromwich Albion": "https://resources.premierleague.com/premierleague/badges/t35.svg",
 }
 
 
 class Command(BaseCommand):
-    help = 'Ingests team and player data for specified seasons'
+    help = "Ingest team and player data for EPL seasons"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--season',
+            "--season",
             type=str,
-            help='Specific season to ingest (e.g., 2023-24)',
+            help="Season to ingest (e.g. 2023-24)",
+        )
+        parser.add_argument(
+            "--clear",
+            action="store_true",
+            help="Clear existing data for the season before importing",
         )
 
-    # def normalize_team_name(self, team_name):
-    #     """Normalize team name to match between CSVs"""
-    #     return TEAM_NAME_MAPPING.get(team_name, team_name)
+    # -------------------- HELPERS --------------------
 
-    def get_logo_url(self, team_name):
-        """Get logo URL for a team with fuzzy matching"""
-        logo = TEAM_LOGOS.get(team_name, "")
-        if not logo:
-            # Fuzzy match attempt
-            for key in TEAM_LOGOS:
-                if key in team_name or team_name in key:
-                    logo = TEAM_LOGOS[key]
-                    break
-        return logo
+    def get_logo_url(self, team_name: str) -> str:
+        return TEAM_LOGOS.get(team_name, "")
 
-    def ingest_team_stats(self, csv_path, season):
-        """Ingest team statistics from TEAM CSV"""
+    def normalize_df(self, df: pd.DataFrame) -> pd.DataFrame:
+        df.columns = df.columns.str.strip().str.lower()
+        return df
+    
+    def safe_int(self, value, default=0):
+        """Safely convert value to int"""
+        try:
+            return int(value) if pd.notna(value) and value != '' else default
+        except (ValueError, TypeError):
+            return default
+    
+    def safe_float(self, value, default=0.0):
+        """Safely convert value to float"""
+        try:
+            return float(value) if pd.notna(value) and value != '' else default
+        except (ValueError, TypeError):
+            return default
+
+    # -------------------- TEAM INGEST --------------------
+
+    def ingest_team_stats(self, csv_path: str, season: str):
         if not os.path.exists(csv_path):
-            self.stderr.write(f"Team stats file not found: {csv_path}")
+            self.stderr.write(f"Team CSV not found: {csv_path}")
             return
 
-        self.stdout.write(
-            f"Reading team stats from {csv_path} for season {season}...")
-        df = pd.read_csv(csv_path)
+        self.stdout.write(f"Reading team stats from {csv_path}...")
+        df = self.normalize_df(pd.read_csv(csv_path))
 
         for _, row in df.iterrows():
-            team_name = row['team']
-            logo = self.get_logo_url(team_name)
+            team_name = row["team"]
 
             Team.objects.update_or_create(
                 season=season,
                 team_name=team_name,
                 defaults={
-                    "logo_url": logo,
-                    "matches_played": int(row['played']),
-                    "wins": int(row['won']),
-                    "draws": int(row['drawn']),
-                    "losses": int(row['lost']),
-                    "points": int(row['points']),
-                    "goals_for": int(row['gf']),
-                    "goals_against": int(row['ga']),
-                    "goal_difference": int(row['gd']),
-                    "rank": int(row['rank']),
-                    "manager": row['manager'],
-                    "captain": row['captain'],
-                    "stadium": row['stadium'],
-                    "top_scorer_all_time": row["top_scorer_all_time"],
-                    "premier_league_titles": row["premier_league_titles"],
-                    "fa_cup_titles": row["fa_cup_titles"],
-                    "league_cup_titles": row["league_cup_titles"],
-                    "xg_for": 0.0,  # Will be updated from player stats if available
-                }
-            )
-            self.stdout.write(f"  ✓ Processed team: {team_name}")
-
-        self.stdout.write(self.style.SUCCESS(
-            f"Successfully ingested {len(df)} teams for {season}"))
-
-    def ingest_player_stats(self, csv_path, season):
-        """Ingest player statistics from EPL CSV"""
-        if not os.path.exists(csv_path):
-            self.stderr.write(f"Player stats file not found: {csv_path}")
-            return
-
-        self.stdout.write(
-            f"Reading player stats from {csv_path} for season {season}...")
-        df = pd.read_csv(csv_path)
-
-        # Update team xG totals from player data
-        unique_teams = df['Team'].unique()
-        for team_name in unique_teams:
-            team_stats = df[df['Team'] == team_name]
-            total_xg = team_stats['xG'].sum()
-
-            try:
-                team = Team.objects.get(season=season, team_name=team_name)
-                team.xg_for = round(total_xg, 2)
-                team.save()
-            except Team.DoesNotExist:
-                self.stderr.write(
-                    f"Warning: Team '{team_name}' not found for season {season}")
-
-        # Ingest players
-        for _, row in df.iterrows():
-            try:
-                team = Team.objects.get(season=season, team_name=row['Team'])
-            except Team.DoesNotExist:
-                self.stderr.write(
-                    f"Warning: Skipping player {row['Player']} - team not found")
-                continue
-
-            # Parse nationality
-            raw_nation = str(row['Nation'])
-            codes = re.findall(r'\b[A-Z]{3}\b', raw_nation)
-            if not codes:
-                codes = [raw_nation.split(' ')[1]] if ' ' in raw_nation else [
-                    raw_nation]
-
-            nationality_display = " ".join(codes)
-
-            # Generate flag URLs
-            lower_codes = re.findall(r'\b[a-z]{2,}\b', raw_nation)
-            final_flag_urls = []
-
-            if len(lower_codes) == len(codes):
-                for lc in lower_codes:
-                    if lc == 'eng':
-                        lc = 'gb-eng'
-                    elif lc == 'sco':
-                        lc = 'gb-sct'
-                    elif lc == 'wal':
-                        lc = 'gb-wls'
-                    elif lc == 'nir':
-                        lc = 'gb-nir'
-                    final_flag_urls.append(f"https://flagcdn.com/w40/{lc}.png")
-            else:
-                for code in codes:
-                    final_flag_urls.append(
-                        f"https://flagcdn.com/w40/{code[:2].lower()}.png")
-
-            flag_url_str = ",".join(final_flag_urls)
-
-            # Generate unique player ID
-            player_id = f"{season}_{team.team_name}_{row['Player']}".replace(
-                " ", "_")
-
-            Player.objects.update_or_create(
-                season=season,
-                player_id=player_id,
-                defaults={
-                    "name": row['Player'],
-                    "team": team,
-                    "nationality": nationality_display,
-                    "flag_url": flag_url_str,
-                    "position": row['Pos'],
-                    "age": int(row['Age']) if not pd.isna(row['Age']) else 0,
-                    "matches_played": int(row['MP']),
-                    "minutes_played": int(row['Min']),
-                    "goals": int(row['Gls']),
-                    "assists": int(row['Ast']),
-                    "xg": row['xG'],
-                    "xag": row['xAG'] if 'xAG' in row else 0.0,
-                    "progressive_carries": row['PrgC'] if 'PrgC' in row else 0,
-                    "progressive_passes": row['PrgP'] if 'PrgP' in row else 0,
+                    "logo_url": self.get_logo_url(team_name),
+                    "matches_played": self.safe_int(row.get("played")),
+                    "wins": self.safe_int(row.get("won")),
+                    "draws": self.safe_int(row.get("drawn")),
+                    "losses": self.safe_int(row.get("lost")),
+                    "points": self.safe_int(row.get("points")),
+                    "goals_for": self.safe_int(row.get("gf")),
+                    "goals_against": self.safe_int(row.get("ga")),
+                    "goal_difference": self.safe_int(row.get("gd")),
+                    "rank": self.safe_int(row.get("rank")),
+                    "manager": row.get("manager", ""),
+                    "captain": row.get("captain", ""),
+                    "stadium": row.get("stadium", ""),
+                    "top_scorer_all_time": row.get("top_scorer_all_time", ""),
+                    "premier_league_titles": row.get("premier_league_titles", ""),
+                    "fa_cup_titles": row.get("fa_cup_titles", ""),
+                    "league_cup_titles": row.get("league_cup_titles", ""),
+                    "xg_for": 0.0,
                 }
             )
 
-        self.stdout.write(self.style.SUCCESS(
-            f"Successfully ingested {len(df)} players for {season}"))
+            self.stdout.write(f"  ✓ {team_name}")
 
-    def ingest_season(self, season):
-        """Ingest both team and player data for a season"""
-        data_dir = os.path.abspath(os.path.join(
-            os.path.dirname(__file__),
-            '../../../../backend/data/processed'
+        self.stdout.write(self.style.SUCCESS(
+            f"Ingested {len(df)} teams for {season}"
         ))
 
-        # Define file mappings
+    # -------------------- PLAYER INGEST --------------------
+
+    def ingest_player_stats(self, csv_path: str, season: str):
+        if not os.path.exists(csv_path):
+            self.stderr.write(f"Player CSV not found: {csv_path}")
+            return
+
+        self.stdout.write(f"Reading player stats from {csv_path}...")
+        df = self.normalize_df(pd.read_csv(csv_path))
+        
+        # Print columns to debug
+        self.stdout.write(f"CSV Columns: {list(df.columns)}")
+
+        # -------- Update team xG --------
+        if "expectedgoals" in df.columns:
+            for team_name in df["team"].unique():
+                total_xg = df[df["team"] == team_name]["expectedgoals"].sum()
+
+                try:
+                    team = Team.objects.get(season=season, team_name=team_name)
+                    team.xg_for = round(float(total_xg), 2)
+                    team.save()
+                except Team.DoesNotExist:
+                    self.stderr.write(
+                        f"Warning: team '{team_name}' not found"
+                    )
+
+        # -------- Ingest players --------
+        created_count = 0
+        updated_count = 0
+        
+        for _, row in df.iterrows():
+            try:
+                team = Team.objects.get(season=season, team_name=row["team"])
+            except Team.DoesNotExist:
+                self.stderr.write(f"Team not found: {row['team']}")
+                continue
+
+            player, created = Player.objects.update_or_create(
+                season=season,
+                player_id=str(row.get("player id", row.get("playerid", ""))),
+                defaults={
+                    "name": row.get("player", ""),
+                    "team": team,
+                    "position": row.get("position", ""),
+                    
+                    # Basic
+                    "appearances": self.safe_int(row.get("appearances")),
+                    "minutesPlayed": self.safe_int(row.get("minutesplayed", row.get("minutes"))),
+                    
+                    # Attacking
+                    "goals": self.safe_int(row.get("goals")),
+                    "assists": self.safe_int(row.get("assists")),
+                    "expectedGoals": self.safe_float(row.get("expectedgoals", row.get("xg"))),
+                    "totalShots": self.safe_int(row.get("totalshots", row.get("shots"))),
+                    "shotsOnTarget": self.safe_int(row.get("shotsontarget")),
+                    "blockedShots": self.safe_int(row.get("blockedshots")),
+                    "bigChancesMissed": self.safe_int(row.get("bigchancesmissed")),
+                    "goalConversionPercentage": self.safe_float(row.get("goalconversionpercentage")),
+                    "hitWoodwork": self.safe_int(row.get("hitwoodwork")),
+                    "offsides": self.safe_int(row.get("offsides")),
+                    "passToAssist": self.safe_int(row.get("passtoassist")),
+                    
+                    # Passing
+                    "accuratePasses": self.safe_int(row.get("accuratepasses")),
+                    "accuratePassesPercentage": self.safe_float(row.get("accuratepassespercentage")),
+                    "keyPasses": self.safe_int(row.get("keypasses")),
+                    "accurateFinalThirdPasses": self.safe_int(row.get("accuratefinalthirdpasses")),
+                    "accurateCrosses": self.safe_int(row.get("accuratecrosses")),
+                    "accurateCrossesPercentage": self.safe_float(row.get("accuratecrossespercentage")),
+                    "accurateLongBalls": self.safe_int(row.get("accuratelongballs")),
+                    "accurateLongBallsPercentage": self.safe_float(row.get("accuratelongballspercentage")),
+                    
+                    # Duels & Defense
+                    "tackles": self.safe_int(row.get("tackles")),
+                    "interceptions": self.safe_int(row.get("interceptions")),
+                    "clearances": self.safe_int(row.get("clearances")),
+                    "dribbledPast": self.safe_int(row.get("dribbledpast")),
+                    "groundDuelsWon": self.safe_int(row.get("groundduelswon")),
+                    "groundDuelsWonPercentage": self.safe_float(row.get("groundduelswonpercentage")),
+                    "aerialDuelsWon": self.safe_int(row.get("aerialduelswon")),
+                    "aerialDuelsWonPercentage": self.safe_float(row.get("aerialduelswonpercentage")),
+                    "totalDuelsWon": self.safe_int(row.get("totalduelswon")),
+                    "totalDuelsWonPercentage": self.safe_float(row.get("totalduelswonpercentage")),
+                    "successfulDribbles": self.safe_int(row.get("successfuldribbles")),
+                    "successfulDribblesPercentage": self.safe_float(row.get("successfuldribblespercentage")),
+                    
+                    # Discipline
+                    "yellowCards": self.safe_int(row.get("yellowcards")),
+                    "redCards": self.safe_int(row.get("redcards")),
+                    "fouls": self.safe_int(row.get("fouls")),
+                    "wasFouled": self.safe_int(row.get("wasfouled")),
+                    "dispossessed": self.safe_int(row.get("dispossessed")),
+                    
+                    # Goalkeeping - FIXED FIELD NAMES
+                    "saves": self.safe_int(row.get("saves")),
+                    "savedShotsFromInsideTheBox": self.safe_int(row.get("savedshotsfrominsidethebox")),
+                    "savedShotsFromOutsideTheBox": self.safe_int(row.get("savedshotsfromoutsidethebox")),
+                    "goalsConceded": self.safe_int(row.get("goalsconceded")),
+                    "goalsConcededInsideTheBox": self.safe_int(row.get("goalsconcededinsidethebox")),
+                    "goalsConcededOutsideTheBox": self.safe_int(row.get("goalsconcededoutsidethebox")),
+                    "highClaims": self.safe_int(row.get("highclaims")),
+                    "runsOut": self.safe_int(row.get("runsout")),
+                    "successfulRunsOut": self.safe_int(row.get("successfulrunsout")),
+                    "punches": self.safe_int(row.get("punches")),
+                    
+                    # Errors
+                    "errorLeadToGoal": self.safe_int(row.get("errorleadtogoal")),
+                    "errorLeadToShot": self.safe_int(row.get("errorleadtoshot")),
+                }
+            )
+            
+            if created:
+                created_count += 1
+            else:
+                updated_count += 1
+
+        self.stdout.write(self.style.SUCCESS(
+            f"Ingested {len(df)} players for {season} (Created: {created_count}, Updated: {updated_count})"
+        ))
+
+    # -------------------- SEASON INGEST --------------------
+
+    def ingest_season(self, season: str, clear: bool = False):
+        data_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "../../../../backend/data/processed")
+        )
+
         season_files = {
-            '2020-21': {
-                'team': 'TEAM_20_21.csv',
-                'player': 'EPL_20_21.csv'
+            "2020-21": {
+                "team": "TEAM_20_21.csv",
+                "player": "EPL_20_21.csv",
             },
-            '2023-24': {
-                'team': 'TEAM_23_24.csv',
-                'player': 'EPL_23_24.csv'
+            "2023-24": {
+                "team": "TEAM_23_24.csv",
+                "player": "EPL_23_24.csv",
+            },
+            "2024-25": {
+                "team": "TEAM_24_25.csv",
+                "player": "EPL_24_25.csv",
             },
         }
 
         if season not in season_files:
             self.stderr.write(f"Unknown season: {season}")
-            self.stdout.write("Available seasons: " +
-                              ", ".join(season_files.keys()))
             return
 
-        self.stdout.write(self.style.WARNING(f"\n{'='*60}"))
+        # Clear existing data if requested
+        if clear:
+            self.stdout.write(self.style.WARNING(f"Clearing existing data for {season}..."))
+            Player.objects.filter(season=season).delete()
+            Team.objects.filter(season=season).delete()
+            self.stdout.write(self.style.SUCCESS("Data cleared."))
+
+        self.stdout.write(self.style.WARNING(f"\n{'=' * 60}"))
         self.stdout.write(self.style.WARNING(f"INGESTING SEASON: {season}"))
-        self.stdout.write(self.style.WARNING(f"{'='*60}\n"))
+        self.stdout.write(self.style.WARNING(f"{'=' * 60}\n"))
 
-        # Ingest team stats first
-        team_csv = os.path.join(data_dir, season_files[season]['team'])
-        self.ingest_team_stats(team_csv, season)
+        self.ingest_team_stats(
+            os.path.join(data_dir, season_files[season]["team"]),
+            season,
+        )
 
-        # Then ingest player stats
-        player_csv = os.path.join(data_dir, season_files[season]['player'])
-        self.ingest_player_stats(player_csv, season)
+        self.ingest_player_stats(
+            os.path.join(data_dir, season_files[season]["player"]),
+            season,
+        )
 
         self.stdout.write(self.style.SUCCESS(
-            f"\n✓ Season {season} ingestion complete!\n"))
+            f"\n✓ Season {season} ingestion complete!\n"
+        ))
+
+    # -------------------- ENTRY POINT --------------------
 
     def handle(self, *args, **options):
-        if options['season']:
-            # Ingest specific season
-            self.ingest_season(options['season'])
+        clear = options.get("clear", False)
+        
+        if options.get("season"):
+            self.ingest_season(options["season"], clear=clear)
         else:
-            # Ingest all seasons
-            seasons = ['2020-21', '2023-24']
-            for season in seasons:
-                self.ingest_season(season)
+            for season in ["2020-21", "2023-24"]:
+                self.ingest_season(season, clear=clear)
