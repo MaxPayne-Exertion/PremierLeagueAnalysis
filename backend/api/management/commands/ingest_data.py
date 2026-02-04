@@ -47,8 +47,6 @@ class Command(BaseCommand):
             help="Clear existing data for the season before importing",
         )
 
-    # -------------------- HELPERS --------------------
-
     def get_logo_url(self, team_name: str) -> str:
         return TEAM_LOGOS.get(team_name, "")
 
@@ -69,8 +67,6 @@ class Command(BaseCommand):
             return float(value) if pd.notna(value) and value != '' else default
         except (ValueError, TypeError):
             return default
-
-    # -------------------- TEAM INGEST --------------------
 
     def ingest_team_stats(self, csv_path: str, season: str):
         if not os.path.exists(csv_path):
@@ -113,8 +109,6 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             f"Ingested {len(df)} teams for {season}"
         ))
-
-    # -------------------- PLAYER INGEST --------------------
 
     def ingest_player_stats(self, csv_path: str, season: str):
         if not os.path.exists(csv_path):
