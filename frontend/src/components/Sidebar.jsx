@@ -12,7 +12,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
         { id: 'comparison', label: 'Comparison', icon: GitCompare, color: 'from-orange-500 to-red-500', accent: '#f59e0b' },
     ];
 
-    const seasons = ['2024-25','2023-24', '2022-23', '2021-22', '2020-21'];
+    const seasons = ['2024-25','2023-24', '2022-23', '2021-22', '2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16',  '2014-15', '2013-14'];
 
     return (
         <div 

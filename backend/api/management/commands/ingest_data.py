@@ -27,6 +27,7 @@ TEAM_LOGOS = {
     "Sheffield United": "https://resources.premierleague.com/premierleague/badges/t49.svg",
     "Leicester City": "https://resources.premierleague.com/premierleague/badges/t13.svg",
     "Ipswich Town": "https://resources.premierleague.com/premierleague/badges/t40.svg",
+    "Leeds United": "https://resources.premierleague.com/premierleague/badges/t2.svg",
     "Southampton": "https://resources.premierleague.com/premierleague/badges/t20.svg",
 }
 
@@ -245,6 +246,10 @@ class Command(BaseCommand):
             "2020-21": {
                 "team": "TEAM_20_21.csv",
                 "player": "EPL_20_21.csv",
+            },
+            "2022-23":{
+                "team": "TEAM_22_23.csv",
+                "player": "EPL_22_23.csv",
             },
             "2023-24": {
                 "team": "TEAM_23_24.csv",
