@@ -29,6 +29,12 @@ TEAM_LOGOS = {
     "Ipswich Town": "https://resources.premierleague.com/premierleague/badges/t40.svg",
     "Leeds United": "https://resources.premierleague.com/premierleague/badges/t2.svg",
     "Southampton": "https://resources.premierleague.com/premierleague/badges/t20.svg",
+    "Watford": "https://resources.premierleague.com/premierleague/badges/t57.svg",
+    "Norwich City": "https://resources.premierleague.com/premierleague/badges/t45.svg",
+    "Huddersfield Town" :"https://resources.premierleague.com/premierleague/badges/t38.svg",
+    "Swansea City":"https://resources.premierleague.com/premierleague/badges/t80.svg" ,
+    "Stoke City":"https://resources.premierleague.com/premierleague/badges/t110.svg" ,
+    "West Bromwich Albion":"https://resources.premierleague.com/premierleague/badges/t35.svg" ,
 }
 
 
@@ -237,9 +243,18 @@ class Command(BaseCommand):
         )
 
         season_files = {
+            "2017-18": {
+                "team": "TEAM_17_18.csv",
+                "player": "EPL_17_18.csv",
+            },
+
             "2020-21": {
                 "team": "TEAM_20_21.csv",
                 "player": "EPL_20_21.csv",
+            },
+            "2021-22": {
+                "team": "TEAM_21_22.csv",
+                "player": "EPL_21_22.csv",
             },
             "2022-23":{
                 "team": "TEAM_22_23.csv",
