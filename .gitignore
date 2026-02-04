@@ -126,3 +126,5 @@ dist/
 # IDEs
 .idea/
 .vscode/
+
+*.sqlite3
