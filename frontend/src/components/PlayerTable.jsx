@@ -149,9 +149,6 @@ const PlayerTable = ({ players }) => {
               <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('assists')}>
                 <span className="font-semibold text-sm uppercase tracking-wide">Assists <SortIcon columnKey="assists" /></span>
               </th>
-              <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('expectedGoals')}>
-                <span className="font-semibold text-sm uppercase tracking-wide">xG <SortIcon columnKey="expectedGoals" /></span>
-              </th>
               <th className="px-4 py-4 text-right cursor-pointer hover:bg-slate-600 transition-colors" onClick={() => handleSort('keyPasses')}>
                 <span className="font-semibold text-sm uppercase tracking-wide">Key P <SortIcon columnKey="keyPasses" /></span>
               </th>
@@ -180,7 +177,6 @@ const PlayerTable = ({ players }) => {
                 <td className="px-4 py-3 text-right text-slate-400 text-sm">{player.minutesPlayed || 0}</td>
                 <td className="px-4 py-3 text-right font-bold text-yellow-400 text-lg">{player.goals || 0}</td>
                 <td className="px-4 py-3 text-right font-bold text-blue-400 text-lg">{player.assists || 0}</td>
-                <td className="px-4 py-3 text-right text-slate-300">{(player.expectedGoals || 0).toFixed(2)}</td>
                 
                 <td className="px-4 py-3 text-right text-green-400 font-semibold">{player.keyPasses || 0}</td>
               </tr>

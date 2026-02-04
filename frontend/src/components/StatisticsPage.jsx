@@ -102,7 +102,6 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     const attackingRadar = [
       { category: 'Goals', value: player.goals || 0, fullMark: Math.max(...players.map(p => p.goals || 0), 1) },
       { category: 'Assists', value: player.assists || 0, fullMark: Math.max(...players.map(p => p.assists || 0), 1) },
-      { category: 'xG', value: player.expectedGoals || 0, fullMark: Math.max(...players.map(p => p.expectedGoals || 0), 1) },
       { category: 'Shots on Target', value: player.shotsOnTarget || 0, fullMark: Math.max(...players.map(p => p.shotsOnTarget || 0), 1) },
       { category: 'Key Passes', value: player.keyPasses || 0, fullMark: Math.max(...players.map(p => p.keyPasses || 0), 1) },
       { category: 'Dribbles', value: player.successfulDribbles || 0, fullMark: Math.max(...players.map(p => p.successfulDribbles || 0), 1) },
@@ -240,11 +239,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 <div className="text-3xl font-bold text-blue-400">{player.assists || 0}</div>
                 <div className="text-xs text-slate-500 mt-1">{perGame(player.assists || 0)} per game</div>
               </div>
-              <div className="bg-gradient-to-br from-green-900/30 to-slate-800 border border-green-500/30 rounded-lg p-4">
-                <div className="text-slate-400 text-xs mb-1">Expected Goals (xG)</div>
-                <div className="text-3xl font-bold text-green-400">{(player.expectedGoals || 0).toFixed(2)}</div>
-                <div className="text-xs text-slate-500 mt-1">{per90(player.expectedGoals || 0)} per 90</div>
-              </div>
+              
               <div className="bg-gradient-to-br from-purple-900/30 to-slate-800 border border-purple-500/30 rounded-lg p-4">
                 <div className="text-slate-400 text-xs mb-1">Pass to Assist</div>
                 <div className="text-3xl font-bold text-purple-400">{(player.passToAssist || 0)}</div>
@@ -774,7 +769,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {/* New: xG Comparison Chart */}
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-white mb-4">Expected Goals (xG) vs Actual</h3>
+          <h3 className="text-xl font-bold text-white mb-4">Goals (For & Against)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={xgComparison}>
               <CartesianGrid stroke="#334155" strokeDasharray="3 3" />
@@ -788,8 +783,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 }}
               />
               <Legend />
-              <Bar dataKey="actual" name="Actual" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="expected" name="Expected (xG)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="actual" name="Goals" fill="#3b82f6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

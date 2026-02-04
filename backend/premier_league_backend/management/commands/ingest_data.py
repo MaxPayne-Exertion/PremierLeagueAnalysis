@@ -332,5 +332,5 @@ class Command(BaseCommand):
         if options.get("season"):
             self.ingest_season(options["season"], clear=clear)
         else:
-            for season in ["2020-21", "2023-24"]:
+            for season in ["2017-18", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"]:
                 self.ingest_season(season, clear=clear)
