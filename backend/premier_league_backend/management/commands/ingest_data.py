@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from django.core.management.base import BaseCommand
-from api.models import Team, Player
+from premier_league_backend.models import Team, Player
 
 
 TEAM_LOGOS = {

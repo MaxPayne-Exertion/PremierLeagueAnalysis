@@ -8,7 +8,7 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Team.objects.all()
-        season = self.request.query_params.get('season', '2023-24')
+        season = self.request.query_params.get('season', '2024-25')
         if season:
             queryset = queryset.filter(season=season)
         return queryset.order_by('rank')  # Changed from -points to rank
@@ -21,7 +21,7 @@ class PlayerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Player.objects.all()
-        season = self.request.query_params.get('season', '2023-24')
+        season = self.request.query_params.get('season', '2024-25')
         if season:
             queryset = queryset.filter(season=season)
         return queryset.order_by('-goals')
