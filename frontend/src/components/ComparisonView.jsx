@@ -19,7 +19,6 @@ const ComparisonView = ({ players, teams }) => {
     const p1 = players.find(p => (p.id || p.player_id) == player1Id);
     const p2 = players.find(p => (p.id || p.player_id) == player2Id);
 
-    // Filter players based on search
     const filteredPlayers1 = useMemo(() => {
         if (!player1Search) return players.slice(0, 50);
         return players.filter(p =>
@@ -36,7 +35,6 @@ const ComparisonView = ({ players, teams }) => {
         ).slice(0, 50);
     }, [players, player2Search]);
 
-    // Define metrics for each comparison type
     const metricsByType = {
         offensive: [
             { label: 'Goals', key: 'goals' },
@@ -62,7 +60,6 @@ const ComparisonView = ({ players, teams }) => {
         ],
     };
 
-    // Prepare normalized radar data
     const radarData = useMemo(() => {
         if (!p1 && !p2) return [];
 
@@ -89,7 +86,6 @@ const ComparisonView = ({ players, teams }) => {
         });
     }, [p1, p2, players, comparisonType]);
 
-    // Head-to-head bar chart data
     const barChartData = useMemo(() => {
         if (!p1 || !p2) return [];
         
@@ -120,7 +116,6 @@ const ComparisonView = ({ players, teams }) => {
         return metrics;
     }, [p1, p2, comparisonType]);
 
-    // Per 90 minutes comparison
     const per90Data = useMemo(() => {
         if (!p1 || !p2) return [];
         
@@ -152,7 +147,6 @@ const ComparisonView = ({ players, teams }) => {
         }
     }, [p1, p2, comparisonType]);
 
-    // Efficiency metrics (percentages)
     const efficiencyData = useMemo(() => {
         if (!p1 || !p2) return [];
 
@@ -220,7 +214,6 @@ const ComparisonView = ({ players, teams }) => {
         }
     }, [p1, p2, comparisonType]);
 
-    // Win indicators
     const getWinIndicator = (val1, val2, lowerIsBetter = false) => {
         if (val1 === val2) return 'draw';
         if (lowerIsBetter) {
@@ -276,7 +269,6 @@ const ComparisonView = ({ players, teams }) => {
                 Player Comparison Arena
             </h2>
 
-            {/* Comparison Type Selector */}
             <div className="flex gap-2 mb-8 flex-wrap">
                 <button
                     onClick={() => setComparisonType('offensive')}
@@ -286,7 +278,7 @@ const ComparisonView = ({ players, teams }) => {
                             : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
                     }`}
                 >
-                    ⚽ Offensive
+                    Attacking Comparison
                 </button>
                 <button
                     onClick={() => setComparisonType('defensive')}
@@ -296,7 +288,7 @@ const ComparisonView = ({ players, teams }) => {
                             : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
                     }`}
                 >
-                    🛡️ Defensive
+                    Defensive Comparison
                 </button>
                 <button
                     onClick={() => setComparisonType('goalkeeping')}
@@ -306,12 +298,11 @@ const ComparisonView = ({ players, teams }) => {
                             : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
                     }`}
                 >
-                    🧤 Goalkeeping
+                    Goalkeeping Comparison
                 </button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {/* Player 1 Selector */}
                 <div className="bg-gradient-to-br from-blue-900/50 to-slate-800/50 border-2 border-blue-500/30 rounded-xl p-6 backdrop-blur-sm">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
@@ -375,7 +366,6 @@ const ComparisonView = ({ players, teams }) => {
                     )}
                 </div>
 
-                {/* Player 2 Selector */}
                 <div className="bg-gradient-to-br from-red-900/50 to-slate-800/50 border-2 border-red-500/30 rounded-xl p-6 backdrop-blur-sm">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
@@ -440,10 +430,8 @@ const ComparisonView = ({ players, teams }) => {
                 </div>
             </div>
 
-            {/* Charts Grid */}
             {(p1 || p2) && (
                 <>
-                    {/* Radar Chart */}
                     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-6">
                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                             <Activity className="text-purple-400" size={24} />
@@ -494,8 +482,6 @@ const ComparisonView = ({ players, teams }) => {
                             </RadarChart>
                         </ResponsiveContainer>
                     </div>
-
-                    {/* Head-to-Head Bar Chart & Per 90 Line Chart */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
                             <h3 className="text-xl font-bold text-white mb-4">Head-to-Head Totals</h3>
@@ -552,8 +538,6 @@ const ComparisonView = ({ players, teams }) => {
                             </ResponsiveContainer>
                         </div>
                     </div>
-
-                    {/* Efficiency Metrics */}
                     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-6">
                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                             <Award className="text-yellow-400" size={24} />
@@ -608,8 +592,6 @@ const ComparisonView = ({ players, teams }) => {
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
-
-                    {/* Key Stats Comparison Cards */}
                     {p1 && p2 && (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                             <div className="bg-gradient-to-br from-green-900/30 to-slate-800 border border-green-500/30 rounded-xl p-4">
@@ -685,8 +667,6 @@ const ComparisonView = ({ players, teams }) => {
                     )}
                 </>
             )}
-
-            {/* Empty State */}
             {!p1 && !p2 && (
                 <div className="bg-slate-800 border border-slate-700 rounded-xl p-16 text-center">
                     <div className="text-6xl mb-4">⚡</div>
