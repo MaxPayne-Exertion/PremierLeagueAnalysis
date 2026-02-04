@@ -35,6 +35,11 @@ TEAM_LOGOS = {
     "Swansea City":"https://resources.premierleague.com/premierleague/badges/t80.svg" ,
     "Stoke City":"https://resources.premierleague.com/premierleague/badges/t110.svg" ,
     "West Bromwich Albion":"https://resources.premierleague.com/premierleague/badges/t35.svg" ,
+    "Cardiff City":"https://resources.premierleague.com/premierleague/badges/t97.svg" ,
+    "Sunderland":"https://resources.premierleague.com/premierleague/badges/t56.svg" ,
+    "Middlesbrough":"https://resources.premierleague.com/premierleague/badges/t25.svg" , 
+    "Hull City":"https://resources.premierleague.com/premierleague/badges/t88.svg" ,
+
 }
 
 
@@ -243,9 +248,29 @@ class Command(BaseCommand):
         )
 
         season_files = {
+            "2015-16": {
+                "team": "TEAM_15_16.csv",
+                "player": "EPL_15_16.csv",
+            },
+
+            "2016-17": {
+                "team": "TEAM_16_17.csv",
+                "player": "EPL_16_17.csv",
+            },
+
+            
             "2017-18": {
                 "team": "TEAM_17_18.csv",
                 "player": "EPL_17_18.csv",
+            },
+
+            "2019-20": {
+                "team": "TEAM_19_20.csv",
+                "player": "EPL_19_20.csv",
+            },
+            "2018-19": {
+                "team": "TEAM_18_19.csv",
+                "player": "EPL_18_19.csv",
             },
 
             "2020-21": {
