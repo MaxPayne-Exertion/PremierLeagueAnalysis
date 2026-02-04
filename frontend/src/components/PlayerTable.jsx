@@ -14,7 +14,6 @@ const PlayerImage = ({ player, size = 'medium' }) => {
     large: 'text-base'
   };
 
-  // Use player_id as sofascore_id for images
   const imageUrl = player?.image_url || (player?.player_id 
     ? `https://img.sofascore.com/api/v1/player/${player.player_id}/image`
     : null);
@@ -49,14 +48,12 @@ const PlayerTable = ({ players }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const playersPerPage = 15;
 
-  // Filtered players
   const filteredPlayers = players.filter(
     (p) =>
       (p.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (p.team_name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Sorted players
   const sortedPlayers = [...filteredPlayers].sort((a, b) => {
     const aVal = a[sortConfig.key];
     const bVal = b[sortConfig.key];
@@ -66,7 +63,6 @@ const PlayerTable = ({ players }) => {
     return sortConfig.direction === 'desc' ? (bVal || 0) - (aVal || 0) : (aVal || 0) - (bVal || 0);
   });
 
-  // Pagination logic
   const totalPages = Math.ceil(sortedPlayers.length / playersPerPage);
   const startIndex = (currentPage - 1) * playersPerPage;
   const currentPlayers = sortedPlayers.slice(startIndex, startIndex + playersPerPage);
@@ -99,7 +95,6 @@ const PlayerTable = ({ players }) => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-xl shadow-2xl border border-slate-700">
-      {/* Header + Search */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-blue-500/20 rounded-lg">
@@ -129,8 +124,6 @@ const PlayerTable = ({ players }) => {
           />
         </div>
       </div>
-
-      {/* Table */}
       <div className="overflow-x-auto rounded-lg shadow-2xl bg-slate-800/50 border border-slate-700">
         <table className="min-w-full divide-y divide-slate-700">
           <thead className="bg-gradient-to-r from-slate-800 to-slate-700 text-white sticky top-0">
@@ -201,8 +194,6 @@ const PlayerTable = ({ players }) => {
           </div>
         )}
       </div>
-
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-6 px-2">
           <div className="text-slate-400 text-sm">

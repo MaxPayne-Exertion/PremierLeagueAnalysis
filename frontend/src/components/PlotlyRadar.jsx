@@ -3,9 +3,6 @@ import Plot from 'react-plotly.js';
 
 export const PlotlyRadar = ({ player, showTitle = true }) => {
     if (!player) return null;
-
-    // Normalized (0-100) and raw values
-    // Simple heuristic maxes
     const metrics = [
         { label: 'Goals', key: 'goals', max: 30 },
         { label: 'Assists', key: 'assists', max: 20 },

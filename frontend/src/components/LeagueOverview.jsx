@@ -3,7 +3,6 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis
 import { Trophy, TrendingUp, Award } from 'lucide-react';
 
 const LeagueOverview = ({ players = [], teams = [] }) => {
-  // Safe calculation of league statistics
   const leagueStats = {
     totalGoals: teams.reduce((sum, team) => sum + (team.goals_for || 0), 0),
     totalMatches: teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2,
@@ -35,7 +34,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
     { name: 'Losses', value: resultsDistribution.losses, color: '#ef4444' }
   ];
 
-  // Sort teams by points for league table
   const sortedTeams = [...teams].sort((a, b) => {
     if ((b.points || 0) !== (a.points || 0)) {
       return (b.points || 0) - (a.points || 0);
@@ -45,7 +43,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
     return gdB - gdA;
   });
 
-  // Top scorers with goals and assists combined
   const topContributors = [...players]
     .map(p => ({
       ...p,
@@ -60,7 +57,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
     assists: p.assists || 0,
   }));
 
-  // Top teams radar data
   const topTeamsRadar = sortedTeams.slice(0, 5).map(team => ({
     team: team.team_name?.substring(0, 15) || 'Unknown',
     attack: team.goals_for || 0,
@@ -105,7 +101,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
 
   return (
     <div className="space-y-8">
-      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="group relative overflow-hidden bg-gradient-to-br from-emerald-500/20 via-emerald-600/10 to-transparent border border-emerald-500/30 rounded-2xl p-6 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/20">
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
@@ -152,7 +147,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         </div>
       </div>
 
-      {/* League Table - SCROLLABLE */}
       {sortedTeams.length > 0 && (
         <div className="relative overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
@@ -162,7 +156,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
               <h2 className="text-3xl font-black text-white">League Standings</h2>
             </div>
             
-            {/* SCROLLABLE CONTAINER - MAX HEIGHT 600px */}
             <div className="overflow-y-auto max-h-[600px] rounded-xl border border-slate-700/50 custom-scrollbar">
               <table className="w-full">
                 <thead className="sticky top-0 z-10">
@@ -240,7 +233,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         </div>
       )}
 
-      {/* Top Performers with Photos */}
       {topScorers.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="relative overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
@@ -327,9 +319,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         </div>
       )}
 
-      {/* Enhanced Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Top Contributors Chart */}
         <div className="relative overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 to-emerald-500"></div>
           <div className="flex items-center gap-4 mb-6">
@@ -362,8 +352,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Top Teams Radar */}
         <div className="relative overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-pink-500"></div>
           <div className="flex items-center gap-4 mb-6">
@@ -415,8 +403,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
           </ResponsiveContainer>
         </div>
       </div>
-
-      {/* Match Results */}
       {teams.length > 0 && (
         <div className="relative overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-pink-500"></div>
@@ -480,8 +466,6 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
           </div>
         </div>
       )}
-
-      {/* Custom Scrollbar Styles */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;

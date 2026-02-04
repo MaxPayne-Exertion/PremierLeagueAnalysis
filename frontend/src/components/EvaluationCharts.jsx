@@ -5,8 +5,6 @@ import {
 } from 'recharts';
 
 export const ComparisonRadar = ({ player, maxValues }) => {
-    // Normalize data for radar chart using the actual Django model fields
-    // Using per 90 minutes calculations (minutesPlayed / 90)
     const matchesPlayed = player.appearances || 1;
     const minutes90 = (player.minutesPlayed / 90) || 1;
 
