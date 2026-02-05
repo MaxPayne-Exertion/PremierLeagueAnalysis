@@ -93,7 +93,6 @@ const ComparisonView = ({ players, teams }) => {
             ? [
                 { name: 'Goals', p1: p1.goals || 0, p2: p2.goals || 0 },
                 { name: 'Assists', p1: p1.assists || 0, p2: p2.assists || 0 },
-                { name: 'xG', p1: parseFloat(p1.expectedGoals || 0), p2: parseFloat(p2.expectedGoals || 0) },
                 { name: 'Shots on Target', p1: p1.shotsOnTarget || 0, p2: p2.shotsOnTarget || 0 },
                 { name: 'Key Passes', p1: p1.keyPasses || 0, p2: p2.keyPasses || 0 },
                 { name: 'Dribbles', p1: p1.successfulDribbles || 0, p2: p2.successfulDribbles || 0 },
@@ -128,7 +127,6 @@ const ComparisonView = ({ players, teams }) => {
             return [
                 { stat: 'Goals/90', player1: parseFloat(calc90(p1, p1.goals || 0)), player2: parseFloat(calc90(p2, p2.goals || 0)) },
                 { stat: 'Assists/90', player1: parseFloat(calc90(p1, p1.assists || 0)), player2: parseFloat(calc90(p2, p2.assists || 0)) },
-                { stat: 'xG/90', player1: parseFloat(calc90(p1, p1.expectedGoals || 0)), player2: parseFloat(calc90(p2, p2.expectedGoals || 0)) },
                 { stat: 'Shots/90', player1: parseFloat(calc90(p1, p1.totalShots || 0)), player2: parseFloat(calc90(p2, p2.totalShots || 0)) },
             ];
         } else if (comparisonType === 'defensive') {
@@ -314,7 +312,7 @@ const ComparisonView = ({ players, teams }) => {
                                 : 'text-slate-400 hover:text-white hover:bg-slate-700'
                         }`}
                     >
-                        Goalkeeper
+                        Goalkeeping
                     </button>
                 </div>
 
@@ -330,7 +328,7 @@ const ComparisonView = ({ players, teams }) => {
                             <Search className="absolute left-3 top-3 text-slate-400" size={16} />
                             <input
                                 type="text"
-                                placeholder="Search player..."
+                                placeholder="Search player"
                                 className="w-full pl-9 pr-3 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 transition-colors"
                                 value={player1Search}
                                 onChange={(e) => {
@@ -383,7 +381,7 @@ const ComparisonView = ({ players, teams }) => {
                             <Search className="absolute left-3 top-3 text-slate-400" size={16} />
                             <input
                                 type="text"
-                                placeholder="Search player..."
+                                placeholder="Search player"
                                 className="w-full pl-9 pr-3 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:outline-none focus:border-red-500 transition-colors"
                                 value={player2Search}
                                 onChange={(e) => {
@@ -692,18 +690,6 @@ const ComparisonView = ({ players, teams }) => {
                                                         </td>
                                                     </tr>
                                                     <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Expected Goals (xG)</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.expectedGoals || 0).toFixed(2)}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.expectedGoals || 0).toFixed(2)}</td>
-                                                        <td className="py-3 px-4 text-center">
-                                                            {parseFloat(p1.expectedGoals || 0) > parseFloat(p2.expectedGoals || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
-                                                            ) : parseFloat(p1.expectedGoals || 0) < parseFloat(p2.expectedGoals || 0) ? (
-                                                                <span className="text-red-400">▶</span>
-                                                            ) : (
-                                                                <span className="text-slate-500">-</span>
-                                                            )}
-                                                        </td>
                                                     </tr>
                                                     <tr className="hover:bg-slate-700/30 transition-colors">
                                                         <td className="py-3 px-4 text-slate-300">Total Shots</td>

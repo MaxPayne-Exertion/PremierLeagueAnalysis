@@ -106,7 +106,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
     // Overview stats
     const overviewStats = [
-      { label: 'Appearances', value: appearances, color: 'slate' },
+      { label: 'Appearances', value: appearances, color: 'slate', subtext: "Played" },
       { label: 'Goals', value: player.goals || 0, subtext: `${perGame(player.goals || 0)} per game`, color: 'green' },
       { label: 'Assists', value: player.assists || 0, subtext: `${perGame(player.assists || 0)} per game`, color: 'blue' },
       { label: 'Minutes', value: minutesPlayed, subtext: `${appearances > 0 ? Math.round(minutesPlayed / appearances) : 0} per game`, color: 'slate' },
@@ -194,7 +194,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-white">{(player.goals || 0) + (player.assists || 0)}</div>
+              <div className="text-3xl font-bold text-yellow-400">{(player.goals || 0) + (player.assists || 0)}</div>
               <div className="text-slate-400 text-sm">G+A</div>
             </div>
           </div>
@@ -598,7 +598,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-white">{team.points || 0}</div>
+              <div className="text-3xl font-bold text-yellow-400">{team.points || 0}</div>
               <div className="text-slate-400 text-sm">Points</div>
             </div>
           </div>

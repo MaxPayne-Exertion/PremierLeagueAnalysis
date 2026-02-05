@@ -34,7 +34,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             <div className="px-6 py-6 border-b border-slate-700/50">
                 {!isCollapsed ? (
                     <div>
-                        <h1 className="text-xl font-bold text-white">
+                        <h1 className="text-xl font-bold text-yellow-400">
                             Premier League Analytics
                         </h1>
                     </div>

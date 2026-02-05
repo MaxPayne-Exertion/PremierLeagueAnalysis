@@ -103,7 +103,7 @@ const PlayerTable = ({ players }) => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white mb-1">Premier League Player Table</h1>
+          <h1 className="text-2xl font-bold text-yellow-400 mb-1">Premier League Player Table</h1>
           <p className="text-slate-400 text-sm">
             Learn about {sortedPlayers.length} player{sortedPlayers.length !== 1 ? 's' : ''}
           </p>

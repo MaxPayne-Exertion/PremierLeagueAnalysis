@@ -110,7 +110,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white mb-1">League Overview</h1>
+          <h1 className="text-2xl font-bold text-yellow-400 mb-1">League Overview</h1>
           <p className="text-slate-400 text-sm">Season statistics and standings</p>
         </div>
 
@@ -118,7 +118,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
             <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Total Goals</div>
-            <div className="text-3xl font-bold text-yellow-300">{leagueStats.totalGoals}</div>
+            <div className="text-3xl font-bold text-red-400">{leagueStats.totalGoals}</div>
             <div className="text-xs text-slate-500 mt-1">This season</div>
           </div>
 
