@@ -60,7 +60,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           />
         ) : (
           <div 
-            className={`w-full h-full bg-slate-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
+            className={`w-full h-full bg-navy-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
           >
             {((player.name || 'U')[0]).toUpperCase()}
           </div>
@@ -72,19 +72,19 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   // Stat card component - simpler, cleaner
   const StatCard = ({ label, value, subtext, color = 'slate' }) => {
     const colorClasses = {
-      slate: 'text-slate-200',
-      green: 'text-green-400',
-      blue: 'text-blue-400',
-      yellow: 'text-yellow-400',
-      red: 'text-red-400',
-      purple: 'text-purple-400'
+      slate: 'text-gold-100',
+      green: 'text-gold-400',
+      blue: 'text-gold-400',
+      yellow: 'text-gold-300',
+      red: 'text-bronze-400',
+      purple: 'text-bronze-400'
     };
 
     return (
-      <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-        <div className="text-slate-400 text-xs uppercase tracking-wide mb-1">{label}</div>
+      <div className="bg-navy-800 rounded-lg p-4 border border-navy-600">
+        <div className="text-gold-100 text-xs uppercase tracking-wide mb-1">{label}</div>
         <div className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</div>
-        {subtext && <div className="text-slate-500 text-xs mt-1">{subtext}</div>}
+        {subtext && <div className="text-bronze-300 text-xs mt-1">{subtext}</div>}
       </div>
     );
   };
@@ -92,8 +92,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   const PlayerDetailView = ({ player }) => {
     if (!player) {
       return (
-        <div className="bg-slate-800 rounded-lg p-12 text-center border border-slate-700">
-          <p className="text-slate-400">Select a player to view statistics</p>
+        <div className="bg-navy-800 rounded-lg p-12 text-center border border-navy-600">
+          <p className="text-gold-100">Select a player to view statistics</p>
         </div>
       );
     }
@@ -181,35 +181,35 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     return (
       <div className="space-y-4">
         {/* Player header */}
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <div className="bg-navy-800 rounded-lg p-6 border border-navy-600">
           <div className="flex items-start gap-4">
             <PlayerImage player={player} size="large" />
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-white mb-1">{player.name || 'Unknown Player'}</h2>
-              <p className="text-slate-400 mb-2">{player.team_name || 'No Team'}</p>
+              <p className="text-gold-100 mb-2">{player.team_name || 'No Team'}</p>
               <div className="flex items-center gap-3 text-sm">
-                <span className="text-slate-300">{player.position || 'N/A'}</span>
-                <span className="text-slate-600">•</span>
-                <span className="text-slate-400">{appearances} appearances</span>
+                <span className="text-gold-300">{player.position || 'N/A'}</span>
+                <span className="text-bronze-300">•</span>
+                <span className="text-gold-100">{appearances} appearances</span>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-yellow-400">{(player.goals || 0) + (player.assists || 0)}</div>
-              <div className="text-slate-400 text-sm">G+A</div>
+              <div className="text-3xl font-bold text-gold-400">{(player.goals || 0) + (player.assists || 0)}</div>
+              <div className="text-gold-100 text-sm">G+A</div>
             </div>
           </div>
         </div>
 
         {/* Category tabs */}
-        <div className="bg-slate-800 rounded-lg border border-slate-700 p-1 flex gap-1 overflow-x-auto">
+        <div className="bg-navy-800 rounded-lg border border-navy-600 p-1 flex gap-1 overflow-x-auto">
           {['overview', 'attack', 'defense', 'passing', 'goalkeeper'].map((cat) => (
             <button
               key={cat}
               onClick={() => setStatCategory(cat)}
               className={`flex-1 py-2 px-3 rounded text-sm font-medium transition-colors whitespace-nowrap ${
                 statCategory === cat
-                  ? 'bg-blue-600 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                  ? 'bg-gold-500 text-white'
+                  : 'text-gold-100 hover:text-white hover:bg-navy-600'
               }`}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -226,7 +226,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {/* Radar Charts */}
         {statCategory === 'attack' && (
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Attacking Performance Radar</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={[
@@ -236,14 +236,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 { category: 'Key Passes', value: player.keyPasses || 0, fullMark: Math.max(...players.map(p => p.keyPasses || 0), 1) },
                 { category: 'Dribbles', value: player.successfulDribbles || 0, fullMark: Math.max(...players.map(p => p.successfulDribbles || 0), 1) },
               ]}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="category" stroke="#94a3b8" style={{ fontSize: '11px' }} />
-                <PolarRadiusAxis stroke="#334155" />
-                <Radar name={player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.5} />
+                <PolarGrid stroke="#3A506B" />
+                <PolarAngleAxis dataKey="category" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
+                <PolarRadiusAxis stroke="#3A506B" />
+                <Radar name={player.name} dataKey="value" stroke="#C5A065" fill="#C5A065" fillOpacity={0.5} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                 />
@@ -253,7 +253,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         )}
 
         {statCategory === 'defense' && (
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Defensive Performance Radar</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={[
@@ -263,14 +263,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 { category: 'Duels Won', value: player.totalDuelsWon || 0, fullMark: Math.max(...players.map(p => p.totalDuelsWon || 0), 1) },
                 { category: 'Aerial Duels', value: player.aerialDuelsWon || 0, fullMark: Math.max(...players.map(p => p.aerialDuelsWon || 0), 1) },
               ]}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="category" stroke="#94a3b8" style={{ fontSize: '11px' }} />
-                <PolarRadiusAxis stroke="#334155" />
-                <Radar name={player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.5} />
+                <PolarGrid stroke="#3A506B" />
+                <PolarAngleAxis dataKey="category" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
+                <PolarRadiusAxis stroke="#3A506B" />
+                <Radar name={player.name} dataKey="value" stroke="#C5A065" fill="#C5A065" fillOpacity={0.5} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                 />
@@ -280,7 +280,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         )}
 
         {statCategory === 'passing' && (
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Passing Performance Radar</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={[
@@ -290,14 +290,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 { category: 'Long Balls', value: player.accurateLongBalls || 0, fullMark: Math.max(...players.map(p => p.accurateLongBalls || 0), 1) },
                 { category: 'Crosses', value: player.accurateCrosses || 0, fullMark: Math.max(...players.map(p => p.accurateCrosses || 0), 1) },
               ]}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="category" stroke="#94a3b8" style={{ fontSize: '11px' }} />
-                <PolarRadiusAxis stroke="#334155" />
-                <Radar name={player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.5} />
+                <PolarGrid stroke="#3A506B" />
+                <PolarAngleAxis dataKey="category" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
+                <PolarRadiusAxis stroke="#3A506B" />
+                <Radar name={player.name} dataKey="value" stroke="#C5A065" fill="#C5A065" fillOpacity={0.5} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                 />
@@ -308,7 +308,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {statCategory === 'goalkeeper' && (
           <>
-            <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+            <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
               <h3 className="text-white font-semibold mb-4 text-sm">Goalkeeper Performance Radar</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <RadarChart data={[
@@ -318,14 +318,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                   { category: 'Runs Out', value: player.runsOut || 0, fullMark: Math.max(...players.map(p => p.runsOut || 0), 1) },
                   { category: 'Successful Runs', value: player.successfulRunsOut || 0, fullMark: Math.max(...players.map(p => p.successfulRunsOut || 0), 1) },
                 ]}>
-                  <PolarGrid stroke="#334155" />
-                  <PolarAngleAxis dataKey="category" stroke="#94a3b8" style={{ fontSize: '11px' }} />
-                  <PolarRadiusAxis stroke="#334155" />
-                  <Radar name={player.name} dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.5} />
+                  <PolarGrid stroke="#3A506B" />
+                  <PolarAngleAxis dataKey="category" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
+                  <PolarRadiusAxis stroke="#3A506B" />
+                  <Radar name={player.name} dataKey="value" stroke="#C5A065" fill="#C5A065" fillOpacity={0.5} />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155',
+                      backgroundColor: '#1C2541', 
+                      border: '1px solid #3A506B',
                       borderRadius: '6px'
                     }}
                   />
@@ -335,14 +335,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
             {/* GK specific charts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+              <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
                 <h3 className="text-white font-semibold mb-4 text-sm">Save Distribution</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
                       data={[
-                        { name: 'Inside Box', value: player.savedShotsFromInsideTheBox || 0, color: '#3b82f6' },
-                        { name: 'Outside Box', value: player.savedShotsFromOutsideTheBox || 0, color: '#22c55e' },
+                        { name: 'Inside Box', value: player.savedShotsFromInsideTheBox || 0, color: '#C5A065' },
+                        { name: 'Outside Box', value: player.savedShotsFromOutsideTheBox || 0, color: '#D4AF37' },
                       ]}
                       cx="50%"
                       cy="50%"
@@ -350,14 +350,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                       outerRadius={90}
                       dataKey="value"
                     >
-                      {[{ color: '#3b82f6' }, { color: '#22c55e' }].map((entry, index) => (
+                      {[{ color: '#C5A065' }, { color: '#D4AF37' }].map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: '#1e293b', 
-                        border: '1px solid #334155',
+                        backgroundColor: '#1C2541', 
+                        border: '1px solid #3A506B',
                         borderRadius: '6px'
                       }}
                     />
@@ -365,14 +365,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 </ResponsiveContainer>
               </div>
 
-              <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+              <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
                 <h3 className="text-white font-semibold mb-4 text-sm">Goals Conceded Distribution</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
                       data={[
-                        { name: 'Inside Box', value: player.goalsConcededInsideTheBox || 0, color: '#ef4444' },
-                        { name: 'Outside Box', value: player.goalsConcededOutsideTheBox || 0, color: '#f59e0b' },
+                        { name: 'Inside Box', value: player.goalsConcededInsideTheBox || 0, color: '#D2691E' },
+                        { name: 'Outside Box', value: player.goalsConcededOutsideTheBox || 0, color: '#E0A96D' },
                       ]}
                       cx="50%"
                       cy="50%"
@@ -380,14 +380,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                       outerRadius={90}
                       dataKey="value"
                     >
-                      {[{ color: '#ef4444' }, { color: '#f59e0b' }].map((entry, index) => (
+                      {[{ color: '#D2691E' }, { color: '#E0A96D' }].map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: '#1e293b', 
-                        border: '1px solid #334155',
+                        backgroundColor: '#1C2541', 
+                        border: '1px solid #3A506B',
                         borderRadius: '6px'
                       }}
                     />
@@ -401,15 +401,15 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         {/* Additional charts for attack view */}
         {statCategory === 'attack' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+            <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
               <h3 className="text-white font-semibold mb-4 text-sm">Shot Distribution</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <Pie
                     data={[
-                      { name: 'On Target', value: player.shotsOnTarget || 0, color: '#22c55e' },
-                      { name: 'Blocked', value: player.blockedShots || 0, color: '#f59e0b' },
-                      { name: 'Off Target', value: Math.max(0, (player.totalShots || 0) - (player.shotsOnTarget || 0) - (player.blockedShots || 0)), color: '#ef4444' }
+                      { name: 'On Target', value: player.shotsOnTarget || 0, color: '#D4AF37' },
+                      { name: 'Blocked', value: player.blockedShots || 0, color: '#E0A96D' },
+                      { name: 'Off Target', value: Math.max(0, (player.totalShots || 0) - (player.shotsOnTarget || 0) - (player.blockedShots || 0)), color: '#D2691E' }
                     ]}
                     cx="50%"
                     cy="50%"
@@ -417,14 +417,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                     outerRadius={90}
                     dataKey="value"
                   >
-                    {[{ color: '#22c55e' }, { color: '#f59e0b' }, { color: '#ef4444' }].map((entry, index) => (
+                    {[{ color: '#D4AF37' }, { color: '#E0A96D' }, { color: '#D2691E' }].map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155',
+                      backgroundColor: '#1C2541', 
+                      border: '1px solid #3A506B',
                       borderRadius: '6px'
                     }}
                   />
@@ -432,42 +432,42 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+            <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
               <h3 className="text-white font-semibold mb-4 text-sm">Goals & Assists</h3>
               <div className="h-[250px] flex items-center justify-center">
                 <div className="space-y-4 w-full max-w-xs">
                   <div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-slate-400 text-sm">Goals</span>
+                      <span className="text-gold-100 text-sm">Goals</span>
                       <span className="text-white font-semibold">{player.goals || 0}</span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
+                    <div className="w-full bg-navy-600 rounded-full h-2">
                       <div 
-                        className="bg-green-500 h-2 rounded-full transition-all" 
+                        className="bg-gold-500 h-2 rounded-full transition-all" 
                         style={{ width: `${Math.min(((player.goals || 0) / Math.max(...players.map(p => p.goals || 0), 1)) * 100, 100)}%` }}
                       />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-slate-400 text-sm">Assists</span>
+                      <span className="text-gold-100 text-sm">Assists</span>
                       <span className="text-white font-semibold">{player.assists || 0}</span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
+                    <div className="w-full bg-navy-600 rounded-full h-2">
                       <div 
-                        className="bg-blue-500 h-2 rounded-full transition-all" 
+                        className="bg-gold-400 h-2 rounded-full transition-all" 
                         style={{ width: `${Math.min(((player.assists || 0) / Math.max(...players.map(p => p.assists || 0), 1)) * 100, 100)}%` }}
                       />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-slate-400 text-sm">Shots on Target</span>
+                      <span className="text-gold-100 text-sm">Shots on Target</span>
                       <span className="text-white font-semibold">{player.shotsOnTarget || 0}</span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
+                    <div className="w-full bg-navy-600 rounded-full h-2">
                       <div 
-                        className="bg-yellow-500 h-2 rounded-full transition-all" 
+                        className="bg-gold-300 h-2 rounded-full transition-all" 
                         style={{ width: `${Math.min(((player.shotsOnTarget || 0) / Math.max(...players.map(p => p.shotsOnTarget || 0), 1)) * 100, 100)}%` }}
                       />
                     </div>
@@ -481,29 +481,29 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         {/* Defense charts */}
         {statCategory === 'defense' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+            <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
               <h3 className="text-white font-semibold mb-4 text-sm">Duel Success Rates</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={[
                   { name: 'Aerial', percentage: player.aerialDuelsWonPercentage || 0, won: player.aerialDuelsWon || 0 },
                   { name: 'Ground', percentage: player.groundDuelsWonPercentage || 0, won: player.groundDuelsWon || 0 },
                 ]} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis type="number" stroke="#94a3b8" domain={[0, 100]} style={{ fontSize: '12px' }} />
-                  <YAxis type="category" dataKey="name" stroke="#94a3b8" width={80} style={{ fontSize: '12px' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
+                  <XAxis type="number" stroke="#F3E5AB" domain={[0, 100]} style={{ fontSize: '12px' }} />
+                  <YAxis type="category" dataKey="name" stroke="#F3E5AB" width={80} style={{ fontSize: '12px' }} />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155',
+                      backgroundColor: '#1C2541', 
+                      border: '1px solid #3A506B',
                       borderRadius: '6px'
                     }}
                   />
-                  <Bar dataKey="percentage" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="percentage" fill="#C5A065" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+            <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
               <h3 className="text-white font-semibold mb-4 text-sm">Defensive Actions per 90</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={[
@@ -511,17 +511,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                   { name: 'Interceptions', value: parseFloat(per90(player.interceptions || 0)) },
                   { name: 'Clearances', value: parseFloat(per90(player.clearances || 0)) },
                 ]}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="name" stroke="#94a3b8" style={{ fontSize: '12px' }} />
-                  <YAxis stroke="#94a3b8" style={{ fontSize: '12px' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
+                  <XAxis dataKey="name" stroke="#F3E5AB" style={{ fontSize: '12px' }} />
+                  <YAxis stroke="#F3E5AB" style={{ fontSize: '12px' }} />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155',
+                      backgroundColor: '#1C2541', 
+                      border: '1px solid #3A506B',
                       borderRadius: '6px'
                     }}
                   />
-                  <Bar dataKey="value" fill="#22c55e" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="value" fill="#D4AF37" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -530,7 +530,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {/* Passing chart */}
         {statCategory === 'passing' && (
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Passing Accuracy</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={[
@@ -538,18 +538,18 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 { name: 'Crosses', accuracy: player.accurateCrossesPercentage || 0 },
                 { name: 'Long Balls', accuracy: player.accurateLongBallsPercentage || 0 },
               ]}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" stroke="#94a3b8" style={{ fontSize: '12px' }} />
-                <YAxis stroke="#94a3b8" domain={[0, 100]} style={{ fontSize: '12px' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
+                <XAxis dataKey="name" stroke="#F3E5AB" style={{ fontSize: '12px' }} />
+                <YAxis stroke="#F3E5AB" domain={[0, 100]} style={{ fontSize: '12px' }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                   formatter={(value) => `${value.toFixed(1)}%`}
                 />
-                <Bar dataKey="accuracy" fill="#22c55e" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="accuracy" fill="#D4AF37" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -561,8 +561,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   const TeamDetailView = ({ team }) => {
     if (!team) {
       return (
-        <div className="bg-slate-800 rounded-lg p-12 text-center border border-slate-700">
-          <p className="text-slate-400">Select a team to view statistics</p>
+        <div className="bg-navy-800 rounded-lg p-12 text-center border border-navy-600">
+          <p className="text-gold-100">Select a team to view statistics</p>
         </div>
       );
     }
@@ -573,33 +573,33 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
     const winRate = matchesPlayed > 0 ? (((team.wins || 0) / matchesPlayed) * 100).toFixed(0) : 0;
 
     const formData = [
-      { name: 'Wins', value: team.wins || 0, color: '#22c55e' },
-      { name: 'Draws', value: team.draws || 0, color: '#f59e0b' },
-      { name: 'Losses', value: team.losses || 0, color: '#ef4444' }
+      { name: 'Wins', value: team.wins || 0, color: '#D4AF37' },
+      { name: 'Draws', value: team.draws || 0, color: '#E0A96D' },
+      { name: 'Losses', value: team.losses || 0, color: '#D2691E' }
     ];
 
     return (
       <div className="space-y-4">
         {/* Team header */}
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <div className="bg-navy-800 rounded-lg p-6 border border-navy-600">
           <div className="flex items-start gap-4">
             {team.logo_url ? (
               <img src={team.logo_url} alt={team.team_name} className="w-20 h-20 object-contain" />
             ) : (
-              <div className="w-20 h-20 bg-slate-700 rounded-lg flex items-center justify-center text-3xl font-bold text-white">
+              <div className="w-20 h-20 bg-navy-600 rounded-lg flex items-center justify-center text-3xl font-bold text-white">
                 {(team.team_name || 'T')[0]}
               </div>
             )}
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-white mb-1">{team.team_name || 'Unknown Team'}</h2>
-              <p className="text-slate-400 mb-2">Premier League</p>
+              <p className="text-gold-100 mb-2">Premier League</p>
               <div className="flex items-center gap-3 text-sm">
-                <span className="text-slate-300">Position: #{team.rank || '?'}</span>
+                <span className="text-gold-300">Position: #{team.rank || '?'}</span>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-yellow-400">{team.points || 0}</div>
-              <div className="text-slate-400 text-sm">Points</div>
+              <div className="text-3xl font-bold text-gold-400">{team.points || 0}</div>
+              <div className="text-gold-100 text-sm">Points</div>
             </div>
           </div>
         </div>
@@ -636,7 +636,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Team Performance Radar</h3>
             <ResponsiveContainer width="100%" height={250}>
               <RadarChart data={[
@@ -645,14 +645,14 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 { category: 'Wins', value: team.wins || 0, fullMark: matchesPlayed || 1 },
                 { category: 'Points', value: team.points || 0, fullMark: matchesPlayed * 3 || 1 },
               ]}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="category" stroke="#94a3b8" style={{ fontSize: '11px' }} />
-                <PolarRadiusAxis stroke="#334155" />
-                <Radar name={team.team_name} dataKey="value" stroke="#22c55e" fill="#22c55e" fillOpacity={0.5} />
+                <PolarGrid stroke="#3A506B" />
+                <PolarAngleAxis dataKey="category" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
+                <PolarRadiusAxis stroke="#3A506B" />
+                <Radar name={team.team_name} dataKey="value" stroke="#D4AF37" fill="#D4AF37" fillOpacity={0.5} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                 />
@@ -660,7 +660,7 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4 text-sm">Form</h3>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
@@ -678,8 +678,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 </Pie>
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px'
                   }}
                 />
@@ -689,47 +689,47 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         </div>
 
         {/* Goals chart */}
-        <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+        <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
           <h3 className="text-white font-semibold mb-4 text-sm">Goals</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={[
               { name: 'For', value: team.goals_for || 0 },
               { name: 'Against', value: team.goals_against || 0 },
             ]}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="name" stroke="#94a3b8" style={{ fontSize: '12px' }} />
-              <YAxis stroke="#94a3b8" style={{ fontSize: '12px' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
+              <XAxis dataKey="name" stroke="#F3E5AB" style={{ fontSize: '12px' }} />
+              <YAxis stroke="#F3E5AB" style={{ fontSize: '12px' }} />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: '#1e293b', 
-                  border: '1px solid #334155',
+                  backgroundColor: '#1C2541', 
+                  border: '1px solid #3A506B',
                   borderRadius: '6px'
                 }}
               />
-              <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="value" fill="#C5A065" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Team info and trophies */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4">Team Information</h3>
             <div className="space-y-3">
               <div>
-                <div className="text-slate-400 text-xs mb-1">Manager</div>
+                <div className="text-gold-100 text-xs mb-1">Manager</div>
                 <div className="text-white text-sm font-medium">{team.manager || 'N/A'}</div>
               </div>
               <div>
-                <div className="text-slate-400 text-xs mb-1">Stadium</div>
+                <div className="text-gold-100 text-xs mb-1">Stadium</div>
                 <div className="text-white text-sm font-medium">{team.stadium || 'N/A'}</div>
               </div>
               <div>
-                <div className="text-slate-400 text-xs mb-1">Captain</div>
+                <div className="text-gold-100 text-xs mb-1">Captain</div>
                 <div className="text-white text-sm font-medium">{team.captain || 'N/A'}</div>
               </div>
               <div>
-                <div className="text-slate-400 text-xs mb-1">Top Scorer (Season)</div>
+                <div className="text-gold-100 text-xs mb-1">Top Scorer (Season)</div>
                 <div className="text-white text-sm font-medium">
                   {teamPlayers.length > 0 
                     ? `${teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].name} (${teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0].goals || 0})`
@@ -737,37 +737,37 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                 </div>
               </div>
               <div>
-                <div className="text-slate-400 text-xs mb-1">Top Scorer (All Time)</div>
+                <div className="text-gold-100 text-xs mb-1">Top Scorer (All Time)</div>
                 <div className="text-white text-sm font-medium">{team.top_scorer_all_time || 'N/A'}</div>
               </div>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <h3 className="text-white font-semibold mb-4">Trophy Cabinet</h3>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-2 bg-slate-900/50 rounded">
+              <div className="flex items-center justify-between p-2 bg-navy-900/50 rounded">
                 <div>
                   <div className="text-white text-sm font-medium">Premier League</div>
-                  <div className="text-xs text-slate-400">Top tier titles</div>
+                  <div className="text-xs text-gold-100">Top tier titles</div>
                 </div>
-                <div className="text-2xl font-bold text-yellow-400">{team.premier_league_titles || 0}</div>
+                <div className="text-2xl font-bold text-gold-400">{team.premier_league_titles || 0}</div>
               </div>
 
-              <div className="flex items-center justify-between p-2 bg-slate-900/50 rounded">
+              <div className="flex items-center justify-between p-2 bg-navy-900/50 rounded">
                 <div>
                   <div className="text-white text-sm font-medium">FA Cup</div>
-                  <div className="text-xs text-slate-400">Cup wins</div>
+                  <div className="text-xs text-gold-100">Cup wins</div>
                 </div>
-                <div className="text-2xl font-bold text-blue-400">{team.fa_cup_titles || 0}</div>
+                <div className="text-2xl font-bold text-gold-400">{team.fa_cup_titles || 0}</div>
               </div>
 
-              <div className="flex items-center justify-between p-2 bg-slate-900/50 rounded">
+              <div className="flex items-center justify-between p-2 bg-navy-900/50 rounded">
                 <div>
                   <div className="text-white text-sm font-medium">League Cup</div>
-                  <div className="text-xs text-slate-400">EFL Cup victories</div>
+                  <div className="text-xs text-gold-100">EFL Cup victories</div>
                 </div>
-                <div className="text-2xl font-bold text-green-400">{team.league_cup_titles || 0}</div>
+                <div className="text-2xl font-bold text-gold-400">{team.league_cup_titles || 0}</div>
               </div>
             </div>
           </div>
@@ -775,17 +775,17 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
         {/* Squad */}
         {teamPlayers.length > 0 && (
-          <div className="bg-slate-800 rounded-lg border border-slate-700">
-            <div className="p-5 border-b border-slate-700">
+          <div className="bg-navy-800 rounded-lg border border-navy-600">
+            <div className="p-5 border-b border-navy-600">
               <h3 className="text-white font-semibold">Squad ({teamPlayers.length})</h3>
             </div>
-            <div className="divide-y divide-slate-700 max-h-[600px] overflow-y-auto">
+            <div className="divide-y divide-navy-600 max-h-[600px] overflow-y-auto">
               {teamPlayers
                 .sort((a, b) => ((b.goals || 0) + (b.assists || 0)) - ((a.goals || 0) + (a.assists || 0)))
                 .map((p, idx) => (
                   <div
                     key={idx}
-                    className="p-4 hover:bg-slate-700/50 cursor-pointer transition-colors flex items-center gap-3"
+                    className="p-4 hover:bg-navy-600/50 cursor-pointer transition-colors flex items-center gap-3"
                     onClick={() => {
                       setSelectedPlayer(p);
                       setActiveView('player');
@@ -794,11 +794,11 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                     <PlayerImage player={p} size="small" />
                     <div className="flex-1">
                       <div className="text-white font-medium text-sm">{p.name}</div>
-                      <div className="text-slate-400 text-xs">{p.position || 'N/A'}</div>
+                      <div className="text-gold-100 text-xs">{p.position || 'N/A'}</div>
                     </div>
                     <div className="text-right">
                       <div className="text-white text-sm font-semibold">{(p.goals || 0) + (p.assists || 0)}</div>
-                      <div className="text-slate-400 text-xs">G+A</div>
+                      <div className="text-gold-100 text-xs">G+A</div>
                     </div>
                   </div>
                 ))}
@@ -811,10 +811,10 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
 
   if (players.length === 0 && teams.length === 0) {
     return (
-      <div className="w-full min-h-screen bg-slate-900 p-6">
+      <div className="w-full min-h-screen bg-navy-900 p-6">
         <div className="max-w-5xl mx-auto">
-          <div className="bg-slate-800 rounded-lg p-12 text-center border border-slate-700">
-            <p className="text-slate-400">No data available</p>
+          <div className="bg-navy-800 rounded-lg p-12 text-center border border-navy-600">
+            <p className="text-gold-100">No data available</p>
           </div>
         </div>
       </div>
@@ -827,11 +827,11 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gold-600 mb-1">Stats Hub</h1>
-          <p className="text-slate-400 text-sm">Player and Team Stats Hub</p>
+          <p className="text-gold-100 text-sm">Player and Team Stats Hub</p>
         </div>
 
         {/* View toggle */}
-        <div className="bg-slate-800 rounded-lg border border-slate-700 p-1 flex gap-1 mb-4">
+        <div className="bg-navy-800 rounded-lg border border-navy-600 p-1 flex gap-1 mb-4">
           <button
             onClick={() => {
               setActiveView('player');
@@ -841,8 +841,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
             }}
             className={`flex-1 py-2.5 px-4 rounded text-sm font-medium transition-colors ${
               activeView === 'player'
-                ? 'bg-blue-600 text-white'
-                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                ? 'bg-gold-500 text-white'
+                : 'text-gold-100 hover:text-white hover:bg-navy-600'
             }`}
           >
             Players
@@ -856,8 +856,8 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
             }}
             className={`flex-1 py-2.5 px-4 rounded text-sm font-medium transition-colors ${
               activeView === 'team'
-                ? 'bg-blue-600 text-white'
-                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                ? 'bg-gold-500 text-white'
+                : 'text-gold-100 hover:text-white hover:bg-navy-600'
             }`}
           >
             Teams
@@ -869,25 +869,25 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <div className="mb-4 relative">
             <button
               onClick={() => setShowPlayerList(!showPlayerList)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-left text-white hover:bg-slate-700 transition-colors flex items-center justify-between"
+              className="w-full bg-navy-800 border border-navy-600 rounded-lg px-4 py-3 text-left text-white hover:bg-navy-600 transition-colors flex items-center justify-between"
             >
               <span>{selectedPlayer ? selectedPlayer.name : 'Select a player'}</span>
-              <ChevronDown size={20} className="text-slate-400" />
+              <ChevronDown size={20} className="text-gold-100" />
             </button>
             
             {showPlayerList && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-80 overflow-y-auto z-10">
-                <div className="sticky top-0 bg-slate-800 p-2 border-b border-slate-700">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-navy-800 border border-navy-600 rounded-lg shadow-xl max-h-80 overflow-y-auto z-10">
+                <div className="sticky top-0 bg-navy-800 p-2 border-b border-navy-600">
                   <input
                     type="text"
                     placeholder="Search players..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-navy-600 border border-navy-600 rounded text-white placeholder-gold-100 text-sm focus:outline-none focus:border-gold-500"
                     autoFocus
                   />
                 </div>
-                <div className="divide-y divide-slate-700">
+                <div className="divide-y divide-navy-600">
                   {filteredPlayers.map((p, idx) => (
                     <button
                       key={idx}
@@ -896,12 +896,12 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                         setShowPlayerList(false);
                         setSearchTerm('');
                       }}
-                      className="w-full p-3 hover:bg-slate-700 transition-colors flex items-center gap-3 text-left"
+                      className="w-full p-3 hover:bg-navy-600 transition-colors flex items-center gap-3 text-left"
                     >
                       <PlayerImage player={p} size="small" />
                       <div className="flex-1">
                         <div className="text-white text-sm font-medium">{p.name}</div>
-                        <div className="text-slate-400 text-xs">{p.team_name}</div>
+                        <div className="text-gold-100 text-xs">{p.team_name}</div>
                       </div>
                     </button>
                   ))}
@@ -915,25 +915,25 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
           <div className="mb-4 relative">
             <button
               onClick={() => setShowPlayerList(!showPlayerList)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-left text-white hover:bg-slate-700 transition-colors flex items-center justify-between"
+              className="w-full bg-navy-800 border border-navy-600 rounded-lg px-4 py-3 text-left text-white hover:bg-navy-600 transition-colors flex items-center justify-between"
             >
               <span>{selectedTeam ? selectedTeam.team_name : 'Select a team'}</span>
-              <ChevronDown size={20} className="text-slate-400" />
+              <ChevronDown size={20} className="text-gold-100" />
             </button>
             
             {showPlayerList && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-80 overflow-y-auto z-10">
-                <div className="sticky top-0 bg-slate-800 p-2 border-b border-slate-700">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-navy-800 border border-navy-600 rounded-lg shadow-xl max-h-80 overflow-y-auto z-10">
+                <div className="sticky top-0 bg-navy-800 p-2 border-b border-navy-600">
                   <input
                     type="text"
                     placeholder="Search teams..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-navy-600 border border-navy-600 rounded text-white placeholder-gold-100 text-sm focus:outline-none focus:border-gold-500"
                     autoFocus
                   />
                 </div>
-                <div className="divide-y divide-slate-700">
+                <div className="divide-y divide-navy-600">
                   {filteredTeams.map((t, idx) => (
                     <button
                       key={idx}
@@ -942,12 +942,12 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
                         setShowPlayerList(false);
                         setSearchTerm('');
                       }}
-                      className="w-full p-3 hover:bg-slate-700 transition-colors flex items-center gap-3 text-left"
+                      className="w-full p-3 hover:bg-navy-600 transition-colors flex items-center gap-3 text-left"
                     >
                       {t.logo_url ? (
                         <img src={t.logo_url} alt={t.team_name} className="w-10 h-10 object-contain" />
                       ) : (
-                        <div className="w-10 h-10 bg-slate-700 rounded flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 bg-navy-600 rounded flex items-center justify-center text-white font-semibold">
                           {(t.team_name || 'T')[0]}
                         </div>
                       )}

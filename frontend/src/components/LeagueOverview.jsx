@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { Trophy, TrendingUp, Award } from 'lucide-react';
 
 const LeagueOverview = ({ players = [], teams = [] }) => {
+  const [hoveredTeam, setHoveredTeam] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const leagueStats = {
     totalGoals: teams.reduce((sum, team) => sum + (team.goals_for || 0), 0),
     totalMatches: teams.reduce((sum, team) => sum + (team.matches_played || 0), 0) / 2,
@@ -29,9 +31,9 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
   }, { wins: 0, draws: 0, losses: 0 });
 
   const pieData = [
-    { name: 'Wins', value: resultsDistribution.wins, color: '#22c55e' },
-    { name: 'Draws', value: resultsDistribution.draws, color: '#f59e0b' },
-    { name: 'Losses', value: resultsDistribution.losses, color: '#ef4444' }
+    { name: 'Wins', value: resultsDistribution.wins, color: '#D4AF37' },
+    { name: 'Draws', value: resultsDistribution.draws, color: '#E0A96D' },
+    { name: 'Losses', value: resultsDistribution.losses, color: '#D2691E' }
   ];
 
   const sortedTeams = [...teams].sort((a, b) => {
@@ -63,6 +65,13 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
     defense: Math.max(0, 50 - (team.goals_against || 0)),
     wins: team.wins || 0,
   }));
+
+  const getTopScorerSeason = (teamName) => {
+    const teamPlayers = players.filter(p => p.team_name === teamName);
+    if (teamPlayers.length === 0) return null;
+    const topPlayer = teamPlayers.sort((a, b) => (b.goals || 0) - (a.goals || 0))[0];
+    return topPlayer ? `${topPlayer.name} (${topPlayer.goals || 0})` : null;
+  };
 
   const PlayerImage = ({ player, size = 'medium' }) => {
     const [imageError, setImageError] = React.useState(false);
@@ -96,7 +105,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
           />
         ) : (
           <div 
-            className={`w-full h-full bg-slate-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
+            className={`w-full h-full bg-navy-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
           >
             {((player.name || 'U')[0]).toUpperCase()}
           </div>
@@ -111,33 +120,33 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gold-600 mb-1">League Overview</h1>
-          <p className="text-slate-400 text-sm">Season statistics and standings</p>
+          <p className="text-gold-100 text-sm">Season statistics and standings</p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
-            <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Total Goals</div>
-            <div className="text-3xl font-bold text-red-400">{leagueStats.totalGoals}</div>
-            <div className="text-xs text-slate-500 mt-1">This season</div>
+            <div className="text-gold-100 text-xs uppercase tracking-wide mb-2">Total Goals</div>
+            <div className="text-3xl font-bold text-bronze-400">{leagueStats.totalGoals}</div>
+            <div className="text-xs text-bronze-300 mt-1">This season</div>
           </div>
 
           <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
-            <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Matches</div>
-            <div className="text-3xl font-bold text-blue-400">{leagueStats.totalMatches}</div>
-            <div className="text-xs text-slate-500 mt-1">Played</div>
+            <div className="text-gold-100 text-xs uppercase tracking-wide mb-2">Matches</div>
+            <div className="text-3xl font-bold text-gold-400">{leagueStats.totalMatches}</div>
+            <div className="text-xs text-bronze-300 mt-1">Played</div>
           </div>
 
           <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
-            <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Goals/Match</div>
-            <div className="text-3xl font-bold text-green-500">{leagueStats.avgGoalsPerMatch}</div>
-            <div className="text-xs text-slate-500 mt-1">Average</div>
+            <div className="text-gold-100 text-xs uppercase tracking-wide mb-2">Goals/Match</div>
+            <div className="text-3xl font-bold text-gold-400">{leagueStats.avgGoalsPerMatch}</div>
+            <div className="text-xs text-bronze-300 mt-1">Average</div>
           </div>
 
           <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
-            <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Teams</div>
+            <div className="text-gold-100 text-xs uppercase tracking-wide mb-2">Teams</div>
             <div className="text-3xl font-bold text-white">{leagueStats.totalTeams}</div>
-            <div className="text-xs text-slate-500 mt-1">Competing</div>
+            <div className="text-xs text-bronze-300 mt-1">Competing</div>
           </div>
         </div>
 
@@ -149,20 +158,20 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
               </div>
             </div>
             
-            <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+            <div className="overflow-x-auto max-h-[600px] overflow-y-auto relative">
               <table className="w-full text-sm">
                 <thead className="sticky top-0 bg-navy-900 z-10">
-                  <tr className="border-b border-slate-700">
-                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Rank</th>
-                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Team</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">MP</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">W</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">D</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">L</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">GF</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">GA</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">GD</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">Pts</th>
+                  <tr className="border-b border-navy-600">
+                    <th className="text-left py-3 px-4 text-gold-100 font-medium">Rank</th>
+                    <th className="text-left py-3 px-4 text-gold-100 font-medium">Team</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">MP</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">W</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">D</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">L</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">GF</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">GA</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">GD</th>
+                    <th className="text-center py-3 px-3 text-gold-100 font-medium">Pts</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-navy-700">
@@ -175,16 +184,26 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                     return (
                       <tr 
                         key={idx} 
+                        onMouseEnter={(e) => {
+                          setHoveredTeam(team);
+                          setHoverPosition({ x: e.clientX, y: e.clientY });
+                        }}
+                        onMouseMove={(e) => {
+                          if (hoveredTeam) {
+                            setHoverPosition({ x: e.clientX, y: e.clientY });
+                          }
+                        }}
+                        onMouseLeave={() => setHoveredTeam(null)}
                         className={`hover:bg-navy-700/50 transition-colors ${
-                          isTop ? 'bg-blue-500/5' : isTop4 ? 'bg-blue-500/5' : isRelegation ? 'bg-red-500/5' : ''
+                          isTop ? 'bg-gold-500/5' : isTop4 ? 'bg-gold-500/5' : isRelegation ? 'bg-bronze-500/5' : ''
                         }`}
                       >
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-2">
                             {isTop && <div className="w-1 h-6 bg-gold-600 rounded"></div>}
-                            {isTop4 && <div className="w-1 h-6 bg-navy-700 rounded"></div>}
-                            {isRelegation && <div className="w-1 h-6 bg-red-500 rounded"></div>}
-                            <span className={`font-semibold ${isTop ? 'text-yellow-400' : 'text-slate-400'}`}>
+                            {isTop4 && <div className="w-1 h-6 bg-gold-500/60 rounded"></div>}
+                            {isRelegation && <div className="w-1 h-6 bg-bronze-500 rounded"></div>}
+                            <span className={`font-semibold ${isTop ? 'text-gold-400' : 'text-gold-100'}`}>
                               {idx + 1}
                             </span>
                           </div>
@@ -194,21 +213,21 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                             {team.logo_url ? (
                               <img src={team.logo_url} alt={team.team_name} className="w-8 h-8 rounded" />
                             ) : (
-                              <div className="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-semibold text-white">
+                              <div className="w-8 h-8 bg-navy-600 rounded flex items-center justify-center text-xs font-semibold text-white">
                                 {(team.team_name || 'T')[0]}
                               </div>
                             )}
                             <span className="text-white font-medium">{team.team_name || 'Unknown'}</span>
                           </div>
                         </td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.matches_played || 0}</td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.wins || 0}</td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.draws || 0}</td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.losses || 0}</td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.goals_for || 0}</td>
-                        <td className="py-3 px-3 text-center text-slate-300">{team.goals_against || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.matches_played || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.wins || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.draws || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.losses || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.goals_for || 0}</td>
+                        <td className="py-3 px-3 text-center text-gold-100">{team.goals_against || 0}</td>
                         <td className={`py-3 px-3 text-center font-semibold ${
-                          goalDiff > 0 ? 'text-green-400' : goalDiff < 0 ? 'text-red-400' : 'text-slate-400'
+                          goalDiff > 0 ? 'text-gold-400' : goalDiff < 0 ? 'text-bronze-400' : 'text-gold-100'
                         }`}>
                           {goalDiff > 0 ? '+' : ''}{goalDiff}
                         </td>
@@ -220,6 +239,42 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                   })}
                 </tbody>
               </table>
+
+              {hoveredTeam && (
+                <div
+                  className="fixed z-50 w-72 bg-navy-800 border border-navy-600 rounded-lg shadow-xl p-4 pointer-events-none"
+                  style={{
+                    left: hoverPosition.x + 16,
+                    top: hoverPosition.y + 16,
+                  }}
+                >
+                  <div className="text-sm font-semibold text-white mb-2">{hoveredTeam.team_name || 'Unknown Team'}</div>
+                  <div className="space-y-2">
+                    <div>
+                      <div className="text-gold-100 text-xs mb-1">Manager</div>
+                      <div className="text-white text-sm font-medium">{hoveredTeam.manager || 'N/A'}</div>
+                    </div>
+                    <div>
+                      <div className="text-gold-100 text-xs mb-1">Stadium</div>
+                      <div className="text-white text-sm font-medium">{hoveredTeam.stadium || 'N/A'}</div>
+                    </div>
+                    <div>
+                      <div className="text-gold-100 text-xs mb-1">Captain</div>
+                      <div className="text-white text-sm font-medium">{hoveredTeam.captain || 'N/A'}</div>
+                    </div>
+                    <div>
+                      <div className="text-gold-100 text-xs mb-1">Top Scorer (Season)</div>
+                      <div className="text-white text-sm font-medium">
+                        {getTopScorerSeason(hoveredTeam.team_name) || 'N/A'}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-gold-100 text-xs mb-1">Top Scorer (All Time)</div>
+                      <div className="text-white text-sm font-medium">{hoveredTeam.top_scorer_all_time || 'N/A'}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -237,13 +292,13 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                 {topScorers.map((player, idx) => (
                   <div 
                     key={idx} 
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-700/50 transition-colors"
                   >
                     <div className={`w-8 text-center font-bold text-lg ${
                       idx === 0 ? 'text-gold-600' : 
-                      idx === 1 ? 'text-slate-300' : 
+                      idx === 1 ? 'text-gold-300' : 
                       idx === 2 ? 'text-bronze-600' : 
-                      'text-slate-500'
+                      'text-gold-100'
                     }`}>
                       {idx + 1}
                     </div>
@@ -254,21 +309,21 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                       <div className="font-semibold text-white truncate">
                         {player.player_name || player.name || 'Unknown'}
                       </div>
-                      <div className="text-xs text-slate-400 truncate">
+                      <div className="text-xs text-gold-100 truncate">
                         {player.team_name || player.team?.team_name || 'N/A'}
                       </div>
                     </div>
                     
                     <div className="text-right">
-                      <div className="text-xl font-bold text-green-400">{player.goals || 0}</div>
-                      <div className="text-xs text-slate-500">goals</div>
+                      <div className="text-xl font-bold text-gold-400">{player.goals || 0}</div>
+                      <div className="text-xs text-bronze-300">goals</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-navy-800 rounded-lg border border-slate-700">
+            <div className="bg-navy-800 rounded-lg border border-navy-700">
               <div className="p-5 border-b border-navy-700">
                 <div className="flex items-center gap-3">
                   <TrendingUp className="text-gold-600" size={20} />
@@ -279,13 +334,13 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                 {topAssisters.map((player, idx) => (
                   <div 
                     key={idx} 
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-700/50 transition-colors"
                   >
                     <div className={`w-8 text-center font-bold text-lg ${
-                      idx === 0 ? 'text-yellow-400' : 
-                      idx === 1 ? 'text-slate-300' : 
-                      idx === 2 ? 'text-orange-400' : 
-                      'text-slate-500'
+                      idx === 0 ? 'text-gold-400' : 
+                      idx === 1 ? 'text-gold-300' : 
+                      idx === 2 ? 'text-bronze-400' : 
+                      'text-gold-100'
                     }`}>
                       {idx + 1}
                     </div>
@@ -296,14 +351,14 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                       <div className="font-semibold text-white truncate">
                         {player.player_name || player.name || 'Unknown'}
                       </div>
-                      <div className="text-xs text-slate-400 truncate">
+                      <div className="text-xs text-gold-100 truncate">
                         {player.team_name || player.team?.team_name || 'N/A'}
                       </div>
                     </div>
                     
                     <div className="text-right">
-                      <div className="text-xl font-bold text-blue-400">{player.assists || 0}</div>
-                      <div className="text-xs text-slate-500">assists</div>
+                      <div className="text-xl font-bold text-gold-400">{player.assists || 0}</div>
+                      <div className="text-xs text-bronze-300">assists</div>
                     </div>
                   </div>
                 ))}
@@ -317,72 +372,72 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
             <h3 className="text-gold-600 font-semibold mb-4 text-sm">Top Contributors (Goals + Assists)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={contributorsChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
                 <XAxis 
                   dataKey="name" 
-                  stroke="#94a3b8" 
+                  stroke="#F3E5AB" 
                   angle={-20}
                   textAnchor="end"
                   height={70}
                   style={{ fontSize: '11px' }}
                 />
-                <YAxis stroke="#94a3b8" style={{ fontSize: '11px' }} />
+                <YAxis stroke="#F3E5AB" style={{ fontSize: '11px' }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#263455', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px',
                     fontSize: '12px'
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px' }} />
-                <Bar dataKey="goals" name="Goals" fill="#22c55e" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="assists" name="Assists" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="goals" name="Goals" fill="#D4AF37" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="assists" name="Assists" fill="#C5A065" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           {/* Top 5 Teams Analysis */}
-          <div className="bg-navy-800 rounded-lg border border-navy-700 p-5">
+          <div className="bg-navy-800 rounded-lg border border-navy-600 p-5">
             <h3 className="text-gold-600 font-semibold mb-4 text-sm">Top 5 Teams Analysis</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={topTeamsRadar}>
-                <PolarGrid stroke="#334155" />
+                <PolarGrid stroke="#3A506B" />
                 <PolarAngleAxis 
                   dataKey="team" 
-                  stroke="#94a3b8" 
+                  stroke="#F3E5AB" 
                   style={{ fontSize: '11px' }}
                 />
-                <PolarRadiusAxis stroke="#334155" />
+                <PolarRadiusAxis stroke="#3A506B" />
                 <Radar 
                   name="Attack" 
                   dataKey="attack" 
-                  stroke="#ef4444" 
-                  fill="#ef4444" 
+                  stroke="#D2691E" 
+                  fill="#D2691E" 
                   fillOpacity={0.25}
                   strokeWidth={2}
                 />
                 <Radar 
                   name="Defense" 
                   dataKey="defense" 
-                  stroke="#3b82f6" 
-                  fill="#3b82f6" 
+                  stroke="#C5A065" 
+                  fill="#C5A065" 
                   fillOpacity={0.25}
                   strokeWidth={2}
                 />
                 <Radar 
                   name="Wins" 
                   dataKey="wins" 
-                  stroke="#22c55e" 
-                  fill="#22c55e" 
+                  stroke="#D4AF37" 
+                  fill="#D4AF37" 
                   fillOpacity={0.25}
                   strokeWidth={2}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px' }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
-                    border: '1px solid #334155',
+                    backgroundColor: '#1C2541', 
+                    border: '1px solid #3A506B',
                     borderRadius: '6px',
                     fontSize: '12px'
                   }}
@@ -394,7 +449,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
 
         {/* Match Results Distribution */}
         {teams.length > 0 && (
-          <div className="bg-navy-800 rounded-lg border border-navy-700 p-5">
+          <div className="bg-navy-800 rounded-lg border border-navy-600 p-5">
             <h3 className="text-gold-600 font-semibold mb-4 text-sm">Match Results Distribution</h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
               <ResponsiveContainer width="100%" height={280}>
@@ -413,8 +468,8 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155',
+                      backgroundColor: '#1C2541', 
+                      border: '1px solid #3A506B',
                       borderRadius: '6px',
                       fontSize: '12px'
                     }}
@@ -423,28 +478,28 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
               </ResponsiveContainer>
               
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-green-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-gold-500/20">
                   <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-gold-500 rounded-full"></div>
                     <span className="text-white font-medium">Wins</span>
                   </div>
-                  <span className="text-green-400 font-bold text-2xl">{resultsDistribution.wins}</span>
+                  <span className="text-gold-400 font-bold text-2xl">{resultsDistribution.wins}</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-yellow-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-bronze-500/20">
                   <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-bronze-400 rounded-full"></div>
                     <span className="text-white font-medium">Draws</span>
                   </div>
-                  <span className="text-yellow-400 font-bold text-2xl">{resultsDistribution.draws}</span>
+                  <span className="text-bronze-400 font-bold text-2xl">{resultsDistribution.draws}</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-red-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-bronze-500/20">
                   <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-bronze-500 rounded-full"></div>
                     <span className="text-white font-medium">Losses</span>
                   </div>
-                  <span className="text-red-400 font-bold text-2xl">{resultsDistribution.losses}</span>
+                  <span className="text-bronze-400 font-bold text-2xl">{resultsDistribution.losses}</span>
                 </div>
               </div>
             </div>

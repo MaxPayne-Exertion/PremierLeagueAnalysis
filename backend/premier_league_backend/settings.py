@@ -49,7 +49,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'premier_league_backend.wsgi.application'
+WSGI_APPLICATION = None
 
 DATABASES = {
     'default': {

@@ -31,7 +31,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             className="h-full flex flex-col bg-navy-900 shadow-lg overflow-y-auto relative"
             >
             
-            <div className="px-6 py-6 border-b border-navy-700/50">
+            <div className="px-6 py-6 border-b border-navy-600/50">
                 {!isCollapsed ? (
                     <div>
                         <h1 className="text-xl font-bold text-gold-600">
@@ -40,7 +40,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
                     </div>
                 ) : (
                     <div className="flex justify-center">
-                        <div className="w-10 h-10 bg-gold-600 rounded-lg flex items-center justify-center text-white-400 font-bold text-lg">
+                        <div className="w-10 h-10 bg-gold-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
                             PL
                         </div>
                     </div>
@@ -48,12 +48,12 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             </div>
 
             {!isCollapsed && (
-                <div className="px-4 py-4 border-b border-navy-700/50">
-                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">
+                <div className="px-4 py-4 border-b border-navy-600/50">
+                    <label className="text-xs font-semibold text-gold-100 uppercase tracking-wider mb-2 block">
                         Season
                     </label>
                     <select
-                        className="w-full px-3 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm appearance-none cursor-pointer hover:border-navy-600 focus:outline-none focus:border-blue-600 transition-colors"
+                        className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white text-sm appearance-none cursor-pointer hover:border-gold-500 focus:outline-none focus:border-gold-500 transition-colors"
                         value={selectedSeason}
                         onChange={(e) => onSeasonChange && onSeasonChange(e.target.value)}
                         style={{
@@ -64,7 +64,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
                         }}
                     >
                         {seasons.map(season => (
-                            <option key={season} value={season} className="bg-slate-800">
+                            <option key={season} value={season} className="bg-navy-800">
                                 {season}
                             </option>
                         ))}
@@ -83,8 +83,8 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
                             onClick={() => onTabChange(item.id)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                                 isActive 
-                                    ? 'bg-slate-800 text-white' 
-                                    : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'
+                                    ? 'bg-navy-800 text-white' 
+                                    : 'text-gold-100 hover:bg-navy-800/50 hover:text-white'
                             }`}
                             title={isCollapsed ? item.label : ''}
                         >
@@ -104,8 +104,8 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             </nav>
 
             {!isCollapsed && (
-                <div className="px-4 py-4 border-t border-slate-700/50">
-                    <p className="text-xs text-slate-500">
+                <div className="px-4 py-4 border-t border-navy-600/50">
+                    <p className="text-xs text-gold-100">
                         © Developed by Anubhav Basnet, Shashank Hari Joshi, Parbat Baniya, Nabin Pandey & Kaustuv Bhandari
                     </p>
                 </div>
@@ -113,7 +113,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             </div>
 
             <button
-                className="absolute -right-3 top-20 w-6 h-6 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center hover:bg-slate-700 hover:border-slate-600 transition-colors z-20"
+                className="absolute -right-3 top-20 w-6 h-6 bg-navy-800 border border-navy-600 rounded-full flex items-center justify-center hover:bg-navy-600 hover:border-gold-500 transition-colors z-20"
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 style={{
@@ -121,9 +121,9 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
                 }}
             >
                 {isCollapsed ? (
-                    <ChevronRight size={14} className="text-slate-400" />
+                    <ChevronRight size={14} className="text-gold-100" />
                 ) : (
-                    <ChevronLeft size={14} className="text-slate-400" />
+                    <ChevronLeft size={14} className="text-gold-100" />
                 )}
             </button>
         </div>

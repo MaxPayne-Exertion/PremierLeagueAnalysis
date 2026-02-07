@@ -264,7 +264,7 @@ const ComparisonView = ({ players, teams }) => {
                     />
                 ) : (
                     <div 
-                        className={`w-full h-full bg-slate-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
+                        className={`w-full h-full bg-navy-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
                     >
                         {((player?.name || 'U')[0]).toUpperCase()}
                     </div>
@@ -274,19 +274,19 @@ const ComparisonView = ({ players, teams }) => {
     };
 
     return (
-        <div className="w-full min-h-screen bg-slate-900 p-4 md:p-6">
+        <div className="w-full min-h-screen bg-navy-900 p-4 md:p-6">
             <div className="max-w-6xl mx-auto">
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-yellow-300 mb-1">Comparison Arena</h1>
-                    <p className="text-slate-400 text-sm">Which of the two is better?</p>
+                    <h1 className="text-2xl font-bold text-gold-400 mb-1">Comparison Arena</h1>
+                    <p className="text-gold-100 text-sm">Which of the two is better?</p>
                 </div>
-                <div className="bg-slate-800 rounded-lg border border-slate-700 p-1 flex gap-1 mb-6 overflow-x-auto">
+                <div className="bg-navy-800 rounded-lg border border-navy-600 p-1 flex gap-1 mb-6 overflow-x-auto">
                     <button
                         onClick={() => setComparisonType('offensive')}
                         className={`flex-1 py-2.5 px-4 rounded text-sm font-medium transition-colors whitespace-nowrap ${
                             comparisonType === 'offensive'
-                                ? 'bg-blue-600 text-white'
-                                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                                ? 'bg-gold-500 text-white'
+                                : 'text-gold-100 hover:text-white hover:bg-navy-600'
                         }`}
                     >
                         Attack
@@ -295,8 +295,8 @@ const ComparisonView = ({ players, teams }) => {
                         onClick={() => setComparisonType('defensive')}
                         className={`flex-1 py-2.5 px-4 rounded text-sm font-medium transition-colors whitespace-nowrap ${
                             comparisonType === 'defensive'
-                                ? 'bg-blue-600 text-white'
-                                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                                ? 'bg-gold-500 text-white'
+                                : 'text-gold-100 hover:text-white hover:bg-navy-600'
                         }`}
                     >
                         Defense
@@ -305,8 +305,8 @@ const ComparisonView = ({ players, teams }) => {
                         onClick={() => setComparisonType('goalkeeping')}
                         className={`flex-1 py-2.5 px-4 rounded text-sm font-medium transition-colors whitespace-nowrap ${
                             comparisonType === 'goalkeeping'
-                                ? 'bg-blue-600 text-white'
-                                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                                ? 'bg-gold-500 text-white'
+                                : 'text-gold-100 hover:text-white hover:bg-navy-600'
                         }`}
                     >
                         Goalkeeping
@@ -315,17 +315,17 @@ const ComparisonView = ({ players, teams }) => {
 
             
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+                    <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
                         <div className="flex items-center gap-2 mb-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Player 1</h3>
+                            <div className="w-2 h-2 bg-gold-500 rounded-full"></div>
+                            <h3 className="text-sm font-semibold text-gold-300 uppercase tracking-wide">Player 1</h3>
                         </div>
                         <div className="relative mb-4">
-                            <Search className="absolute left-3 top-3 text-slate-400" size={16} />
+                            <Search className="absolute left-3 top-3 text-gold-100" size={16} />
                             <input
                                 type="text"
                                 placeholder="Search player"
-                                className="w-full pl-9 pr-3 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full pl-9 pr-3 py-2.5 bg-navy-600 border border-navy-600 rounded-lg text-white placeholder-gold-100 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                                 value={player1Search}
                                 onChange={(e) => {
                                     setPlayer1Search(e.target.value);
@@ -334,15 +334,15 @@ const ComparisonView = ({ players, teams }) => {
                                 onFocus={() => setShowPlayer1Dropdown(true)}
                             />
                             {showPlayer1Dropdown && filteredPlayers1.length > 0 && (
-                                <div className="absolute z-50 w-full mt-1 max-h-64 overflow-y-auto bg-slate-800 border border-slate-700 rounded-lg shadow-xl">
+                                <div className="absolute z-50 w-full mt-1 max-h-64 overflow-y-auto bg-navy-800 border border-navy-600 rounded-lg shadow-xl">
                                     {filteredPlayers1.map(player => (
                                         <div
                                             key={player.id || player.player_id}
-                                            className="p-3 hover:bg-slate-700 cursor-pointer transition-colors border-b border-slate-700 last:border-b-0"
+                                            className="p-3 hover:bg-navy-600 cursor-pointer transition-colors border-b border-navy-600 last:border-b-0"
                                             onClick={() => selectPlayer1(player)}
                                         >
                                             <div className="font-medium text-white text-sm">{player.name}</div>
-                                            <div className="text-xs text-slate-400 mt-0.5">
+                                            <div className="text-xs text-gold-100 mt-0.5">
                                                 {player.team_name || 'Unknown Team'} • {player.position}
                                             </div>
                                         </div>
@@ -352,15 +352,15 @@ const ComparisonView = ({ players, teams }) => {
                         </div>
 
                         {p1 && (
-                            <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                            <div className="flex items-center gap-3 p-3 bg-navy-900/50 rounded-lg">
                                 <PlayerImage player={p1} size="large" />
                                 <div className="flex-1 min-w-0">
                                     <h4 className="text-white font-semibold truncate">{p1.name}</h4>
-                                    <p className="text-sm text-slate-400 truncate">{p1.team_name || 'Unknown Team'}</p>
+                                    <p className="text-sm text-gold-100 truncate">{p1.team_name || 'Unknown Team'}</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-xs text-slate-500">{p1.position}</span>
-                                        <span className="text-xs text-slate-600">•</span>
-                                        <span className="text-xs text-slate-500">{p1.appearances || 0} apps</span>
+                                        <span className="text-xs text-gold-100">{p1.position}</span>
+                                        <span className="text-xs text-bronze-300">•</span>
+                                        <span className="text-xs text-gold-100">{p1.appearances || 0} apps</span>
                                     </div>
                                 </div>
                             </div>
@@ -369,15 +369,15 @@ const ComparisonView = ({ players, teams }) => {
 
                     <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
                         <div className="flex items-center gap-2 mb-3">
-                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                            <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Player 2</h3>
+                            <div className="w-2 h-2 bg-bronze-500 rounded-full"></div>
+                            <h3 className="text-sm font-semibold text-gold-300 uppercase tracking-wide">Player 2</h3>
                         </div>
                         <div className="relative mb-4">
-                            <Search className="absolute left-3 top-3 text-slate-400" size={16} />
+                            <Search className="absolute left-3 top-3 text-gold-100" size={16} />
                             <input
                                 type="text"
                                 placeholder="Search player"
-                                className="w-full pl-9 pr-3 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:outline-none focus:border-red-500 transition-colors"
+                                className="w-full pl-9 pr-3 py-2.5 bg-navy-600 border border-navy-600 rounded-lg text-white placeholder-gold-100 text-sm focus:outline-none focus:border-bronze-500 transition-colors"
                                 value={player2Search}
                                 onChange={(e) => {
                                     setPlayer2Search(e.target.value);
@@ -386,15 +386,15 @@ const ComparisonView = ({ players, teams }) => {
                                 onFocus={() => setShowPlayer2Dropdown(true)}
                             />
                             {showPlayer2Dropdown && filteredPlayers2.length > 0 && (
-                                <div className="absolute z-50 w-full mt-1 max-h-64 overflow-y-auto bg-slate-800 border border-slate-700 rounded-lg shadow-xl">
+                                <div className="absolute z-50 w-full mt-1 max-h-64 overflow-y-auto bg-navy-800 border border-navy-600 rounded-lg shadow-xl">
                                     {filteredPlayers2.map(player => (
                                         <div
                                             key={player.id || player.player_id}
-                                            className="p-3 hover:bg-slate-700 cursor-pointer transition-colors border-b border-slate-700 last:border-b-0"
+                                            className="p-3 hover:bg-navy-600 cursor-pointer transition-colors border-b border-navy-600 last:border-b-0"
                                             onClick={() => selectPlayer2(player)}
                                         >
                                             <div className="font-medium text-white text-sm">{player.name}</div>
-                                            <div className="text-xs text-slate-400 mt-0.5">
+                                            <div className="text-xs text-gold-100 mt-0.5">
                                                 {player.team_name || 'Unknown Team'} • {player.position}
                                             </div>
                                         </div>
@@ -404,15 +404,15 @@ const ComparisonView = ({ players, teams }) => {
                         </div>
 
                         {p2 && (
-                            <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                            <div className="flex items-center gap-3 p-3 bg-navy-900/50 rounded-lg">
                                 <PlayerImage player={p2} size="large" />
                                 <div className="flex-1 min-w-0">
                                     <h4 className="text-white font-semibold truncate">{p2.name}</h4>
-                                    <p className="text-sm text-slate-400 truncate">{p2.team_name || 'Unknown Team'}</p>
+                                    <p className="text-sm text-gold-100 truncate">{p2.team_name || 'Unknown Team'}</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-xs text-slate-500">{p2.position}</span>
-                                        <span className="text-xs text-slate-600">•</span>
-                                        <span className="text-xs text-slate-500">{p2.appearances || 0} apps</span>
+                                        <span className="text-xs text-gold-100">{p2.position}</span>
+                                        <span className="text-xs text-bronze-300">•</span>
+                                        <span className="text-xs text-gold-100">{p2.appearances || 0} apps</span>
                                     </div>
                                 </div>
                             </div>
@@ -426,54 +426,54 @@ const ComparisonView = ({ players, teams }) => {
                      
                         {p1 && p2 && (
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                                    <div className="text-xs text-slate-400 mb-2">Goals + Assists</div>
+                                <div className="bg-navy-800 rounded-lg p-4 border border-navy-600">
+                                    <div className="text-xs text-gold-100 mb-2">Goals + Assists</div>
                                     <div className="flex items-center justify-between">
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-blue-400">{(p1.goals || 0) + (p1.assists || 0)}</div>
+                                            <div className="text-xl font-bold text-gold-400">{(p1.goals || 0) + (p1.assists || 0)}</div>
                                         </div>
-                                        <div className="text-slate-600 text-lg">vs</div>
+                                        <div className="text-bronze-300 text-lg">vs</div>
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-red-400">{(p2.goals || 0) + (p2.assists || 0)}</div>
+                                            <div className="text-xl font-bold text-bronze-400">{(p2.goals || 0) + (p2.assists || 0)}</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                                    <div className="text-xs text-slate-400 mb-2">Pass Accuracy</div>
+                                <div className="bg-navy-800 rounded-lg p-4 border border-navy-600">
+                                    <div className="text-xs text-gold-100 mb-2">Pass Accuracy</div>
                                     <div className="flex items-center justify-between">
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-blue-400">{(p1.accuratePassesPercentage || 0).toFixed(0)}%</div>
+                                            <div className="text-xl font-bold text-gold-400">{(p1.accuratePassesPercentage || 0).toFixed(0)}%</div>
                                         </div>
-                                        <div className="text-slate-600 text-lg">vs</div>
+                                        <div className="text-bronze-300 text-lg">vs</div>
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-red-400">{(p2.accuratePassesPercentage || 0).toFixed(0)}%</div>
+                                            <div className="text-xl font-bold text-bronze-400">{(p2.accuratePassesPercentage || 0).toFixed(0)}%</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                                    <div className="text-xs text-slate-400 mb-2">Duels Won %</div>
+                                <div className="bg-navy-800 rounded-lg p-4 border border-navy-600">
+                                    <div className="text-xs text-gold-100 mb-2">Duels Won %</div>
                                     <div className="flex items-center justify-between">
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-blue-400">{(p1.totalDuelsWonPercentage || 0).toFixed(0)}%</div>
+                                            <div className="text-xl font-bold text-gold-400">{(p1.totalDuelsWonPercentage || 0).toFixed(0)}%</div>
                                         </div>
-                                        <div className="text-slate-600 text-lg">vs</div>
+                                        <div className="text-bronze-300 text-lg">vs</div>
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-red-400">{(p2.totalDuelsWonPercentage || 0).toFixed(0)}%</div>
+                                            <div className="text-xl font-bold text-bronze-400">{(p2.totalDuelsWonPercentage || 0).toFixed(0)}%</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                                    <div className="text-xs text-slate-400 mb-2">Minutes Played</div>
+                                <div className="bg-navy-800 rounded-lg p-4 border border-navy-600">
+                                    <div className="text-xs text-gold-100 mb-2">Minutes Played</div>
                                     <div className="flex items-center justify-between">
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-blue-400">{p1.minutesPlayed || 0}</div>
+                                            <div className="text-xl font-bold text-gold-400">{p1.minutesPlayed || 0}</div>
                                         </div>
-                                        <div className="text-slate-600 text-lg">vs</div>
+                                        <div className="text-bronze-300 text-lg">vs</div>
                                         <div className="text-center">
-                                            <div className="text-xl font-bold text-red-400">{p2.minutesPlayed || 0}</div>
+                                            <div className="text-xl font-bold text-bronze-400">{p2.minutesPlayed || 0}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -481,24 +481,24 @@ const ComparisonView = ({ players, teams }) => {
                         )}
 
                       
-                        <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
+                        <div className="bg-navy-800 border border-navy-600 rounded-lg p-5">
                             <h3 className="text-white font-semibold mb-4 text-sm">Performance Comparison</h3>
                             <ResponsiveContainer width="100%" height={400}>
                                 <RadarChart data={radarData}>
-                                    <PolarGrid stroke="#334155" />
+                                    <PolarGrid stroke="#3A506B" />
                                     <PolarAngleAxis 
                                         dataKey="subject" 
-                                        stroke="#94a3b8" 
+                                        stroke="#F3E5AB" 
                                         style={{ fontSize: '11px' }}
                                     />
-                                    <PolarRadiusAxis stroke="#334155" domain={[0, 100]} />
+                                    <PolarRadiusAxis stroke="#3A506B" domain={[0, 100]} />
                                     {p1 && (
                                         <Radar
                                             name={p1.name}
                                             dataKey="player1"
-                                            stroke="#3b82f6"
+                                            stroke="#C5A065"
                                             strokeWidth={2}
-                                            fill="#3b82f6"
+                                            fill="#C5A065"
                                             fillOpacity={0.25}
                                         />
                                     )}
@@ -506,16 +506,16 @@ const ComparisonView = ({ players, teams }) => {
                                         <Radar
                                             name={p2.name}
                                             dataKey="player2"
-                                            stroke="#ef4444"
+                                            stroke="#D2691E"
                                             strokeWidth={2}
-                                            fill="#ef4444"
+                                            fill="#D2691E"
                                             fillOpacity={0.25}
                                         />
                                     )}
                                     <Tooltip 
                                         contentStyle={{ 
-                                            backgroundColor: '#1e293b', 
-                                            border: '1px solid #334155',
+                                            backgroundColor: '#1C2541', 
+                                            border: '1px solid #3A506B',
                                             borderRadius: '6px',
                                             fontSize: '12px'
                                         }}
@@ -527,88 +527,88 @@ const ComparisonView = ({ players, teams }) => {
 
                      
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
+                            <div className="bg-navy-800 border border-navy-600 rounded-lg p-5">
                                 <h3 className="text-white font-semibold mb-4 text-sm">Total Stats</h3>
                                 <ResponsiveContainer width="100%" height={350}>
                                     <BarChart data={barChartData} layout="vertical">
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                        <XAxis type="number" stroke="#94a3b8" style={{ fontSize: '11px' }} />
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
+                                        <XAxis type="number" stroke="#F3E5AB" style={{ fontSize: '11px' }} />
                                         <YAxis 
                                             type="category" 
                                             dataKey="name" 
-                                            stroke="#94a3b8" 
+                                            stroke="#F3E5AB" 
                                             width={100}
                                             style={{ fontSize: '11px' }}
                                         />
                                         <Tooltip 
                                             contentStyle={{ 
-                                                backgroundColor: '#1e293b', 
-                                                border: '1px solid #334155',
+                                                backgroundColor: '#1C2541', 
+                                                border: '1px solid #3A506B',
                                                 borderRadius: '6px',
                                                 fontSize: '12px'
                                             }}
                                         />
-                                        <Bar dataKey="p1" name={p1?.name || 'Player 1'} fill="#3b82f6" radius={[0, 4, 4, 0]} />
-                                        <Bar dataKey="p2" name={p2?.name || 'Player 2'} fill="#ef4444" radius={[0, 4, 4, 0]} />
+                                        <Bar dataKey="p1" name={p1?.name || 'Player 1'} fill="#C5A065" radius={[0, 4, 4, 0]} />
+                                        <Bar dataKey="p2" name={p2?.name || 'Player 2'} fill="#D2691E" radius={[0, 4, 4, 0]} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
 
-                            <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
+                            <div className="bg-navy-800 border border-navy-600 rounded-lg p-5">
                                 <h3 className="text-white font-semibold mb-4 text-sm">Per 90 Minutes</h3>
                                 <ResponsiveContainer width="100%" height={350}>
                                     <BarChart data={per90Data}>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
                                         <XAxis 
                                             dataKey="stat" 
-                                            stroke="#94a3b8"
+                                            stroke="#F3E5AB"
                                             angle={-20}
                                             textAnchor="end"
                                             height={70}
                                             style={{ fontSize: '10px' }}
                                         />
-                                        <YAxis stroke="#94a3b8" style={{ fontSize: '11px' }} />
+                                        <YAxis stroke="#F3E5AB" style={{ fontSize: '11px' }} />
                                         <Tooltip 
                                             contentStyle={{ 
-                                                backgroundColor: '#1e293b', 
-                                                border: '1px solid #334155',
+                                                backgroundColor: '#1C2541', 
+                                                border: '1px solid #3A506B',
                                                 borderRadius: '6px',
                                                 fontSize: '12px'
                                             }}
                                         />
-                                        <Bar dataKey="player1" name={p1?.name || 'Player 1'} fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                        <Bar dataKey="player2" name={p2?.name || 'Player 2'} fill="#ef4444" radius={[4, 4, 0, 0]} />
+                                        <Bar dataKey="player1" name={p1?.name || 'Player 1'} fill="#C5A065" radius={[4, 4, 0, 0]} />
+                                        <Bar dataKey="player2" name={p2?.name || 'Player 2'} fill="#D2691E" radius={[4, 4, 0, 0]} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
 
                         {/* Efficiency Chart */}
-                        <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
+                        <div className="bg-navy-800 border border-navy-600 rounded-lg p-5">
                             <h3 className="text-white font-semibold mb-4 text-sm">Efficiency Metrics (%)</h3>
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart data={efficiencyData}>
                                     <defs>
                                         <linearGradient id="colorP1" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                                            <stop offset="5%" stopColor="#C5A065" stopOpacity={0.3}/>
+                                            <stop offset="95%" stopColor="#C5A065" stopOpacity={0}/>
                                         </linearGradient>
                                         <linearGradient id="colorP2" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
-                                            <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                                            <stop offset="5%" stopColor="#D2691E" stopOpacity={0.3}/>
+                                            <stop offset="95%" stopColor="#D2691E" stopOpacity={0}/>
                                         </linearGradient>
                                     </defs>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#3A506B" />
                                     <XAxis 
                                         dataKey="name" 
-                                        stroke="#94a3b8"
+                                        stroke="#F3E5AB"
                                         style={{ fontSize: '11px' }}
                                     />
-                                    <YAxis stroke="#94a3b8" domain={[0, 100]} style={{ fontSize: '11px' }} />
+                                    <YAxis stroke="#F3E5AB" domain={[0, 100]} style={{ fontSize: '11px' }} />
                                     <Tooltip 
                                         contentStyle={{ 
-                                            backgroundColor: '#1e293b', 
-                                            border: '1px solid #334155',
+                                            backgroundColor: '#1C2541', 
+                                            border: '1px solid #3A506B',
                                             borderRadius: '6px',
                                             fontSize: '12px'
                                         }}
@@ -619,7 +619,7 @@ const ComparisonView = ({ players, teams }) => {
                                         type="monotone" 
                                         dataKey="player1" 
                                         name={p1?.name || 'Player 1'}
-                                        stroke="#3b82f6" 
+                                        stroke="#C5A065" 
                                         strokeWidth={2}
                                         fillOpacity={1} 
                                         fill="url(#colorP1)" 
@@ -628,7 +628,7 @@ const ComparisonView = ({ players, teams }) => {
                                         type="monotone" 
                                         dataKey="player2" 
                                         name={p2?.name || 'Player 2'}
-                                        stroke="#ef4444" 
+                                        stroke="#D2691E" 
                                         strokeWidth={2}
                                         fillOpacity={1} 
                                         fill="url(#colorP2)" 
@@ -639,166 +639,166 @@ const ComparisonView = ({ players, teams }) => {
 
                      
                         {p1 && p2 && (
-                            <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-                                <div className="p-5 border-b border-slate-700">
+                            <div className="bg-navy-800 border border-navy-600 rounded-lg overflow-hidden">
+                                <div className="p-5 border-b border-navy-600">
                                     <h3 className="text-white font-semibold text-sm">Detailed Statistics</h3>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead>
-                                            <tr className="bg-slate-900/50 border-b border-slate-700">
-                                                <th className="text-left py-3 px-4 text-slate-400 font-medium">Statistic</th>
-                                                <th className="text-center py-3 px-4 text-blue-400 font-medium">{p1.name.split(' ').slice(-1)[0]}</th>
-                                                <th className="text-center py-3 px-4 text-red-400 font-medium">{p2.name.split(' ').slice(-1)[0]}</th>
-                                                <th className="text-center py-3 px-4 text-slate-400 font-medium">Winner</th>
+                                            <tr className="bg-navy-900/50 border-b border-navy-600">
+                                                <th className="text-left py-3 px-4 text-gold-100 font-medium">Statistic</th>
+                                                <th className="text-center py-3 px-4 text-gold-400 font-medium">{p1.name.split(' ').slice(-1)[0]}</th>
+                                                <th className="text-center py-3 px-4 text-bronze-400 font-medium">{p2.name.split(' ').slice(-1)[0]}</th>
+                                                <th className="text-center py-3 px-4 text-gold-100 font-medium">Winner</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-slate-700">
+                                        <tbody className="divide-y divide-navy-600">
                                             {comparisonType === 'offensive' && (
                                                 <>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Goals</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.goals || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.goals || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Goals</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.goals || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.goals || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.goals || 0) > (p2.goals || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.goals || 0) < (p2.goals || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Assists</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.assists || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.assists || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Assists</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.assists || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.assists || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.assists || 0) > (p2.assists || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.assists || 0) < (p2.assists || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Total Shots</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.totalShots || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.totalShots || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Total Shots</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.totalShots || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.totalShots || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.totalShots || 0) > (p2.totalShots || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.totalShots || 0) < (p2.totalShots || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Shots on Target</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.shotsOnTarget || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.shotsOnTarget || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Shots on Target</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.shotsOnTarget || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.shotsOnTarget || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.shotsOnTarget || 0) > (p2.shotsOnTarget || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.shotsOnTarget || 0) < (p2.shotsOnTarget || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Shot Accuracy %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Shot Accuracy %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">
                                                             {p1.totalShots ? ((p1.shotsOnTarget / p1.totalShots) * 100).toFixed(1) : 0}%
                                                         </td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">
                                                             {p2.totalShots ? ((p2.shotsOnTarget / p2.totalShots) * 100).toFixed(1) : 0}%
                                                         </td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.totalShots ? ((p1.shotsOnTarget / p1.totalShots) * 100) : 0) > (p2.totalShots ? ((p2.shotsOnTarget / p2.totalShots) * 100) : 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.totalShots ? ((p1.shotsOnTarget / p1.totalShots) * 100) : 0) < (p2.totalShots ? ((p2.shotsOnTarget / p2.totalShots) * 100) : 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Goal Conversion %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.goalConversionPercentage || 0).toFixed(1)}%</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.goalConversionPercentage || 0).toFixed(1)}%</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Goal Conversion %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{parseFloat(p1.goalConversionPercentage || 0).toFixed(1)}%</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{parseFloat(p2.goalConversionPercentage || 0).toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {parseFloat(p1.goalConversionPercentage || 0) > parseFloat(p2.goalConversionPercentage || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : parseFloat(p1.goalConversionPercentage || 0) < parseFloat(p2.goalConversionPercentage || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Key Passes</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.keyPasses || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.keyPasses || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Key Passes</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.keyPasses || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.keyPasses || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.keyPasses || 0) > (p2.keyPasses || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.keyPasses || 0) < (p2.keyPasses || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Successful Dribbles</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.successfulDribbles || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.successfulDribbles || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Successful Dribbles</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.successfulDribbles || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.successfulDribbles || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.successfulDribbles || 0) > (p2.successfulDribbles || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.successfulDribbles || 0) < (p2.successfulDribbles || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Dribble Success %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.successfulDribblesPercentage || 0).toFixed(1)}%</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.successfulDribblesPercentage || 0).toFixed(1)}%</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Dribble Success %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{parseFloat(p1.successfulDribblesPercentage || 0).toFixed(1)}%</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{parseFloat(p2.successfulDribblesPercentage || 0).toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {parseFloat(p1.successfulDribblesPercentage || 0) > parseFloat(p2.successfulDribblesPercentage || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : parseFloat(p1.successfulDribblesPercentage || 0) < parseFloat(p2.successfulDribblesPercentage || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Big Chances Missed</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.bigChancesMissed || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.bigChancesMissed || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Big Chances Missed</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.bigChancesMissed || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.bigChancesMissed || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.bigChancesMissed || 0) < (p2.bigChancesMissed || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.bigChancesMissed || 0) > (p2.bigChancesMissed || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -806,171 +806,171 @@ const ComparisonView = ({ players, teams }) => {
                                             )}
                                             {comparisonType === 'defensive' && (
                                                 <>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Tackles</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.tackles || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.tackles || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Tackles</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.tackles || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.tackles || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.tackles || 0) > (p2.tackles || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.tackles || 0) < (p2.tackles || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Interceptions</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.interceptions || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.interceptions || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Interceptions</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.interceptions || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.interceptions || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.interceptions || 0) > (p2.interceptions || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.interceptions || 0) < (p2.interceptions || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Clearances</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.clearances || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.clearances || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Clearances</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.clearances || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.clearances || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.clearances || 0) > (p2.clearances || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.clearances || 0) < (p2.clearances || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Total Duels Won</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.totalDuelsWon || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.totalDuelsWon || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Total Duels Won</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.totalDuelsWon || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.totalDuelsWon || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.totalDuelsWon || 0) > (p2.totalDuelsWon || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.totalDuelsWon || 0) < (p2.totalDuelsWon || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Duels Won %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.totalDuelsWonPercentage || 0).toFixed(1)}%</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.totalDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Duels Won %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{parseFloat(p1.totalDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{parseFloat(p2.totalDuelsWonPercentage || 0).toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {parseFloat(p1.totalDuelsWonPercentage || 0) > parseFloat(p2.totalDuelsWonPercentage || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : parseFloat(p1.totalDuelsWonPercentage || 0) < parseFloat(p2.totalDuelsWonPercentage || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Aerial Duels Won</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.aerialDuelsWon || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.aerialDuelsWon || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Aerial Duels Won</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.aerialDuelsWon || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.aerialDuelsWon || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.aerialDuelsWon || 0) > (p2.aerialDuelsWon || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.aerialDuelsWon || 0) < (p2.aerialDuelsWon || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Aerial Duels Won %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.aerialDuelsWonPercentage || 0).toFixed(1)}%</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.aerialDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Aerial Duels Won %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{parseFloat(p1.aerialDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{parseFloat(p2.aerialDuelsWonPercentage || 0).toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {parseFloat(p1.aerialDuelsWonPercentage || 0) > parseFloat(p2.aerialDuelsWonPercentage || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : parseFloat(p1.aerialDuelsWonPercentage || 0) < parseFloat(p2.aerialDuelsWonPercentage || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Ground Duels Won</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.groundDuelsWon || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.groundDuelsWon || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Ground Duels Won</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.groundDuelsWon || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.groundDuelsWon || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.groundDuelsWon || 0) > (p2.groundDuelsWon || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.groundDuelsWon || 0) < (p2.groundDuelsWon || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Ground Duels Won %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{parseFloat(p1.groundDuelsWonPercentage || 0).toFixed(1)}%</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{parseFloat(p2.groundDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Ground Duels Won %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{parseFloat(p1.groundDuelsWonPercentage || 0).toFixed(1)}%</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{parseFloat(p2.groundDuelsWonPercentage || 0).toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {parseFloat(p1.groundDuelsWonPercentage || 0) > parseFloat(p2.groundDuelsWonPercentage || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : parseFloat(p1.groundDuelsWonPercentage || 0) < parseFloat(p2.groundDuelsWonPercentage || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Blocks</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.blockedShots || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.blockedShots || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Blocks</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.blockedShots || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.blockedShots || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.blockedShots || 0) > (p2.blockedShots || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.blockedShots || 0) < (p2.blockedShots || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Fouls Committed</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.fouls || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.fouls || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Fouls Committed</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.fouls || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.fouls || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.fouls || 0) < (p2.fouls || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.fouls || 0) > (p2.fouls || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Yellow Cards</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.yellowCards || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.yellowCards || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Yellow Cards</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.yellowCards || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.yellowCards || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.yellowCards || 0) < (p2.yellowCards || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.yellowCards || 0) > (p2.yellowCards || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -978,151 +978,151 @@ const ComparisonView = ({ players, teams }) => {
                                             )}
                                             {comparisonType === 'goalkeeping' && (
                                                 <>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Saves</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.saves || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.saves || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Saves</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.saves || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.saves || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.saves || 0) > (p2.saves || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.saves || 0) < (p2.saves || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Save Percentage</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Save Percentage</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">
                                                             {(p1.saves && p1.goalsConceded) ? (((p1.saves / (p1.saves + p1.goalsConceded)) * 100).toFixed(1)) : 0}%
                                                         </td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">
                                                             {(p2.saves && p2.goalsConceded) ? (((p2.saves / (p2.saves + p2.goalsConceded)) * 100).toFixed(1)) : 0}%
                                                         </td>
                                                         <td className="py-3 px-4 text-center">
                                                             {((p1.saves && p1.goalsConceded) ? ((p1.saves / (p1.saves + p1.goalsConceded)) * 100) : 0) > ((p2.saves && p2.goalsConceded) ? ((p2.saves / (p2.saves + p2.goalsConceded)) * 100) : 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : ((p1.saves && p1.goalsConceded) ? ((p1.saves / (p1.saves + p1.goalsConceded)) * 100) : 0) < ((p2.saves && p2.goalsConceded) ? ((p2.saves / (p2.saves + p2.goalsConceded)) * 100) : 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Goals Conceded</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.goalsConceded || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.goalsConceded || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Goals Conceded</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.goalsConceded || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.goalsConceded || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.goalsConceded || 0) < (p2.goalsConceded || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.goalsConceded || 0) > (p2.goalsConceded || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Clean Sheets</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.cleanSheets || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.cleanSheets || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Clean Sheets</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.cleanSheets || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.cleanSheets || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.cleanSheets || 0) > (p2.cleanSheets || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.cleanSheets || 0) < (p2.cleanSheets || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">High Claims</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.highClaims || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.highClaims || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">High Claims</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.highClaims || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.highClaims || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.highClaims || 0) > (p2.highClaims || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.highClaims || 0) < (p2.highClaims || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Punches</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.punches || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.punches || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Punches</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.punches || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.punches || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.punches || 0) > (p2.punches || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.punches || 0) < (p2.punches || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Runs Out</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.runsOut || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.runsOut || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Runs Out</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.runsOut || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.runsOut || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.runsOut || 0) > (p2.runsOut || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.runsOut || 0) < (p2.runsOut || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Successful Runs Out</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.successfulRunsOut || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.successfulRunsOut || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Successful Runs Out</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.successfulRunsOut || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.successfulRunsOut || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.successfulRunsOut || 0) > (p2.successfulRunsOut || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.successfulRunsOut || 0) < (p2.successfulRunsOut || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Successful Runs Out %</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Successful Runs Out %</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">
                                                             {p1.runsOut ? ((p1.successfulRunsOut / p1.runsOut) * 100).toFixed(1) : 0}%
                                                         </td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">
                                                             {p2.runsOut ? ((p2.successfulRunsOut / p2.runsOut) * 100).toFixed(1) : 0}%
                                                         </td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.runsOut ? ((p1.successfulRunsOut / p1.runsOut) * 100) : 0) > (p2.runsOut ? ((p2.successfulRunsOut / p2.runsOut) * 100) : 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.runsOut ? ((p1.successfulRunsOut / p1.runsOut) * 100) : 0) < (p2.runsOut ? ((p2.successfulRunsOut / p2.runsOut) * 100) : 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr className="hover:bg-slate-700/30 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-300">Errors Leading to Goal</td>
-                                                        <td className="py-3 px-4 text-center text-blue-300 font-semibold">{p1.errorLeadToGoal || 0}</td>
-                                                        <td className="py-3 px-4 text-center text-red-300 font-semibold">{p2.errorLeadToGoal || 0}</td>
+                                                    <tr className="hover:bg-navy-600/30 transition-colors">
+                                                        <td className="py-3 px-4 text-gold-300">Errors Leading to Goal</td>
+                                                        <td className="py-3 px-4 text-center text-gold-300 font-semibold">{p1.errorLeadToGoal || 0}</td>
+                                                        <td className="py-3 px-4 text-center text-bronze-300 font-semibold">{p2.errorLeadToGoal || 0}</td>
                                                         <td className="py-3 px-4 text-center">
                                                             {(p1.errorLeadToGoal || 0) < (p2.errorLeadToGoal || 0) ? (
-                                                                <span className="text-blue-400">◀</span>
+                                                                <span className="text-gold-400">◀</span>
                                                             ) : (p1.errorLeadToGoal || 0) > (p2.errorLeadToGoal || 0) ? (
-                                                                <span className="text-red-400">▶</span>
+                                                                <span className="text-bronze-400">▶</span>
                                                             ) : (
-                                                                <span className="text-slate-500">-</span>
+                                                                <span className="text-gold-100">-</span>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1135,14 +1135,14 @@ const ComparisonView = ({ players, teams }) => {
                         )}
                     </div>
                 ) : (
-                    <div className="bg-slate-800 border border-slate-700 rounded-lg p-16 text-center">
-                        <div className="text-slate-600 mb-3">
+                    <div className="bg-navy-800 border border-navy-600 rounded-lg p-16 text-center">
+                        <div className="text-gold-100 mb-3">
                             <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
                         </div>
                         <h3 className="text-lg font-semibold text-white mb-2">No Players Selected</h3>
-                        <p className="text-slate-400 text-sm">Select two players above to compare their statistics</p>
+                        <p className="text-gold-100 text-sm">Select two players above to compare their statistics</p>
                     </div>
                 )}
             </div>

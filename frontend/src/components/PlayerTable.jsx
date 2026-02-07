@@ -38,7 +38,7 @@ const PlayerImage = ({ player, size = 'medium' }) => {
         />
       ) : (
         <div 
-          className={`w-full h-full bg-slate-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
+          className={`w-full h-full bg-navy-600 rounded-full flex items-center justify-center text-white font-semibold ${textSizes[size]}`}
         >
           {((player?.name || 'U')[0]).toUpperCase()}
         </div>
@@ -82,20 +82,20 @@ const PlayerTable = ({ players }) => {
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;
     return sortConfig.direction === 'desc' ? (
-      <ChevronDown size={12} className="inline ml-1 text-slate-400" />
+      <ChevronDown size={12} className="inline ml-1 text-gold-100" />
     ) : (
-      <ChevronUp size={12} className="inline ml-1 text-slate-400" />
+      <ChevronUp size={12} className="inline ml-1 text-gold-100" />
     );
   };
 
   const getPositionColor = (position) => {
     const colors = {
-      'FW': 'bg-red-50 text-red-700',
-      'MF': 'bg-green-50 text-green-700',
-      'DF': 'bg-blue-50 text-blue-700',
-      'GK': 'bg-yellow-50 text-yellow-700'
+      'FW': 'bg-gold-500 text-white',
+      'MF': 'bg-gold-400 text-white',
+      'DF': 'bg-bronze-500 text-white',
+      'GK': 'bg-bronze-400 text-white'
     };
-    return colors[position] || 'bg-slate-50 text-slate-700';
+    return colors[position] || 'bg-navy-800 text-gold-100 border border-navy-600';
   };
 
   return (
@@ -104,14 +104,14 @@ const PlayerTable = ({ players }) => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gold-600 mb-1">Premier League Player Table</h1>
-          <p className="text-slate-400 text-sm">
+          <p className="text-gold-100 text-sm">
             Learn about {sortedPlayers.length} player{sortedPlayers.length !== 1 ? 's' : ''}
           </p>
         </div>
 
         {/* Search */}
         <div className="mb-4 relative">
-          <Search className="absolute top-2.5 left-3 text-slate-400" size={18} />
+          <Search className="absolute top-2.5 left-3 text-gold-100" size={18} />
           <input
             type="text"
             placeholder="Search players"
@@ -120,87 +120,87 @@ const PlayerTable = ({ players }) => {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="w-full pl-10 pr-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500"
+            className="w-full pl-10 pr-3 py-2 bg-navy-800 border border-navy-600 rounded text-white placeholder-gold-100 text-sm focus:outline-none focus:border-gold-500"
           />
         </div>
 
         {/* Table */}
-        <div className="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
+        <div className="bg-navy-800 rounded-lg border border-navy-600 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-700">
-              <thead className="bg-slate-900">
+            <table className="min-w-full divide-y divide-navy-600">
+              <thead className="bg-navy-900">
                 <tr>
                   <th 
-                    className="px-4 py-3 text-left cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('name')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Player <SortIcon columnKey="name" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('team_name')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Team <SortIcon columnKey="team_name" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('position')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Pos <SortIcon columnKey="position" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-right cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-right cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('appearances')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Apps <SortIcon columnKey="appearances" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-right cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-right cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('minutesPlayed')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Minutes <SortIcon columnKey="minutesPlayed" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-right cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-right cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('goals')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Goals <SortIcon columnKey="goals" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-right cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-right cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('assists')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Assists <SortIcon columnKey="assists" />
                     </span>
                   </th>
                   <th 
-                    className="px-4 py-3 text-right cursor-pointer hover:bg-slate-700 transition-colors" 
+                    className="px-4 py-3 text-right cursor-pointer hover:bg-navy-600 transition-colors" 
                     onClick={() => handleSort('keyPasses')}
                   >
-                    <span className="font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                    <span className="font-semibold text-xs text-gold-100 uppercase tracking-wider">
                       Key P <SortIcon columnKey="keyPasses" />
                     </span>
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-slate-800 divide-y divide-slate-700">
+              <tbody className="bg-navy-800 divide-y divide-navy-600">
                 {currentPlayers.map((player, index) => (
                   <tr 
                     key={player.id || player.player_id} 
-                    className="hover:bg-slate-700/50 transition-colors cursor-pointer"
+                    className="hover:bg-navy-700/50 transition-colors cursor-pointer"
                   >
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ const PlayerTable = ({ players }) => {
                       </div>
                     </td>
                     <td className="px-4 py-3.5">
-                      <span className="text-sm text-slate-300">{player.team_name}</span>
+                      <span className="text-sm text-gold-100">{player.team_name}</span>
                     </td>
                     <td className="px-4 py-3.5">
                       <span className={`px-2 py-0.5 rounded text-xs font-medium ${getPositionColor(player.position)}`}>
@@ -219,28 +219,28 @@ const PlayerTable = ({ players }) => {
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="text-sm text-slate-200">{player.appearances || 0}</span>
+                      <span className="text-sm text-gold-100">{player.appearances || 0}</span>
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="text-sm text-slate-400">{player.minutesPlayed || 0}</span>
+                      <span className="text-sm text-gold-100">{player.minutesPlayed || 0}</span>
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="text-sm font-semibold text-slate-200">{player.goals || 0}</span>
+                      <span className="text-sm font-semibold text-gold-100">{player.goals || 0}</span>
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="text-sm font-semibold text-slate-200">{player.assists || 0}</span>
+                      <span className="text-sm font-semibold text-gold-100">{player.assists || 0}</span>
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="text-sm text-slate-200">{player.keyPasses || 0}</span>
+                      <span className="text-sm text-gold-100">{player.keyPasses || 0}</span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             {sortedPlayers.length === 0 && (
-              <div className="text-center py-12 bg-slate-800">
-                <p className="text-slate-400">No players found</p>
-                <p className="text-slate-500 text-xs mt-1">Try adjusting your search</p>
+              <div className="text-center py-12 bg-navy-800">
+                <p className="text-gold-100">No players found</p>
+                <p className="text-bronze-300 text-xs mt-1">Try adjusting your search</p>
               </div>
             )}
           </div>
@@ -249,16 +249,16 @@ const PlayerTable = ({ players }) => {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-between items-center mt-4 px-1">
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-gold-100">
               {startIndex + 1}-{Math.min(startIndex + playersPerPage, sortedPlayers.length)} of {sortedPlayers.length}
             </div>
             <div className="flex items-center gap-1">
               <button
-                className="p-1.5 rounded hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded hover:bg-navy-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
               >
-                <ChevronLeft size={18} className="text-slate-300" />
+                <ChevronLeft size={18} className="text-gold-100" />
               </button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -278,8 +278,8 @@ const PlayerTable = ({ players }) => {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`min-w-[32px] px-2 py-1.5 rounded text-sm font-medium transition-colors ${
                         currentPage === pageNum
-                          ? 'bg-blue-600 text-white'
-                          : 'text-slate-300 hover:bg-slate-700'
+                          ? 'bg-gold-500 text-white'
+                          : 'text-gold-100 hover:bg-navy-600'
                       }`}
                     >
                       {pageNum}
@@ -288,11 +288,11 @@ const PlayerTable = ({ players }) => {
                 })}
               </div>
               <button
-                className="p-1.5 rounded hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded hover:bg-navy-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((prev) => prev + 1)}
               >
-                <ChevronRight size={18} className="text-slate-300" />
+                <ChevronRight size={18} className="text-gold-100" />
               </button>
             </div>
           </div>
