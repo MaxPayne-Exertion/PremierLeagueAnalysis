@@ -822,11 +822,11 @@ const StatisticsPage = ({ players = [], teams = [] }) => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-slate-900 p-4 md:p-6">
+    <div className="w-full min-h-screen bg-navy-900 p-4 md:p-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-yellow-400 mb-1">Stats Hub</h1>
+          <h1 className="text-2xl font-bold text-gold-600 mb-1">Stats Hub</h1>
           <p className="text-slate-400 text-sm">Player and Team Stats Hub</p>
         </div>
 

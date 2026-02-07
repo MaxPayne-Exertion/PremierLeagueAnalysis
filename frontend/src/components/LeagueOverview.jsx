@@ -106,35 +106,35 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-900 p-4 md:p-6">
+    <div className="w-full min-h-screen bg-navy-900 p-4 md:p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-yellow-400 mb-1">League Overview</h1>
+          <h1 className="text-2xl font-bold text-gold-600 mb-1">League Overview</h1>
           <p className="text-slate-400 text-sm">Season statistics and standings</p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Total Goals</div>
             <div className="text-3xl font-bold text-red-400">{leagueStats.totalGoals}</div>
             <div className="text-xs text-slate-500 mt-1">This season</div>
           </div>
 
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Matches</div>
             <div className="text-3xl font-bold text-blue-400">{leagueStats.totalMatches}</div>
             <div className="text-xs text-slate-500 mt-1">Played</div>
           </div>
 
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Goals/Match</div>
             <div className="text-3xl font-bold text-green-500">{leagueStats.avgGoalsPerMatch}</div>
             <div className="text-xs text-slate-500 mt-1">Average</div>
           </div>
 
-          <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+          <div className="bg-navy-800 rounded-lg p-5 border border-navy-600">
             <div className="text-slate-400 text-xs uppercase tracking-wide mb-2">Teams</div>
             <div className="text-3xl font-bold text-white">{leagueStats.totalTeams}</div>
             <div className="text-xs text-slate-500 mt-1">Competing</div>
@@ -142,16 +142,16 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         </div>
 
         {sortedTeams.length > 0 && (
-          <div className="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
-            <div className="p-5 border-b border-slate-700">
+          <div className="bg-navy-800 rounded-lg border border-navy-600 overflow-hidden">
+            <div className="p-5 border-b border-navy-600 bg-navy-900">
               <div className="flex items-center gap-3">
-                <h2 className="text-lg font-bold text-slate-200">League Standings</h2>
+                <h2 className="text-lg font-bold text-gold-600">League Standings</h2>
               </div>
             </div>
             
             <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
               <table className="w-full text-sm">
-                <thead className="sticky top-0 bg-slate-900 z-10">
+                <thead className="sticky top-0 bg-navy-900 z-10">
                   <tr className="border-b border-slate-700">
                     <th className="text-left py-3 px-4 text-slate-400 font-medium">Rank</th>
                     <th className="text-left py-3 px-4 text-slate-400 font-medium">Team</th>
@@ -165,7 +165,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                     <th className="text-center py-3 px-3 text-slate-400 font-medium">Pts</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-700">
+                <tbody className="divide-y divide-navy-700">
                   {sortedTeams.map((team, idx) => {
                     const goalDiff = (team.goals_for || 0) - (team.goals_against || 0);
                     const isTop = idx < 1;
@@ -175,14 +175,14 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                     return (
                       <tr 
                         key={idx} 
-                        className={`hover:bg-slate-700/50 transition-colors ${
+                        className={`hover:bg-navy-700/50 transition-colors ${
                           isTop ? 'bg-blue-500/5' : isTop4 ? 'bg-blue-500/5' : isRelegation ? 'bg-red-500/5' : ''
                         }`}
                       >
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-2">
-                            {isTop && <div className="w-1 h-6 bg-yellow-400 rounded"></div>}
-                            {isTop4 && <div className="w-1 h-6 bg-blue-500 rounded"></div>}
+                            {isTop && <div className="w-1 h-6 bg-gold-600 rounded"></div>}
+                            {isTop4 && <div className="w-1 h-6 bg-navy-700 rounded"></div>}
                             {isRelegation && <div className="w-1 h-6 bg-red-500 rounded"></div>}
                             <span className={`font-semibold ${isTop ? 'text-yellow-400' : 'text-slate-400'}`}>
                               {idx + 1}
@@ -226,11 +226,11 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
 
         {topScorers.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 overflow-x-auto max-h-[600px] overflow-y-auto">
-            <div className="bg-slate-800 rounded-lg border border-slate-700">
-              <div className="p-5 border-b border-slate-700">
+            <div className="bg-navy-800 rounded-lg border border-navy-700">
+              <div className="p-5 border-b border-navy-700">
                 <div className="flex items-center gap-3">
-                  <Award className="text-yellow-400" size={20} />
-                  <h2 className="text-lg font-bold text-white">Top Scorers</h2>
+                  <Award className="text-gold-600" size={20} />
+                  <h2 className="text-lg font-bold text-gold-600">Top Goalscorers</h2>
                 </div>
               </div>
               <div className="p-4 space-y-2">
@@ -240,9 +240,9 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition-colors"
                   >
                     <div className={`w-8 text-center font-bold text-lg ${
-                      idx === 0 ? 'text-yellow-400' : 
+                      idx === 0 ? 'text-gold-600' : 
                       idx === 1 ? 'text-slate-300' : 
-                      idx === 2 ? 'text-orange-400' : 
+                      idx === 2 ? 'text-bronze-600' : 
                       'text-slate-500'
                     }`}>
                       {idx + 1}
@@ -268,11 +268,11 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
               </div>
             </div>
 
-            <div className="bg-slate-800 rounded-lg border border-slate-700">
-              <div className="p-5 border-b border-slate-700">
+            <div className="bg-navy-800 rounded-lg border border-slate-700">
+              <div className="p-5 border-b border-navy-700">
                 <div className="flex items-center gap-3">
-                  <TrendingUp className="text-yellow-400" size={20} />
-                  <h2 className="text-lg font-bold text-white">Top Assisters</h2>
+                  <TrendingUp className="text-gold-600" size={20} />
+                  <h2 className="text-lg font-bold text-gold-600">Top Assisters</h2>
                 </div>
               </div>
               <div className="p-4 space-y-2">
@@ -313,8 +313,8 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-slate-800 rounded-lg border border-slate-700 p-5">
-            <h3 className="text-white font-semibold mb-4 text-sm">Top Contributors (Goals + Assists)</h3>
+          <div className="bg-navy-800 rounded-lg border border-navy-600 p-5">
+            <h3 className="text-gold-600 font-semibold mb-4 text-sm">Top Contributors (Goals + Assists)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={contributorsChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -329,7 +329,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                 <YAxis stroke="#94a3b8" style={{ fontSize: '11px' }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#1e293b', 
+                    backgroundColor: '#263455', 
                     border: '1px solid #334155',
                     borderRadius: '6px',
                     fontSize: '12px'
@@ -343,8 +343,8 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
           </div>
 
           {/* Top 5 Teams Analysis */}
-          <div className="bg-slate-800 rounded-lg border border-slate-700 p-5">
-            <h3 className="text-white font-semibold mb-4 text-sm">Top 5 Teams Analysis</h3>
+          <div className="bg-navy-800 rounded-lg border border-navy-700 p-5">
+            <h3 className="text-gold-600 font-semibold mb-4 text-sm">Top 5 Teams Analysis</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={topTeamsRadar}>
                 <PolarGrid stroke="#334155" />
@@ -394,8 +394,8 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
 
         {/* Match Results Distribution */}
         {teams.length > 0 && (
-          <div className="bg-slate-800 rounded-lg border border-slate-700 p-5">
-            <h3 className="text-white font-semibold mb-4 text-sm">Match Results Distribution</h3>
+          <div className="bg-navy-800 rounded-lg border border-navy-700 p-5">
+            <h3 className="text-gold-600 font-semibold mb-4 text-sm">Match Results Distribution</h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
@@ -423,7 +423,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
               </ResponsiveContainer>
               
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 bg-slate-900/50 rounded-lg border border-green-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-green-500/20">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     <span className="text-white font-medium">Wins</span>
@@ -431,7 +431,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                   <span className="text-green-400 font-bold text-2xl">{resultsDistribution.wins}</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-4 bg-slate-900/50 rounded-lg border border-yellow-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-yellow-500/20">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                     <span className="text-white font-medium">Draws</span>
@@ -439,7 +439,7 @@ const LeagueOverview = ({ players = [], teams = [] }) => {
                   <span className="text-yellow-400 font-bold text-2xl">{resultsDistribution.draws}</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-4 bg-slate-900/50 rounded-lg border border-red-500/20">
+                <div className="flex items-center justify-between p-4 bg-navy-600/50 rounded-lg border border-red-500/20">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                     <span className="text-white font-medium">Losses</span>

@@ -21,26 +21,26 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
                 top: 0,
                 left: 0,
                 height: '100vh',
-                width: isCollapsed ? '80px' : '280px',
+                width: isCollapsed ? '100px' : '280px',
                 zIndex: 1000,
                 transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
         >
             
             <div
-            className="h-full flex flex-col bg-slate-900 shadow-lg overflow-y-auto relative"
+            className="h-full flex flex-col bg-navy-900 shadow-lg overflow-y-auto relative"
             >
             
-            <div className="px-6 py-6 border-b border-slate-700/50">
+            <div className="px-6 py-6 border-b border-navy-700/50">
                 {!isCollapsed ? (
                     <div>
-                        <h1 className="text-xl font-bold text-yellow-400">
-                            Premier League Analytics
+                        <h1 className="text-xl font-bold text-gold-600">
+                            PL Analytics
                         </h1>
                     </div>
                 ) : (
                     <div className="flex justify-center">
-                        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                        <div className="w-10 h-10 bg-gold-600 rounded-lg flex items-center justify-center text-white-400 font-bold text-lg">
                             PL
                         </div>
                     </div>
@@ -48,12 +48,12 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
             </div>
 
             {!isCollapsed && (
-                <div className="px-4 py-4 border-b border-slate-700/50">
+                <div className="px-4 py-4 border-b border-navy-700/50">
                     <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">
                         Season
                     </label>
                     <select
-                        className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm appearance-none cursor-pointer hover:border-slate-600 focus:outline-none focus:border-blue-600 transition-colors"
+                        className="w-full px-3 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm appearance-none cursor-pointer hover:border-navy-600 focus:outline-none focus:border-blue-600 transition-colors"
                         value={selectedSeason}
                         onChange={(e) => onSeasonChange && onSeasonChange(e.target.value)}
                         style={{
