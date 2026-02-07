@@ -6,9 +6,15 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, Award, Target, Shield, Activity, Zap, ChevronDown } from 'lucide-react';
 
-const StatisticsPage = ({ players = [], teams = [] }) => {
+const StatisticsPage = ({ players = [], teams = [], selectedPlayer: externalSelectedPlayer = null }) => {
   const [activeView, setActiveView] = useState('player');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+    useEffect(() => {
+      if (externalSelectedPlayer) {
+        setSelectedPlayer(externalSelectedPlayer);
+        setActiveView('player');
+      }
+    }, [externalSelectedPlayer]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statCategory, setStatCategory] = useState('overview');

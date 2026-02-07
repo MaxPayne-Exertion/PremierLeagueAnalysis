@@ -161,7 +161,15 @@ function App() {
                 </div>
               </div>
             )}
-            {activeTab === "players" && <PlayerTable players={players} />}
+            {activeTab === "players" && (
+              <PlayerTable
+                players={players}
+                onPlayerSelect={(player) => {
+                  setSelectedPlayer(player);
+                  setActiveTab("statistics");
+                }}
+              />
+            )}
 
             {activeTab === "comparison" && (
               <div className="p-8">
@@ -170,7 +178,11 @@ function App() {
             )}
 
             {activeTab === "statistics" && (
-              <StatisticsPage players={players} teams={teams} />
+              <StatisticsPage
+                players={players}
+                teams={teams}
+                selectedPlayer={selectedPlayer}
+              />
             )}
           </div>
         )}

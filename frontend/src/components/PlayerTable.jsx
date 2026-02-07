@@ -47,7 +47,7 @@ const PlayerImage = ({ player, size = 'medium' }) => {
   );
 };
 
-const PlayerTable = ({ players }) => {
+const PlayerTable = ({ players, onPlayerSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'goals', direction: 'desc' });
   const [currentPage, setCurrentPage] = useState(1);
@@ -201,6 +201,7 @@ const PlayerTable = ({ players }) => {
                   <tr 
                     key={player.id || player.player_id} 
                     className="hover:bg-navy-700/50 transition-colors cursor-pointer"
+                    onClick={() => onPlayerSelect && onPlayerSelect(player)}
                   >
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
