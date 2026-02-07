@@ -1,8 +1,7 @@
 from django.db import models
 
-
 class Team(models.Model):
-    season = models.CharField(max_length=10, default='2023-24')
+    season = models.CharField(max_length=10, default='2024-25')
     team_name = models.CharField(max_length=100)
     logo_url = models.URLField(max_length=500, blank=True, null=True)
     matches_played = models.IntegerField(default=0)
@@ -14,7 +13,6 @@ class Team(models.Model):
     xg_for = models.FloatField(default=0.0)
     xg_against = models.FloatField(default=0.0)
     points = models.IntegerField(default=0)
-    updated_at = models.DateTimeField(auto_now=True)
     goal_difference = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
     manager = models.CharField(max_length=100, blank=True, null=True)
