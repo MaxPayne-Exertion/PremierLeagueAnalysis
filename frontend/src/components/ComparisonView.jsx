@@ -276,13 +276,10 @@ const ComparisonView = ({ players, teams }) => {
     return (
         <div className="w-full min-h-screen bg-slate-900 p-4 md:p-6">
             <div className="max-w-6xl mx-auto">
-                {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold text-yellow-300 mb-1">Comparison Arena</h1>
                     <p className="text-slate-400 text-sm">Which of the two is better?</p>
                 </div>
-
-                {/* Category tabs */}
                 <div className="bg-slate-800 rounded-lg border border-slate-700 p-1 flex gap-1 mb-6 overflow-x-auto">
                     <button
                         onClick={() => setComparisonType('offensive')}
@@ -316,9 +313,8 @@ const ComparisonView = ({ players, teams }) => {
                     </button>
                 </div>
 
-                {/* Player Selection */}
+            
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {/* Player 1 */}
                     <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
                         <div className="flex items-center gap-2 mb-3">
                             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -371,7 +367,6 @@ const ComparisonView = ({ players, teams }) => {
                         )}
                     </div>
 
-                    {/* Player 2 */}
                     <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
                         <div className="flex items-center gap-2 mb-3">
                             <div className="w-2 h-2 bg-red-500 rounded-full"></div>
@@ -425,10 +420,10 @@ const ComparisonView = ({ players, teams }) => {
                     </div>
                 </div>
 
-                {/* Comparison Content */}
+              
                 {(p1 || p2) ? (
                     <div className="space-y-4">
-                        {/* Quick Stats Comparison */}
+                     
                         {p1 && p2 && (
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                 <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
@@ -485,7 +480,7 @@ const ComparisonView = ({ players, teams }) => {
                             </div>
                         )}
 
-                        {/* Radar Chart */}
+                      
                         <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
                             <h3 className="text-white font-semibold mb-4 text-sm">Performance Comparison</h3>
                             <ResponsiveContainer width="100%" height={400}>
@@ -530,7 +525,7 @@ const ComparisonView = ({ players, teams }) => {
                             </ResponsiveContainer>
                         </div>
 
-                        {/* Bar Charts */}
+                     
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div className="bg-slate-800 border border-slate-700 rounded-lg p-5">
                                 <h3 className="text-white font-semibold mb-4 text-sm">Total Stats</h3>
@@ -642,7 +637,7 @@ const ComparisonView = ({ players, teams }) => {
                             </ResponsiveContainer>
                         </div>
 
-                        {/* Detailed Stats Table */}
+                     
                         {p1 && p2 && (
                             <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
                                 <div className="p-5 border-b border-slate-700">
