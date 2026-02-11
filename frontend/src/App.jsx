@@ -63,7 +63,7 @@ function App() {
       <main
         className="main-content"
         style={{
-          marginLeft: "280px", 
+          marginLeft: "280px",
           minHeight: "100vh",
           transition: "margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
@@ -71,7 +71,7 @@ function App() {
         {loading ? (
           <div className="loader-container min-h-screen flex items-center justify-center">
             <div className="text-center">
-               <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-white mb-2">
                 Loading Premier League Data for Season {selectedSeason}
               </h3>
               <div className="mt-6 w-64 mx-auto h-1.5 bg-slate-800/50 rounded-full overflow-hidden">
@@ -82,7 +82,7 @@ function App() {
                       "indeterminate 1.5s infinite cubic-bezier(0.65, 0.815, 0.735, 0.395)",
                   }}
                 ></div>
-                
+
 
                 <style>{`
                      @keyframes indeterminate {
@@ -156,7 +156,7 @@ function App() {
                   </div>
 
                   <section>
-                    <LeagueOverview players={players} teams={teams} />
+                    <LeagueOverview players={players} teams={teams} season={selectedSeason} />
                   </section>
                 </div>
               </div>
