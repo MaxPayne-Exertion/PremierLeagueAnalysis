@@ -11,7 +11,7 @@ const Sidebar = ({ activeTab, onTabChange, selectedSeason, onSeasonChange }) => 
         { id: 'comparison', label: 'Comparison Arena', icon: GitCompare },
     ];
 
-    const seasons = ['2024-25','2023-24', '2022-23', '2021-22', '2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2014-15', '2013-14'];
+    const seasons = ['2024-25','2023-24', '2022-23', '2021-22', '2020-21', '2019-20', '2018-19', '2017-18', '2016-17', '2015-16'];
 
     return (
         <div 
